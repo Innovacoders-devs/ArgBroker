@@ -1,16 +1,36 @@
-# This is a sample Python script.
+from src.utils.mysql_connector import MySQLConnector
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+if __name__ == "__main__":
+    host = "127.0.0.1"
+    database = "arg_broker_bdd"
+    user = "root"
+    password = "redcros62"
 
+    mysql_connector = MySQLConnector(host, database, user, password)
+    
+    """
+    host = "junction.proxy.rlwy.net"
+    database = "railway"
+    user = "root"
+    password = "GhsHCPaNwJHOlpNepUsFVXoAyVZfDnGI"
+    port = 47364
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    # Crear conector MySQL
+    mysql_connector = MySQLConnector(host, database, user, password, port)
+    """
 
+    
+    try:
+        mysql_connector.connect()
+        
+        query = "SELECT DATABASE();"
+        resultado = mysql_connector.fetch_one(query)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        if resultado:
+            print(f"Conectado a la base de datos: {resultado[0]}")
+        else:
+            print("No se pudo obtener el nombre de la base de datos.")
+    except Exception as e:
+        print(f"Se produjo un error: {e}")
+    finally:
+        mysql_connector.disconnect()
