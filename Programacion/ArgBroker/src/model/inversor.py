@@ -1,0 +1,2 @@
+class Inversor:
+    pass
