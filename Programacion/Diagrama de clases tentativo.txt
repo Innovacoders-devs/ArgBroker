@@ -1,53 +1,63 @@
-1. Clase Inversor
-
+Clase Inversor
 Atributos:
+
 id_inversor
 nombre
 apellido
 cuil
 email
-contraseña
+contrasena
 saldo_cuenta
-dirección
-teléfono
+direccion
+telefono
 perfil_inversor
 intentos_fallidos
 bloqueado
 Métodos:
-obtenerSaldo()
-actualizarSaldo()
+
+obtener_saldo()
+actualizar_saldo(nuevo_saldo)
 bloquear()
 desbloquear()
-incrementarIntentosFallidos()
-2. Clase InversorDAO (Implementa DAOInterface)
+incrementar_intentos_fallidos()
 
+
+Clase InversorDAO
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerInversorPorEmail()
-3. Clase Accion
 
+crear(inversor)
+obtener(id_inversor)
+actualizar(inversor)
+eliminar(id_inversor)
+obtener_inversor_por_email(email)
+autenticar(email, contrasena)
+
+
+Clase Accion
 Atributos:
+
 id_accion
 nombre_empresa
 simbolo_empresa
 Métodos:
-obtenerUltimaCotizacion()
-agregarCotizacion()
-4. Clase AccionDAO (Implementa DAOInterface)
 
+obtener_ultima_cotizacion()
+
+
+Clase AccionDAO
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerAccionPorSimbolo()
-obtenerTodasAcciones()
-5. Clase CotizacionDiaria
 
+crear(accion)
+obtener(id_accion)
+actualizar(accion)
+eliminar(id_accion)
+obtener_accion_por_simbolo(simbolo)
+obtener_todas_acciones()
+
+
+Clase CotizacionDiaria
 Atributos:
+
 id_cotizacion
 id_accion
 fecha
@@ -60,37 +70,46 @@ valor_apertura
 minimo_diario
 maximo_diario
 valor_cierre
-6. Clase CotizacionDiariaDAO (Implementa DAOInterface)
 
+
+Clase CotizacionDiariaDAO
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerCotizacionesPorAccion()
-obtenerUltimaCotizacion()
-7. Clase Portafolio
 
+crear(cotizacion)
+obtener(id_cotizacion)
+actualizar(cotizacion)
+eliminar(id_cotizacion)
+obtener_cotizaciones_por_accion(id_accion)
+obtener_ultima_cotizacion(id_accion)
+
+
+Clase Portafolio
 Atributos:
+
 id_portafolio
 id_inversor
 id_accion
 cantidad
 precio_promedio_compra
 Métodos:
-actualizarCantidad()
-actualizarPrecioPromedio()
-8. Clase PortafolioDAO (Implementa DAOInterface)
 
+actualizar_cantidad(nueva_cantidad)
+actualizar_precio_promedio(nuevo_precio)
+
+
+Clase PortafolioDAO
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerPortafolioPorInversor()
-9. Clase Transaccion
 
+crear(portafolio)
+obtener(id_portafolio)
+actualizar(portafolio)
+eliminar(id_portafolio)
+obtener_portafolio_por_inversor(id_inversor)
+
+
+Clase Transaccion
 Atributos:
+
 id_transaccion
 id_inversor
 id_accion
@@ -100,35 +119,71 @@ precio
 cantidad
 comision
 Métodos:
-obtenerMontoTotal()
-10. Clase TransaccionDAO (Implementa DAOInterface)
 
+obtener_monto_total()
+
+
+Clase TransaccionDAO
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerTransaccionesPorInversor()
-11. Clase HistorialSaldo
 
+crear(transaccion)
+obtener(id_transaccion)
+actualizar(transaccion)
+eliminar(id_transaccion)
+obtener_transacciones_por_inversor(id_inversor)
+
+
+Clase ControladorTransacciones
+Métodos:
+
+comprar_acciones(inversor_id, simbolo_accion, cantidad)
+vender_acciones(inversor_id, simbolo_accion, cantidad)
+ver_portafolio(inversor_id)
+obtener_datos_cuenta(inversor_id)
+
+
+Clase MenuPrincipal
+Métodos:
+
+mostrar_menu()
+ejecutar()
+registrar_inversor()
+iniciar_sesion()
+recuperar_contrasena()
+
+
+Clase HistorialSaldo
 Atributos:
+
 id_historial_saldo
 id_inversor
 fecha
 saldo_anterior
 saldo_nuevo
 motivo
-12. Clase HistorialSaldoDAO (Implementa DAOInterface)
+
+
+Clase HistorialSaldoDAO
+Métodos:
+
+crear(historial_saldo)
+obtener(id_historial_saldo)
+actualizar(historial_saldo)
+eliminar(id_historial_saldo)
+obtener_historial_por_inversor(id_inversor)
+
+
+Clase Login
+Métodos:
+
+autenticar(email, contrasena)
+bloquear_inversor(id_inversor)
+desbloquear_inversor(id_inversor)
+
+Clase DAOInterface (Interfaz) 
 
 Métodos:
-crear(objeto) (de DAOInterface)
-obtener(id) (de DAOInterface)
-actualizar(objeto) (de DAOInterface)
-eliminar(id) (de DAOInterface)
-obtenerHistorialPorInversor()
-13. Clase Login
-
-Métodos:
-autenticar()
-bloquearInversor()
-desbloquearInversor()
+crear(objeto)
+obtener(id)
+actualizar(objeto)
+eliminar(id)
