@@ -1,0 +1,134 @@
+1. Clase Inversor
+
+Atributos:
+id_inversor
+nombre
+apellido
+cuil
+email
+contraseña
+saldo_cuenta
+dirección
+teléfono
+perfil_inversor
+intentos_fallidos
+bloqueado
+Métodos:
+obtenerSaldo()
+actualizarSaldo()
+bloquear()
+desbloquear()
+incrementarIntentosFallidos()
+2. Clase InversorDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerInversorPorEmail()
+3. Clase Accion
+
+Atributos:
+id_accion
+nombre_empresa
+simbolo_empresa
+Métodos:
+obtenerUltimaCotizacion()
+agregarCotizacion()
+4. Clase AccionDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerAccionPorSimbolo()
+obtenerTodasAcciones()
+5. Clase CotizacionDiaria
+
+Atributos:
+id_cotizacion
+id_accion
+fecha
+ultimo_operado
+cantidad_compra_diaria
+precio_compra_actual
+precio_venta_actual
+cantidad_venta_diaria
+valor_apertura
+minimo_diario
+maximo_diario
+valor_cierre
+6. Clase CotizacionDiariaDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerCotizacionesPorAccion()
+obtenerUltimaCotizacion()
+7. Clase Portafolio
+
+Atributos:
+id_portafolio
+id_inversor
+id_accion
+cantidad
+precio_promedio_compra
+Métodos:
+actualizarCantidad()
+actualizarPrecioPromedio()
+8. Clase PortafolioDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerPortafolioPorInversor()
+9. Clase Transaccion
+
+Atributos:
+id_transaccion
+id_inversor
+id_accion
+tipo (compra/venta)
+fecha
+precio
+cantidad
+comision
+Métodos:
+obtenerMontoTotal()
+10. Clase TransaccionDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerTransaccionesPorInversor()
+11. Clase HistorialSaldo
+
+Atributos:
+id_historial_saldo
+id_inversor
+fecha
+saldo_anterior
+saldo_nuevo
+motivo
+12. Clase HistorialSaldoDAO (Implementa DAOInterface)
+
+Métodos:
+crear(objeto) (de DAOInterface)
+obtener(id) (de DAOInterface)
+actualizar(objeto) (de DAOInterface)
+eliminar(id) (de DAOInterface)
+obtenerHistorialPorInversor()
+13. Clase Login
+
+Métodos:
+autenticar()
+bloquearInversor()
+desbloquearInversor()
