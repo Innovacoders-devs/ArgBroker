@@ -39,12 +39,13 @@ class Inversor:
         return self._cuil
 
     @cuil.setter
-    def cuil(self, cuil):  #hay que manejar los errores uniformemente es decir todos con raise Error, aqui no cambia el cuil el setter(si todo esta bien self.cuil == cuil)
-        if len(cuil)<11:
-            return f'El cuil ingresado no es válido'
+    def cuil(self, cuil):  # hay que manejar los errores uniformemente es decir todos con raise Error, aqui no cambia el cuil el setter(si todo esta bien self.cuil == cuil)
+        if len(cuil) < 11:
+            raise ValueError('El CUIL debe contener 11 caracteres')
         else:
-            if not isinstance (cuil, int):
-                return f'El CUIL está conformado por 11 números'
+            if not isinstance(cuil, int):
+                raise ValueError('El CUIL está conformado por números')
+        self._cuil = cuil
 
 
     @property
