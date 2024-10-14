@@ -88,3 +88,14 @@ class Inversor:
            self.portafolio.append(transaccion)
         else:
             raise ValueError('Esta transacción no corresponde en este portafolio. ')
+
+
+    def autenticar_inversor (self):
+
+
+
+    def bloquear(self):
+
+
+
+    def desbloquear(self):
