@@ -1,13 +1,16 @@
 import re  # que es esto?
 
 class Inversor:
-    def __init__(self, nombre, apellido, cuil, email, password, portafolio):
+    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0):
             self._nombre = nombre
             self._apellido = apellido
             self._cuil = cuil
             self._email = email
-            self.__password = password
-            self._portafolio = portafolio
+            self.__contrasena = contrasena
+            self._portafolio = []
+            self.id_inversor = None
+            self.saldo_cuenta = saldo_cuenta
+            self.intentos_fallidos = intentos_fallidos
 
 
     def __str__(self):
@@ -81,14 +84,14 @@ class Inversor:
 
 
     @property
-    def password(self):
-        return self.__password
+    def contrasena(self):
+        return self.__contrasena
 
-    @password.setter
-    def password(self, password):
-        if not self.es_contrasenia_valida(password):
+    @contrasena.setter
+    def contrasena(self, contrasena):
+        if not self.es_contrasenia_valida(contrasena):
             raise ValueError('Está contraseña no cumple con los requisitos de seguridad.')
-        self.__password = password
+        self.__contrasena = contrasena
 
     @staticmethod
     def es_contrasenia_valida(password):
