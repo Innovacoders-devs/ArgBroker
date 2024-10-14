@@ -42,6 +42,9 @@ class Inversor:
     def cuil(self, cuil):
         if len(cuil)<11:
             return f'El cuil ingresado no es válido'
+        else:
+            if not isinstance (cuil, int):
+                return f'El CUIL está conformado por 11 números'
 
 
     @property
