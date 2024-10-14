@@ -101,21 +101,30 @@ class Inversor:
     # y en la password negas la condicion luego pasando a la asignacion del valor, Muy bien!!
 
 
+    @property
+    def id_inversor(self):
+        return self._id_inversor
 
 
-    def autenticar (id_inversor, inversor_dao, contrasena):
+    @id_inversor.setter
+    def id_inversor(self):
+        if not isinstance (self,  str):
+            raise ValueError ('El id_inversor no puede estar vacío')
+
+
+    def autenticar (id_inversor, inversorDAO, contrasena):
         try:
-            id_inversor = inversor_dao.obtener_usuario_por_nombre(inversor_dao)
+            id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)
             if id_inversor and id_inversor.contrasena == contrasena:
                 return True
             return False
         except BaseDatosError as e:
-            raise AutenticacionError(f"Error al autenticar usuario: {str(e)}")
+            raise AutenticacionError(f"Error al autenticar el inversor: {str(e)}")
 
 
     def bloquear(self):
-        pass
-
+        if intentos_fallidos =3:
+            return True
 
     def desbloquear(self):
         pass
