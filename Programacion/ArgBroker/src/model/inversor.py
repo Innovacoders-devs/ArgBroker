@@ -123,8 +123,11 @@ class Inversor:
 
 
     def bloquear(self):
-        if intentos_fallidos =3:
-            return True
+        if id_inversor.contrasena != contrasena:
+            return   intentos_fallidos +=1
+
+
 
     def desbloquear(self):
-        pass
+        if id_inversor.contrasena == contrasena:
+            return True
