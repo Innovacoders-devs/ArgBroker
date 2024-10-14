@@ -94,37 +94,23 @@ class Inversor:
         self.__contrasena = contrasena
 
     @staticmethod
-    def es_contrasenia_valida(password):
-        if len(password) < 8:
+    def es_contrasenia_valida(contrasena):
+        if len(contrasena) < 8:
             return False
     #A diferencia de lo que ocurrio con el email aqui lo tenes perfectamente implementado, el evaluador retorna False
     # y en la password negas la condicion luego pasando a la asignacion del valor, Muy bien!!
 
-    @property
-    def portafolio(self):
-        return self._portafolio
 
-    @portafolio.setter
-    def portafolio(self, portafolio):  # evaluar si la transaccion le pertenece al portafolio me parece mas relacionado con el portafolio que con el inversor quiza le pertenezca a el que opinais?
-        if not isinstance(transaccion, portafolio):
-           self.portafolio.append(transaccion)
-        else:
-            raise ValueError('Esta transacción no corresponde en este portafolio. ')
 
-    """ 
-    Ejemplo de autenticacion: 
-    def autenticar(usuario_dao, nombre_usuario, contrasena):
+
+    def autenticar (id_inversor, inversor_dao, contrasena):
         try:
-            usuario = usuario_dao.obtener_usuario_por_nombre(nombre_usuario)
-            if usuario and usuario.contrasena == contrasena:
+            id_inversor = inversor_dao.obtener_usuario_por_nombre(inversor_dao)
+            if id_inversor and id_inversor.contrasena == contrasena:
                 return True
             return False
         except BaseDatosError as e:
-            raise AutenticacionError(f"Error al autenticar usuario: {str(e)}")"""
-
-
-    def autenticar_inversor (self, id_inversor, contasena):
-
+            raise AutenticacionError(f"Error al autenticar usuario: {str(e)}")
 
 
     def bloquear(self):
