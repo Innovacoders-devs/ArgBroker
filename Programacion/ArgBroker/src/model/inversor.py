@@ -68,15 +68,16 @@ class Inversor:
     def email(self, email): 
         if '@' not in email:
             raise ValueError('El correo electrónico debe tener un @')
+        else:
+            if not self.validar_correo (email):
+                raise ValueError ('El correo electrónico es inválido')
         self._email = email
 
     @staticmethod
     def validar_correo (email):
         patron_email = r'[a-zA-ZO-9._%+-]+@[a-zA-ZO-9.-]+\.[a-zA-Z]{2,}$'
-        if re.match(patron_email, email):
-            return "Correo Válido"
-        else:
-            return "Correo no válido - Debe ser: ejemplo@email.com"
+        return re.match(patron_email, email) is not None
+
 
 
     @property
