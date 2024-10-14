@@ -8,9 +8,9 @@ class Inversor:
             self._email = email
             self.__contrasena = contrasena
             self._portafolio = []
-            self.id_inversor = None
-            self.saldo_cuenta = saldo_cuenta
-            self.intentos_fallidos = intentos_fallidos
+            self._id_inversor = None
+            self._saldo_cuenta = saldo_cuenta
+            self._intentos_fallidos = intentos_fallidos
 
 
     def __str__(self):
@@ -122,8 +122,9 @@ class Inversor:
         except BaseDatosError as e:
             raise AutenticacionError(f"Error al autenticar usuario: {str(e)}")"""
 
-    def autenticar_inversor (self):
-        pass
+
+    def autenticar_inversor (self, id_inversor, contasena):
+
 
 
     def bloquear(self):
