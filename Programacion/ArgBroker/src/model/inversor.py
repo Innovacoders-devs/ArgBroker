@@ -109,7 +109,7 @@ class Inversor:
 
     def autenticar (id_inversor, inversorDAO, contrasena):
         try:
-            id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)
+            self.id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)
             if id_inversor and id_inversor.contrasena == contrasena:
                 return True
             return False
