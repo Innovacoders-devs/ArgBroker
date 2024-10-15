@@ -48,7 +48,7 @@ class Inversor:
 
 
     @cuil.setter
-    def cuil(self, cuil):  # hay que manejar los errores uniformemente es decir todos con raise Error, aqui no cambia el cuil el setter(si todo esta bien self.cuil == cuil)
+    def cuil(self, cuil):
         if len(cuil) < 11:
             raise ValueError('El CUIL debe contener 11 caracteres')
         else:
@@ -102,12 +102,12 @@ class Inversor:
 
 
     @id_inversor.setter
-    def id_inversor(self, id_inversor):
+    def id_inversor(self, str):
         if not isinstance (self,  str):
             raise ValueError ('El id_inversor no puede estar vacío')
 
 
-    def autenticar (id_inversor, inversorDAO, contrasena):
+    def autenticar (self, id_inversor, inversorDAO, contrasena):
         try:
             self.id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)
             if id_inversor and id_inversor.contrasena == contrasena:
@@ -128,10 +128,11 @@ class Inversor:
                 self.bloquear()
             return False
 
+
     def bloquear(self):
-        self._bloqueado = True
+        if self._bloqueado = True
+        raise ValueError('El inversor está bloqueado')
 
 
     def desbloquear(self):
-        if id_inversor.contrasena == contrasena:
-            return True
+        pass
