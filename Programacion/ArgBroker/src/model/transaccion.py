@@ -11,7 +11,15 @@ class Transaccion:
         self._comision = comision
 
     def __str__(self):
-        return f"Transaccion numero: {self._id_transaccion}"
+        return f""" Detalles de la transaccion: 
+                    Transaccion numero: {self._id_transaccion}
+                    Inversor: {self._id_inversor}
+                    Accion numero: {self._id_accion}
+                    Tipo: {self._tipo}
+                    Fecha: {self._fecha}
+                    Precio: {self._precio}
+                    Cantidad: {self._cantidad}
+                    Comision: {self._comision}"""
         
 
     @property
