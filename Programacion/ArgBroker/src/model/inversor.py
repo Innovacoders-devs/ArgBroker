@@ -1,7 +1,7 @@
-import re  # que es esto?
+import re  
 
 class Inversor:
-    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0, bloqueado):
+    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0, bloqueado): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
             self._nombre = nombre
             self._apellido = apellido
             self._cuil = cuil
@@ -13,7 +13,7 @@ class Inversor:
             self._intentos_fallidos = intentos_fallidos
             self._bloqueado = False
 
-
+#el metodo str debe dar cuenta de todos los atributos del objeto en este caso porque es una clase de dominio
     def __str__(self):
         return f'Inversor: {self._apellido}, {self._nombre} en portafolio {self._portafolio} .'
 
@@ -61,7 +61,7 @@ class Inversor:
     def email(self):
         return self._email
 
-
+#el codigo repite procedimientos al evaluar nuevamente cuestiones del email cuando ya tenes una funcion que valida el correo "validar correo"
     @email.setter
     def email(self, email): 
         if '@' not in email:
@@ -95,7 +95,7 @@ class Inversor:
         if len(contrasena) < 8:
             return False
 
-
+#el id inversor se asigna autoincrementalmente en la base de datos no deberia existir posibilidad de modificarlo porque es un identificador unico de la tabla!
     @property
     def id_inversor(self):
         return self._id_inversor
@@ -106,10 +106,26 @@ class Inversor:
         if not isinstance (self,  str):
             raise ValueError ('El id_inversor no puede estar vacío')
 
+#se deben ordenar los parametros para que sea mas legible su ingreso p ej primero inversor dao y luego los imput del usuario, te dejo un ejemplo de como deberia autenticar, como guia
+"""def autenticar(self, inversorDAO, email, contrasena):
+    try:
+        if email == inversorDAO.email:
+            if inversorDAO.intentos_fallidos >= 3:
+                inversorDAO.bloqueado = True
+                raise AutenticacionError("La cuenta ha sido bloqueada debido a múltiples intentos fallidos.")
+            elif inversorDAO.contrasena == contrasena:
+                inversorDAO.intentos_fallidos = 0
+                return inversorDAO
+            else:
+                inversorDAO.intentos_fallidos += 1
+                raise AutenticacionError("Contraseña incorrecta.")
+        else:
+            raise AutenticacionError("Email no encontrado.")"""
 
     def autenticar (self, id_inversor, inversorDAO, contrasena):
         try:
-            self.id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)
+            self.id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)# esta linea no deberia llamar al inversor dao sino que deberia utilizar la instancia que le envies por parametro, en todo caso estas usando un metodo que deberia obtener a un usuario por su nombre pero tu variable se llama id_inversor lo que es inconsistente 
+
             if id_inversor and id_inversor.contrasena == contrasena:
                 return True
             return False
