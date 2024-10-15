@@ -102,7 +102,7 @@ class Inversor:
 
 
     @id_inversor.setter
-    def id_inversor(self):
+    def id_inversor(self, id_inversor):
         if not isinstance (self,  str):
             raise ValueError ('El id_inversor no puede estar vacío')
 
@@ -115,6 +115,7 @@ class Inversor:
             return False
         except BaseDatosError as e:
             raise AutenticacionError(f"Error al autenticar el inversor: {str(e)}")
+
 
     @property
     def bloqueado(self):
