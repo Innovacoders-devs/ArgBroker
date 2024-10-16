@@ -148,15 +148,10 @@ DROP TABLE IF EXISTS `portafolio`;
 CREATE TABLE `portafolio` (
   `id_portafolio` int NOT NULL AUTO_INCREMENT,
   `id_inversor` int NOT NULL,
-  `id_accion` int NOT NULL,
-  `cantidad` int NOT NULL,
-  `precio_promedio_compra` decimal(15,2) NOT NULL,
   PRIMARY KEY (`id_portafolio`),
-  UNIQUE KEY `id_inversor` (`id_inversor`,`id_accion`),
-  KEY `id_accion` (`id_accion`),
-  CONSTRAINT `portafolio_ibfk_1` FOREIGN KEY (`id_inversor`) REFERENCES `inversor` (`id_inversor`),
-  CONSTRAINT `portafolio_ibfk_2` FOREIGN KEY (`id_accion`) REFERENCES `accion` (`id_accion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `id_inversor` (`id_inversor`),
+  CONSTRAINT `portafolio_ibfk_1` FOREIGN KEY (`id_inversor`) REFERENCES `inversor` (`id_inversor`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,6 +160,7 @@ CREATE TABLE `portafolio` (
 
 LOCK TABLES `portafolio` WRITE;
 /*!40000 ALTER TABLE `portafolio` DISABLE KEYS */;
+INSERT INTO `portafolio` VALUES (1,1);
 /*!40000 ALTER TABLE `portafolio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,11 +180,14 @@ CREATE TABLE `transaccion` (
   `precio` decimal(15,2) NOT NULL,
   `cantidad` int NOT NULL,
   `comision` decimal(15,2) NOT NULL,
+  `id_portafolio` int DEFAULT NULL,
   PRIMARY KEY (`id_transaccion`),
   KEY `id_inversor` (`id_inversor`),
-  KEY `id_accion` (`id_accion`),
-  CONSTRAINT `transaccion_ibfk_1` FOREIGN KEY (`id_inversor`) REFERENCES `inversor` (`id_inversor`),
-  CONSTRAINT `transaccion_ibfk_2` FOREIGN KEY (`id_accion`) REFERENCES `accion` (`id_accion`)
+  KEY `fk_transaccion_portafolio` (`id_portafolio`),
+  KEY `fk_transaccion_accion` (`id_accion`),
+  CONSTRAINT `fk_transaccion_accion` FOREIGN KEY (`id_accion`) REFERENCES `accion` (`id_accion`),
+  CONSTRAINT `fk_transaccion_portafolio` FOREIGN KEY (`id_portafolio`) REFERENCES `portafolio` (`id_portafolio`),
+  CONSTRAINT `transaccion_ibfk_1` FOREIGN KEY (`id_inversor`) REFERENCES `inversor` (`id_inversor`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,7 +197,7 @@ CREATE TABLE `transaccion` (
 
 LOCK TABLES `transaccion` WRITE;
 /*!40000 ALTER TABLE `transaccion` DISABLE KEYS */;
-INSERT INTO `transaccion` VALUES (1,1,1,'compra','2024-10-15 10:30:00',645.00,50,3.00),(2,1,2,'venta','2024-10-15 12:00:00',355.00,20,2.50),(3,1,3,'compra','2024-10-15 14:15:00',445.00,30,4.00);
+INSERT INTO `transaccion` VALUES (1,1,1,'compra','2024-10-15 10:30:00',645.00,50,3.00,1),(2,1,2,'venta','2024-10-15 12:00:00',355.00,20,2.50,1),(3,1,3,'compra','2024-10-15 14:15:00',445.00,30,4.00,1);
 /*!40000 ALTER TABLE `transaccion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -211,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-16  9:11:42
+-- Dump completed on 2024-10-16 11:08:50
