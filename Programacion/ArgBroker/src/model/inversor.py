@@ -1,7 +1,7 @@
 import re  
 
 class Inversor:
-    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0, bloqueado): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
+    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
             self._nombre = nombre
             self._apellido = apellido
             self._cuil = cuil
@@ -107,7 +107,7 @@ class Inversor:
             raise ValueError ('El id_inversor no puede estar vacío')
 
 #se deben ordenar los parametros para que sea mas legible su ingreso p ej primero inversor dao y luego los imput del usuario, te dejo un ejemplo de como deberia autenticar, como guia
-"""def autenticar(self, inversorDAO, email, contrasena):
+    """ def autenticar(self, inversorDAO, email, contrasena):
     try:
         if email == inversorDAO.email:
             if inversorDAO.intentos_fallidos >= 3:
@@ -120,7 +120,8 @@ class Inversor:
                 inversorDAO.intentos_fallidos += 1
                 raise AutenticacionError("Contraseña incorrecta.")
         else:
-            raise AutenticacionError("Email no encontrado.")"""
+            raise AutenticacionError("Email no encontrado.") """
+            
 
     def autenticar (self, id_inversor, inversorDAO, contrasena):
         try:
@@ -146,8 +147,8 @@ class Inversor:
 
 
     def bloquear(self):
-        if self._bloqueado = True
-        raise ValueError('El inversor está bloqueado')
+        if self._bloqueado == True: #faltaba un doble == para evaluar la xpresion
+            raise ValueError('El inversor está bloqueado')
 
 
     def desbloquear(self):
