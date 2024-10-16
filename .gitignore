@@ -1,1 +1,6 @@
 venv/
+.idea/
+.vscode
+utils/pycache/
+__pycache__/
+.pytest_cache/

@@ -2,34 +2,34 @@ import mysql.connector
 from mysql.connector import Error
 
 class MySQLConnector:
-    def __init__(self, host, database, user, password, port=3306):
+    def __init__(self, host, base_datos, usuario, contrasena, puerto=3306):
         self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
-        self.port = port
+        self.base_datos = base_datos
+        self.usuario = usuario
+        self.contrasena = contrasena
+        self.puerto = puerto
         self.connection = None
 
-    def connect(self):
+    def conectar_a_base_datos(self):
         try:
             self.connection = mysql.connector.connect(
                 host=self.host,
-                database=self.database,
-                user=self.user,
-                password=self.password,
-                port=self.port
+                database=self.base_datos,  
+                user=self.usuario,        
+                password=self.contrasena,  
+                port=self.puerto          
             )
             if self.connection.is_connected():
                 print("Conectado a la base de datos de Arg-Broker")
-        except Error as e:
+        except mysql.connector.Error as e:  # Asegúrate de importar mysql.connector.Error
             print(f"Error al conectar a MySQL: {e}")
 
-    def disconnect(self):
+    def desconectar_de_base_datos(self):
         if self.connection and self.connection.is_connected():
             self.connection.close()
             print("Conexion a MySQL cerrada")
 
-    def execute_query(self, query, params=None):
+    def ejecutar_consulta(self, query, params=None):
         try:
             cursor = self.connection.cursor()
             if params:
@@ -43,7 +43,7 @@ class MySQLConnector:
             print(f"Error al ejecutar la consulta: {e}")
             return None
 
-    def fetch_all(self, query, params=None):
+    def traer_todos(self, query, params=None):
         try:
             cursor = self.connection.cursor()
             if params:
@@ -57,7 +57,7 @@ class MySQLConnector:
             print(f"Error al obtener todos los resultados: {e}")
             return []
 
-    def fetch_one(self, query, params=None):
+    def traer_solo_uno(self, query, params=None):
         try:
             cursor = self.connection.cursor()
             if params:

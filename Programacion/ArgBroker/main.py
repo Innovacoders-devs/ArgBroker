@@ -1,13 +1,37 @@
 from src.utils.mysql_connector import MySQLConnector
 
-if __name__ == "__main__":
-    host = "127.0.0.1"
-    database = "arg_broker_bdd"
-    user = "root"
-    password = "redcros62"
 
-    mysql_connector = MySQLConnector(host, database, user, password)
+def main():
+    host = "127.0.0.1"
+    base_datos = "arg_broker_bdd"
+    usuario = "root"
+    contrasena = "redcros62"
+
+
+    connector = MySQLConnector(host, base_datos, usuario, contrasena)
+
     
+    connector.conectar_a_base_datos()
+
+    
+    query = "SELECT * FROM inversor"  
+    usuarios = connector.traer_todos(query)
+
+    
+    for usuario in usuarios:
+        print(usuario)
+
+    
+    connector.desconectar_de_base_datos()
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
     """
     host = "junction.proxy.rlwy.net"
     database = "railway"
@@ -20,17 +44,3 @@ if __name__ == "__main__":
     """
 
     
-    try:
-        mysql_connector.connect()
-        
-        query = "SELECT DATABASE();"
-        resultado = mysql_connector.fetch_one(query)
-
-        if resultado:
-            print(f"Conectado a la base de datos: {resultado[0]}")
-        else:
-            print("No se pudo obtener el nombre de la base de datos.")
-    except Exception as e:
-        print(f"Se produjo un error: {e}")
-    finally:
-        mysql_connector.disconnect()
