@@ -15,7 +15,7 @@ class Inversor:
 
 #el metodo str debe dar cuenta de todos los atributos del objeto en este caso porque es una clase de dominio
     def __str__(self):
-        return f'Inversor: {self._apellido}, {self._nombre} en portafolio {self._portafolio} .'
+        return f'Inversor: {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email} en portafolio {self._portafolio}. El saldo en cuenta es: {self._saldo_cuenta}'
 
 
     @property
@@ -96,15 +96,7 @@ class Inversor:
             return False
 
 #el id inversor se asigna autoincrementalmente en la base de datos no deberia existir posibilidad de modificarlo porque es un identificador unico de la tabla!
-    @property
-    def id_inversor(self):
-        return self._id_inversor
 
-
-    @id_inversor.setter
-    def id_inversor(self, str):
-        if not isinstance (self,  str):
-            raise ValueError ('El id_inversor no puede estar vacío')
 
 #se deben ordenar los parametros para que sea mas legible su ingreso p ej primero inversor dao y luego los imput del usuario, te dejo un ejemplo de como deberia autenticar, como guia
 """def autenticar(self, inversorDAO, email, contrasena):
