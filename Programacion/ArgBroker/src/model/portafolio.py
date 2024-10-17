@@ -1,2 +1,10 @@
 class Portafolio:
-    pass
+    def __init__(self, id_portafolio, id_inversor, id_accion, cantidad, precio_promedio_compra):
+        self.id_portafolio = id_portafolio
+        self.id_inversor = id_inversor
+        self.id_accion = id_accion
+        self.cantidad = cantidad
+        self.precio_promedio_compra = precio_promedio_compra
+
+    def __str__(self):
+        return f"Portafolio(id_portafolio={self.id_portafolio}, id_inversor={self.id_inversor}, id_accion={self.id_accion}, cantidad={self.cantidad}, precio_promedio_compra={self.precio_promedio_compra})"
