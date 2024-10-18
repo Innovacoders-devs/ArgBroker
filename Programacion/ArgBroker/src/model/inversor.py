@@ -95,53 +95,33 @@ class Inversor:
         if len(contrasena) < 8:
             return False
 
-#el id inversor se asigna autoincrementalmente en la base de datos no deberia existir posibilidad de modificarlo porque es un identificador unico de la tabla!
-
-
-#se deben ordenar los parametros para que sea mas legible su ingreso p ej primero inversor dao y luego los imput del usuario, te dejo un ejemplo de como deberia autenticar, como guia
-    """ def autenticar(self, inversorDAO, email, contrasena):
-    try:
-        if email == inversorDAO.email:
-            if inversorDAO.intentos_fallidos >= 3:
-                inversorDAO.bloqueado = True
-                raise AutenticacionError("La cuenta ha sido bloqueada debido a múltiples intentos fallidos.")
-            elif inversorDAO.contrasena == contrasena:
-                inversorDAO.intentos_fallidos = 0
-                return inversorDAO
-            else:
-                inversorDAO.intentos_fallidos += 1
-                raise AutenticacionError("Contraseña incorrecta.")
-        else:
-            raise AutenticacionError("Email no encontrado.") """
-            
-
-    def autenticar (self, id_inversor, inversorDAO, contrasena):
+    def autenticar(self, inversorDAO, email, contrasena):
         try:
-            self.id_inversor = inversorDAO.obtener_usuario_por_nombre(inversorDAO)# esta linea no deberia llamar al inversor dao sino que deberia utilizar la instancia que le envies por parametro, en todo caso estas usando un metodo que deberia obtener a un usuario por su nombre pero tu variable se llama id_inversor lo que es inconsistente 
-
-            if id_inversor and id_inversor.contrasena == contrasena:
-                return True
-            return False
-        except BaseDatosError as e:
-            raise AutenticacionError(f"Error al autenticar el inversor: {str(e)}")
-
-
-    @property
-    def bloqueado(self):
-        if contrasena == self.__contrasena:
-            self._intentos_fallidos = 0
-            return True
-        else:
-            self._intentos_fallidos += 1
-            if self._intentos_fallidos >= 3:
-                self.bloquear()
-            return False
+            if email == inversorDAO.email:
+                if inversorDAO.intentos_fallidos >= 3:
+                    inversorDAO.bloqueado = True
+                    raise AutenticacionError ("La cuenta ha sido bloqueada debido a múltiples intentos fallidos.")
+                elif inversorDAO.contrasena == contrasena:
+                    inversorDAO.intentos_fallidos = 0
+                    return inversorDAO
+                else:
+                    inversorDAO.intentos_fallidos += 1
+                    raise AutenticacionError("Contraseña incorrecta.")
+            else:
+                raise AutenticacionError("Email no encontrado.")
+            
 
 
     def bloquear(self):
         if self._bloqueado == True: #faltaba un doble == para evaluar la xpresion
-            raise ValueError('El inversor está bloqueado')
+            raise ValueError('El inversor está bloqueado') #Mepa que en tu version de autenticar, ya agregaste el bloqueo
 
 
-    def desbloquear(self):
-        pass
+    def desbloquear_cuenta(self, inversorDAO, email, codigo_desbloqueo):
+        if email == inversorDAO.email and inversorDAO.bloqueado:
+           if codigo_desbloqueo == inversorDAO.codigo_desbloqueo:
+                inversorDAO.bloqueado = False
+                inversorDAO.intentos_fallidos = 0
+                    return "Cuenta desbloqueada exitosamente."
+            else:
+              raise DesbloqueoError("Código de desbloqueo incorrecto.")
