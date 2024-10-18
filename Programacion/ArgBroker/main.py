@@ -12,30 +12,30 @@ def main():
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
     connector.conectar_a_base_datos()
     try:
-        with connector:
-            accion_dao = AccionDAO(connector)
+        connector.conectar_a_base_datos()
+        accion_dao = AccionDAO(connector)
+        
+        try:
+            accion = accion_dao.obtener_uno(5)
+            print(f"Accion obtenida: {accion}")
+        except Exception as error:
+            print(f"Error: {error}")
+
+        try:
+            nuevos_valores = Accion('Pampa Energia S.A.', 'PAMP')
+            id_accion = 5
             
-            # Obtener una acción existente
-            try:
-                accion = accion_dao.obtener_uno(5)
-                print(f"Accion obtenida: {accion}")
-            except Exception as error:
-                print(f"Error: {error}")
+            accion_dao.actualizar(nuevos_valores, id_accion)
 
-            # Crear una instancia de Accion con los nuevos datos
-            try:
-                nuevos_valores = Accion('Pampa Energía S.A.', 'PAMP')
-                id_accion = 5
-                
-                accion_dao.actualizar(nuevos_valores, id_accion)
-
-                accion_actualizada = accion_dao.obtener_uno(id_accion)
-                print(f"Accion actualizada: {accion_actualizada}")
-            except Exception as error:
-                print(f"Error: {error}")
+            accion_actualizada = accion_dao.obtener_uno(id_accion)
+            print(f"Accion actualizada: {accion_actualizada}")
+        except Exception as error:
+            print(f"Error: {error}")
 
     except Exception as error:
         print(f"Error: {error}")
+    finally:
+        connector.desconectar_de_base_datos()
 
     """     try:
         acciones = accion_dao.obtener_todos()
