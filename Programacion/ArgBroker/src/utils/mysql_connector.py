@@ -3,7 +3,7 @@ from mysql.connector import Error
 """
 para usar el conector primero se debe descomprimir el requirements.txt:
 python -m venv venv (para crear una carpeta venv con el entorno adentro tiene que tener 2 veces venv)
-venv\Scripts\ activate(se debe navegar hasta dentro del entorno y activarlo)
+venv\ Scripts\ activate(se debe navegar hasta dentro del entorno y activarlo)
 pip install -r requirements.txt (luego se ejecuta el siguiente comando y se instala el conector de mysql)
 
 los metodos del conector son:
@@ -36,18 +36,19 @@ class MySQLConnector:
         self.connection = None
 
     def conectar_a_base_datos(self):
-        try:
-            self.connection = mysql.connector.connect(
-                host=self.host,
-                database=self.base_datos,  
-                user=self.usuario,        
-                password=self.contrasena,  
-                port=self.puerto          
-            )
-            if self.connection.is_connected():
-                print("Conectado a la base de datos de Arg-Broker")
-        except mysql.connector.Error as e:  # Asegúrate de importar mysql.connector.Error
-            print(f"Error al conectar a MySQL: {e}")
+        if self.connection is None or not self.connection.is_connected():
+            try:
+                self.connection = mysql.connector.connect(
+                    host=self.host,
+                    database=self.base_datos,  
+                    user=self.usuario,        
+                    password=self.contrasena,  
+                    port=self.puerto          
+                )
+                if self.connection.is_connected():
+                    print("Conectado a la base de datos de Arg-Broker")
+            except mysql.connector.Error as e:  
+                print(f"Error al conectar a MySQL: {e}")
 
     def desconectar_de_base_datos(self):
         if self.connection and self.connection.is_connected():
@@ -95,3 +96,12 @@ class MySQLConnector:
         except Error as e:
             print(f"Error al obtener un resultado: {e}")
             return None
+       
+
+    def __enter__(self):
+        self.conectar_a_base_datos()
+        return self
+
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.desconectar_de_base_datos()

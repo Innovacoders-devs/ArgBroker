@@ -1,5 +1,6 @@
 from src.utils.mysql_connector import MySQLConnector
-
+from src.dao.accion_dao import AccionDAO
+from src.model.accion import Accion
 
 def main():
     host = "127.0.0.1"
@@ -10,7 +11,58 @@ def main():
 
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
     connector.conectar_a_base_datos()
+    try:
+        with connector:
+            accion_dao = AccionDAO(connector)
+            
+            # Obtener una acción existente
+            try:
+                accion = accion_dao.obtener_uno(5)
+                print(f"Accion obtenida: {accion}")
+            except Exception as error:
+                print(f"Error: {error}")
 
+            # Crear una instancia de Accion con los nuevos datos
+            try:
+                nuevos_valores = Accion('Pampa Energía S.A.', 'PAMP')
+                id_accion = 5
+                
+                accion_dao.actualizar(nuevos_valores, id_accion)
+
+                accion_actualizada = accion_dao.obtener_uno(id_accion)
+                print(f"Accion actualizada: {accion_actualizada}")
+            except Exception as error:
+                print(f"Error: {error}")
+
+    except Exception as error:
+        print(f"Error: {error}")
+
+    """     try:
+        acciones = accion_dao.obtener_todos()
+        for accion in acciones:
+            print(f"Accion obtenida: {accion}")
+
+    except Exception as error:
+        print(f"Error: {error}") """
+
+    
+
+    """     accion_dao = AccionDAO(connector)
+    try:
+        accion = accion_dao.obtener_uno(100)  
+        print(f"Accion obtenida: {accion}")
+    except Exception as error:
+        print(f"Error: {error}")
+ """
+    """     
+    prueba = AccionDAO(connector)
+    nueva_accion = Accion("Ternium Argentina S.A.", "TXAR")
+    try:
+        prueba.crear(nueva_accion)
+        print("Accion creada exitosamente.")
+    except Exception as e:
+        print(e) """
+    
     """ Consulta para crear un nuevo inversor, esta comentada para no crear el mismo usuario todas las veces que se ejecuta 
 
     consulta_para_crear_inversor = "INSERT INTO inversor (nombre, apellido, cuil, email, contrasena, saldo_cuenta, intentos_fallidos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -18,7 +70,7 @@ def main():
     connector.ejecutar_consulta(consulta_para_crear_inversor, usuario_nuevo)
     """
 
-    print('--------consulta para traer a todos los inversores--------\n')
+    """ print('--------consulta para traer a todos los inversores--------\n')
     consulta = "SELECT * FROM inversor"  
     usuarios = connector.traer_todos(consulta)
     for usuario in usuarios:
@@ -41,9 +93,10 @@ def main():
     print(accion)
     print('----------------\n')
 
-    connector.desconectar_de_base_datos()
+    connector.desconectar_de_base_datos() """
 
 if __name__ == "__main__":
+
     main()
 
 
