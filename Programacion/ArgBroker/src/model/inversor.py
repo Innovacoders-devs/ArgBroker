@@ -98,7 +98,7 @@ class Inversor:
     def autenticar(self, inversorDAO, email, contrasena):
         try:
             if email == inversorDAO.email:
-                if inversorDAO.intentos_fallidos >= 3:
+                if inversorDAO.intentos_fallidos >= 3:#detalle que la funcion al 3 intento va a bloquear la ejecucion (es decir que si tiene el igual en realidad solo te va a permitir equivocarte 2 veces)
                     inversorDAO.bloqueado = True
                     raise AutenticacionError ("La cuenta ha sido bloqueada debido a múltiples intentos fallidos.")
                 elif inversorDAO.contrasena == contrasena:
@@ -109,8 +109,35 @@ class Inversor:
                     raise AutenticacionError("Contraseña incorrecta.")
             else:
                 raise AutenticacionError("Email no encontrado.")
-            
+        except Exception as error: #agregue este bloque para que pueda correr una prueba 
+            pass
+#vamos a cambiar unas cosillas para que sea mas simple desde el punto de vista de la logica:
+#primero lo que va a recibir la funcion es por un lado el usuario a autenticar, por otro los valores de los imputs
+#quisiera que le cambiemos los nombres a las variables para que sea aun mas simple de leer a primera vista ej 
+# def autenticar(self, email_que_ingreso, contrasena_que_ingreso):
 
+# lo segundo que vamos a hacer es negar todas las condiciones por las cuales el usuario no seria correctamente autenticado 
+    """
+def autenticar(self, email_que_ingreso, contrasena_que_ingreso, connector):
+
+    inversor_de_bdd = InversorDAO(connector) #hay que pasar por parametro el conector
+    inversor_de_bdd.obtener_inversor_por_email(email_que_ingreso) #hay que importar al inversor dao 
+
+    esto viola varios principios de la programacion porque esta clase no deberia tener logica de conexion a la bdd
+    pero de otra forma no seria posible evaluar si el usuario existe en la bdd en la misma funcion
+    o habria que evaluar solo si la contraseña encontrada coincide y luego continuar contando intentos sino, el usuario se evaluaria por fuera en el bucle principal del programa, te dejo esta decision a vos
+
+    if not inversor_de_bdd:
+        raise Exception("el usuario no existe en la base de datos")
+
+    if inversor_de_bdd.contrasena != contrasena_que_ingreso:
+        raise Exception("credenciales incorrectas")
+
+    voy a dejaro aqui porque esto es solo una pista, a ver si lo podes terminar bb yo se que podes!
+    cuando termines de evaluar todo lo que no tiene que pasar para que el usuario inicie sesion vamos a cambiar 
+    el tipo de retorno, en lugar de un usuario vamos a entregar un True (lo que debe significar que lo que le mandamos si se pudo autenticar)
+  
+"""
 
     def bloquear(self):
         if self._bloqueado == True: #faltaba un doble == para evaluar la xpresion
@@ -122,6 +149,6 @@ class Inversor:
            if codigo_desbloqueo == inversorDAO.codigo_desbloqueo:
                 inversorDAO.bloqueado = False
                 inversorDAO.intentos_fallidos = 0
-                    return "Cuenta desbloqueada exitosamente."
-            else:
+                return "Cuenta desbloqueada exitosamente."
+        else:
               raise DesbloqueoError("Código de desbloqueo incorrecto.")
