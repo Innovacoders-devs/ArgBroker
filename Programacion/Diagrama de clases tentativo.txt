@@ -37,8 +37,8 @@ Clase Accion
 Atributos:
 
 id_accion
-nombre_empresa
-simbolo_empresa
+nombre_accion
+simbolo_accion
 Métodos:
 
 obtener_ultima_cotizacion()
@@ -47,12 +47,11 @@ obtener_ultima_cotizacion()
 Clase AccionDAO
 Métodos:
 
-crear(accion)
-obtener(id_accion)
-actualizar(accion)
-eliminar(id_accion)
-obtener_accion_por_simbolo(simbolo)
-obtener_todas_acciones()
+crear(nueva_accion)
+obtener_uno(id_accion)
+actualizar(nuevos_datos, id)
+eliminar(id)
+obtener_todos()
 
 
 Clase CotizacionDiaria
