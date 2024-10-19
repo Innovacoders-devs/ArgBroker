@@ -4,18 +4,9 @@ from src.utils.mysql_connector import MySQLConnector
 
 class InversorDAO(DAOInterface):
     def __init__(self):
-        self._db = MySQLConnector() #porfi usar nombres mas explicitos y en español para mantener la uniformidad en el codigo
-    #los campos que ingresa en la bdd crear inversor no mapean con lo que la base de datos necesita, verifica esto porfi como a si tambien el orden 
+        self._db = MySQLConnector()
     def crear(self, inversor):
-        query = "INSERT INTO inversores (nombre, apellido, cuil, email, contrasena) VALUES (%s, %s, %s, %s, %s)" #verificar los nombres de las tablas, en este caso la tabla se llama inversor
-        values = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena)
-        with self._db as db:
-            db.execute(query, values) # verificar porque cambie los metodos de la clase, a pesar de eso el metodo no se llamaba execute!
-        #una vez que se ejecuta la consulta se debe cerrar la conexion abajo te dejo un ejemplo de como podria quedar:
-        """
-    def crear(self, inversor): 
         consulta = "INSERT INTO inversor (nombre, apellido, cuil, email, contrasena, saldo_cuenta, intentos_fallidos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-
         valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena, inversor.saldo_cuenta, inversor.intentos_fallidos)
         try:
             self._db.conectar_a_base_datos()
@@ -23,11 +14,11 @@ class InversorDAO(DAOInterface):
         except Exception as e:
             print(f"Error al crear el inversor en la base de datos: {e}")
         finally:
-            self._db.desconectar_de_base_datos()"""
+            self._db.desconectar_de_base_datos()
 
 
     def obtener(self, id_inversor):
-        query = "SELECT * FROM inversores WHERE id = %s" #cuidado que el nombre no coincide con la tabla 
+        consulta = "SELECT * FROM inversor WHERE id = %s"
         result = self._db.fetch_one(query, (id_inversor,)) #verificar nuevo nombre del metodo
         if result:
             return Inversor(*result)
