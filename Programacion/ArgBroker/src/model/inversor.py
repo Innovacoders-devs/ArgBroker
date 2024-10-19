@@ -111,9 +111,9 @@ class Inversor:
                     raise Exception ('La cuenta ha sido bloqueada debido a múltiples intentos fallidos')
 
 
-        inversor.intentos_fallidos=0
-        inversor_en_bdd.resetar_intentos_fallidos(inversor)
-        return inversor
+            inversor.intentos_fallidos=0
+            inversor_en_bdd.resetar_intentos_fallidos(inversor)
+            return inversor
 
         except Exception as error: #agregue este bloque para que pueda correr una prueba
             pass
