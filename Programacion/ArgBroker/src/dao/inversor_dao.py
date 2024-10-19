@@ -49,7 +49,7 @@ class InversorDAO(DAOInterface):
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def actualizar(self,inversor, nuevos_datos, id):
+    def actualizar(self, inversor, nuevos_datos, id):
         consulta = "UPDATE inversor SET nombre = %s, apellido = %s, cuil = %s, email = %s, contrasena = %s, saldo_cuenta = %s, intentos_fallidos = %s WHERE id = %s"
         valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena,inversor.saldo_cuenta, inversor.intentos_fallidos, inversor.id)
         try:
