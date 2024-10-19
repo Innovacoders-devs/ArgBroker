@@ -85,3 +85,6 @@ class Transaccion:
     @comision.setter
     def comision(self, comision):
         self._comision = comision
+
+    def obtener_monto_total(self):
+        return self._cantidad * self._precio

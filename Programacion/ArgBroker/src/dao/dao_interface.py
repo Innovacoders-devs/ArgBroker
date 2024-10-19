@@ -6,7 +6,11 @@ class DAOInterface(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def obtener(self, id):
+    def obtener_uno(self, id):
+        pass
+
+    @abc.abstractmethod
+    def obtener_todos(self, id):
         pass
 
     @abc.abstractmethod

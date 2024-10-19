@@ -7,3 +7,4 @@ class Portafolio:
         self._cantidad = cantidad
         self._precio_promedio_compra = precio_promedio_compra
     
+    

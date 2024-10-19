@@ -17,6 +17,8 @@ class CotizacionDiaria:
         self._maximo_diario = maximo_diario
         self._valor_cierre = valor_cierre
 
+#Para mejorar la claridad del codigo el metodo str lo vamos a poner debajo del constructor y luego todo lo demas 
+
 @property
 def id_cotizacion(self):
     return self._id_cotizacion 
