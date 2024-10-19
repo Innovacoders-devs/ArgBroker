@@ -15,7 +15,8 @@ class Inversor:
 
 #el metodo str debe dar cuenta de todos los atributos del objeto en este caso porque es una clase de dominio
     def __str__(self):
-        return f'Inversor: {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email} en portafolio {self._portafolio}. El saldo en cuenta es: {self._saldo_cuenta}'
+        return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email} en portafolio {self._portafolio}. 
+        El saldo en cuenta es: {self._saldo_cuenta}, contrasena: {self.__contrasena}, intentos fallidos de ingreso: {self._intentos_fallidos}'''
 
 
     @property
