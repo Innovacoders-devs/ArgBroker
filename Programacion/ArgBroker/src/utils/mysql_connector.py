@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
  
- # para usar el conector primero se debe descomprimir el requirements.txt:
+# para usar el conector primero se debe descomprimir el requirements.txt:
 # python -m venv venv (para crear una carpeta venv con el entorno adentro tiene que tener 2 veces venv)
 # venv\ Scripts\ activate (se debe navegar hasta dentro del entorno y activarlo)
 # pip install -r requirements.txt (luego se ejecuta el siguiente comando y se instala el conector de mysql)

@@ -14,7 +14,7 @@ def main():
     try:
         connector.conectar_a_base_datos()
         accion_dao = AccionDAO(connector)
-        
+        """         
         try:
             accion = accion_dao.obtener_uno(5)
             print(f"Accion obtenida: {accion}")
@@ -30,20 +30,19 @@ def main():
             accion_actualizada = accion_dao.obtener_uno(id_accion)
             print(f"Accion actualizada: {accion_actualizada}")
         except Exception as error:
-            print(f"Error: {error}")
+            print(f"Error: {error}")"""
 
-    except Exception as error:
-        print(f"Error: {error}")
-    finally:
-        connector.desconectar_de_base_datos()
-
-    """     try:
+ 
         acciones = accion_dao.obtener_todos()
         for accion in acciones:
             print(f"Accion obtenida: {accion}")
 
+
+
     except Exception as error:
-        print(f"Error: {error}") """
+        print(f"Error: {error}")
+    finally:
+        connector.desconectar_de_base_datos() 
 
     
 

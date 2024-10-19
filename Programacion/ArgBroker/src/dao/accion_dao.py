@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-
+from ..model.accion import Accion
 class AccionDAO(DAOInterface):
     def __init__(self, conector):
         self.__base_de_datos = conector
@@ -36,7 +36,13 @@ class AccionDAO(DAOInterface):
             acciones_obtenidas = self.__base_de_datos.traer_todos(consulta)
             if not acciones_obtenidas:
                 raise Exception("No se pudo obtener las acciones")
-            return acciones_obtenidas
+
+            objetos = []    
+
+            for accion in acciones_obtenidas:
+                accion_instanciada = Accion(accion[0], accion[1], accion[2] )
+                objetos.append(accion_instanciada)
+            return objetos
         except Exception as error:
             raise Exception(f"Error al obtener la lista de acciones de la base de datos: {error}")
         finally:
