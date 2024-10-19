@@ -6,5 +6,8 @@ class Portafolio:
         self._id_accion = id_accion
         self._cantidad = cantidad
         self._precio_promedio_compra = precio_promedio_compra
+
+    def __str__(self): 
+        return f'(Portafolio: {self._id_portafolio})' 
     
     
