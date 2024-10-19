@@ -1,28 +1,53 @@
-from dao_interface import DAOInterface
-from Inversor import Inversor
-from src.utils.mysql_connector import MySQLConnector
+from .dao_interface import DAOInterface
+from ..model.inversor import Inversor
+from src.utils.mysql_connector import conector
 
 class InversorDAO(DAOInterface):
     def __init__(self):
-        self._db = MySQLConnector()
+        self.__base_de_datos = conector
     def crear(self, inversor):
         consulta = "INSERT INTO inversor (nombre, apellido, cuil, email, contrasena, saldo_cuenta, intentos_fallidos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena, inversor.saldo_cuenta, inversor.intentos_fallidos)
         try:
-            self._db.conectar_a_base_datos()
-            self._db.ejecutar_consulta(consulta, valores_a_insertar)
+            self.__base_de_datos.conectar_a_base_datos()
+            self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
         except Exception as e:
             print(f"Error al crear el inversor en la base de datos: {e}")
         finally:
-            self._db.desconectar_de_base_datos()
+            self.__base_de_datos.desconectar_de_base_datos()
 
 
-    def obtener(self, id_inversor):
+    def obtener_uno(self, id_inversor):
         consulta = "SELECT * FROM inversor WHERE id = %s"
-        result = self._db.fetch_one(query, (id_inversor,)) #verificar nuevo nombre del metodo
-        if result:
-            return Inversor(*result)
-        return None #seria mejor retornar una excepcion si no se pudo encontrar, debe cerrar la conexion al finalizar la consulta 
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            inversor_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (id_inversor,))
+            if not inversor_obtenido:
+                raise Exception("No existe inversor con dicho id")
+            return inversor_obtenido
+        except Exception as error:
+            print(f"Error al obtener el inversor de la base de datos: {error}")
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()
+
+    def obtener_todos(self, id_inversor):
+        consulta = "SELECT * FROM inversor"
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            inversores_obtenidos = self.__base_de_datos.traer_todos(consulta)
+            if not inversores_obtenidos:
+                raise Exception("No se pudo obtener los inversores")
+
+            objetos = []
+
+            for inversor in inversores_obtenidos:
+                inversor_instanciado = Inversor(inversor[0], inversor[1], inversor[2], inversor[3], inversor[4], inversor[5], inversor[6])
+                objetos.append(inversor_instanciado)
+            return objetos
+        except Exception as error:
+            print(f"Error al obtener la lista de inversores de la base de datos: {error}")
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()
 
     def actualizar(self, inversor):#verificar mapeo, nombres de variables y descoenctar la base de datos luego de la consulta
         query = """
