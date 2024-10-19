@@ -95,21 +95,27 @@ class Inversor:
         if len(contrasena) < 8:
             return False
 
-    def autenticar(self, inversorDAO, email, contrasena):
+    def autenticar(self, email_que_ingreso, contrasena_que_ingreso, conector):
+        inversor_en_bdd = inversorDAO(conector)
         try:
-            if email == inversorDAO.email:
-                if inversorDAO.intentos_fallidos >= 3:#detalle que la funcion al 3 intento va a bloquear la ejecucion (es decir que si tiene el igual en realidad solo te va a permitir equivocarte 2 veces)
-                    inversorDAO.bloqueado = True
-                    raise AutenticacionError ("La cuenta ha sido bloqueada debido a múltiples intentos fallidos.")
-                elif inversorDAO.contrasena == contrasena:
-                    inversorDAO.intentos_fallidos = 0
-                    return inversorDAO
-                else:
-                    inversorDAO.intentos_fallidos += 1
-                    raise AutenticacionError("Contraseña incorrecta.")
-            else:
-                raise AutenticacionError("Email no encontrado.")
-        except Exception as error: #agregue este bloque para que pueda correr una prueba 
+            inversor=inversor_en_bdd.obtener_inversor_por_email(email_que_ingreso)
+            if not inversor:
+                raise Exception ('El usuario no existe en la base de datos')
+            if inversor.contrasena !=  contrasena_que_ingreso:
+                inversor.intentos_fallidos +=1
+                inversor_en_bdd.actualizar_intentos_fallidos(inversor)
+
+                if inversor.intentos_fallidos >3:
+                    inversor.bloqueado = True
+                    inversor_en_bdd.bloquear_cuenta(inversor)
+                    raise Exception ('La cuenta ha sido bloqueada debido a múltiples intentos fallidos')
+
+
+        inversor.intentos_fallidos=0
+        inversor_en_bdd.resetar_intentos_fallidos(inversor)
+        return inversor
+
+        except Exception as error: #agregue este bloque para que pueda correr una prueba
             pass
 #vamos a cambiar unas cosillas para que sea mas simple desde el punto de vista de la logica:
 #primero lo que va a recibir la funcion es por un lado el usuario a autenticar, por otro los valores de los imputs
