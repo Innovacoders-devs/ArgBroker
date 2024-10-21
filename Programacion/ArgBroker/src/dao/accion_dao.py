@@ -6,45 +6,58 @@ class AccionDAO(DAOInterface):
 
     def crear(self, nueva_accion):
         consulta = "INSERT INTO accion (nombre_accion, simbolo_accion) VALUES (%s, %s)"
-        valores_a_insertar = (nueva_accion.nombre_accion, nueva_accion.simbolo_accion)
+        valores_a_insertar = (nueva_accion[0], nueva_accion[1])
 
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+
         except Exception as error:
             raise Exception(f"Error al crear la accion de la base de datos: {error}")
+
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
+
     def obtener_uno(self, id_accion):
         consulta = "SELECT * FROM accion WHERE id_accion = %s"
+
         try:
             self.__base_de_datos.conectar_a_base_datos()
             accion_obtenida = self.__base_de_datos.traer_solo_uno(consulta, (id_accion,))
+
             if not accion_obtenida:
                 raise Exception("No existe accion con dicho id")
-            return accion_obtenida
+            instancia_accion = Accion(accion_obtenida[0], accion_obtenida[1],accion_obtenida[2] )
+            return instancia_accion
+
         except Exception as error:
             raise Exception(f"Error al obtener la accion de la base de datos: {error}")
+
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+
 
     def obtener_todos(self):
         consulta = "SELECT * FROM accion"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             acciones_obtenidas = self.__base_de_datos.traer_todos(consulta)
+            
             if not acciones_obtenidas:
                 raise Exception("No se pudo obtener las acciones")
 
-            objetos = []    
+            acciones_obtenidas_y_instanciadas = []    
 
             for accion in acciones_obtenidas:
                 accion_instanciada = Accion(accion[0], accion[1], accion[2] )
-                objetos.append(accion_instanciada)
-            return objetos
+                acciones_obtenidas_y_instanciadas.append(accion_instanciada)
+
+            return acciones_obtenidas_y_instanciadas
+
         except Exception as error:
             raise Exception(f"Error al obtener la lista de acciones de la base de datos: {error}")
+
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
@@ -64,6 +77,7 @@ class AccionDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, (id,))
+
         except Exception as error:
             raise Exception(f"Error al eliminar la accion: {error}")
         finally:

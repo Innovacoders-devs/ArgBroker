@@ -5,7 +5,7 @@ class Accion:
         self.__id_accion = id_accion
 
     def __str__(self):
-        return f"Accion(id_accion={self.id_accion}, nombre_accion={self.nombre_accion}, simbolo_accion={self.simbolo_accion})"
+        return f"Accion(id_accion = {self.id_accion}, nombre_accion = {self.nombre_accion}, simbolo_accion = {self.simbolo_accion})"
     @property
     def nombre_accion (self):
         return self._nombre_accion
