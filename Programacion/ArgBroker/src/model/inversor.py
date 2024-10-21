@@ -1,21 +1,20 @@
 import re  
 
 class Inversor:
-    def __init__(self, nombre, apellido, cuil, email, contrasena, portafolio, saldo_cuenta, intentos_fallidos=0): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
+    def __init__(self, id_inversor = None, nombre = None, apellido = None, cuil = None, email= None, contrasena = None, saldo_cuenta = None, intentos_fallidos=0): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
             self._nombre = nombre
             self._apellido = apellido
             self._cuil = cuil
             self._email = email
             self.__contrasena = contrasena
-            self._portafolio = []
-            self._id_inversor = None
+            self._id_inversor = id_inversor
             self._saldo_cuenta = saldo_cuenta
             self._intentos_fallidos = intentos_fallidos
             self._bloqueado = False
 
 #el metodo str debe dar cuenta de todos los atributos del objeto en este caso porque es una clase de dominio
     def __str__(self):
-        return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email} en portafolio {self._portafolio}. 
+        return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email}, 
         El saldo en cuenta es: {self._saldo_cuenta}, contrasena: {self.__contrasena}, intentos fallidos de ingreso: {self._intentos_fallidos}'''
 
 
@@ -96,21 +95,25 @@ class Inversor:
         if len(contrasena) < 8:
             return False
 
-    def autenticar(self, email_que_ingreso, contrasena_que_ingreso, conector):
-        inversor_en_bdd = inversorDAO(conector)
+    def autenticar_contrasena(self, contrasena_que_ingreso, inversor_instancia):
+        inversor = inversor_instancia
+        intentos_maximos = 3
         try:
-            inversor=inversor_en_bdd.obtener_inversor_por_email(email_que_ingreso)
-            if not inversor:
-                raise Exception ('El usuario no existe en la base de datos')
             if inversor.contrasena !=  contrasena_que_ingreso:
                 inversor.intentos_fallidos +=1
-                inversor_en_bdd.actualizar_intentos_fallidos(inversor)
+                inversor.actualizar_intentos_fallidos(inversor)
+                intentos_restantes = intentos_maximos - self._intentos_fallidos
+                return f'Contraseña incorrecta. Quedan {intentos_restantes} intentos.'
 
-                if inversor.intentos_fallidos >3:
-                    inversor.bloqueado = True
-                    inversor_en_bdd.bloquear_cuenta(inversor)
-                    raise Exception ('La cuenta ha sido bloqueada debido a múltiples intentos fallidos')
+            elif:
+                self.intentos_fallidos >3:
+                inversor.bloqueado = True
+                  raise Exception ('La cuenta ha sido bloqueada debido a múltiples intentos fallidos')
 
+            else:
+                inversor.contrasena == contrasena_que_ingreso:
+                inversor.bloqueado = False
+                return f'Ingreso correcto'
 
             inversor.intentos_fallidos=0
             inversor_en_bdd.resetar_intentos_fallidos(inversor)
@@ -125,21 +128,6 @@ class Inversor:
 
 # lo segundo que vamos a hacer es negar todas las condiciones por las cuales el usuario no seria correctamente autenticado 
     """
-def autenticar(self, email_que_ingreso, contrasena_que_ingreso, connector):
-
-    inversor_de_bdd = InversorDAO(connector) #hay que pasar por parametro el conector
-    inversor_de_bdd.obtener_inversor_por_email(email_que_ingreso) #hay que importar al inversor dao 
-
-    esto viola varios principios de la programacion porque esta clase no deberia tener logica de conexion a la bdd
-    pero de otra forma no seria posible evaluar si el usuario existe en la bdd en la misma funcion
-    o habria que evaluar solo si la contraseña encontrada coincide y luego continuar contando intentos sino, el usuario se evaluaria por fuera en el bucle principal del programa, te dejo esta decision a vos
-
-    if not inversor_de_bdd:
-        raise Exception("el usuario no existe en la base de datos")
-
-    if inversor_de_bdd.contrasena != contrasena_que_ingreso:
-        raise Exception("credenciales incorrectas")
-
     voy a dejaro aqui porque esto es solo una pista, a ver si lo podes terminar bb yo se que podes!
     cuando termines de evaluar todo lo que no tiene que pasar para que el usuario inicie sesion vamos a cambiar 
     el tipo de retorno, en lugar de un usuario vamos a entregar un True (lo que debe significar que lo que le mandamos si se pudo autenticar)
