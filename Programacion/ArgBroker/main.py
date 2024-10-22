@@ -1,22 +1,24 @@
 from src.utils.mysql_connector import MySQLConnector
 from src.dao.accion_dao import AccionDAO
 from src.model.accion import Accion
+from src.dao.cotizacion_diaria_dao import CotizacionDAO
 
 def main():
     host = "127.0.0.1"
     base_datos = "arg_broker_bdd"
     usuario = "root"
-    contrasena = "redcros62"
+    contrasena = "kari2024"
 
 
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
     try:
-        accion_dao = AccionDAO(connector)
-        accion_dao.crear(('Patan SRL', 'PL'))
-        acciones_de_bdd = accion_dao.obtener_todos()
-        for accion in acciones_de_bdd:
-            print(accion)
-
+        cotizacion_dao = CotizacionDAO(connector)
+        id_accion = 1  # Reemplaza con el id_accion que deseas consultar
+        cotizaciones_diarias = cotizacion_dao.obtener_todos(id_accion)
+        for cotizacion in cotizaciones_diarias:
+                print(cotizacion)
+    
+         
 
     except Exception as error:
         print(f"Error: {error}")

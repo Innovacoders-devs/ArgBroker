@@ -1,11 +1,9 @@
 from .dao_interface import DAOInterface
 from ..model.cotizacion_diaria import CotizacionDiaria
-from src.utils.mysql_connector import MySQLConnector
-
 
 class CotizacionDAO(DAOInterface):
-    def __init__(self):
-        self._conector_mysql = MySQLConnector()
+    def __init__(self, conector):
+        self._conector_mysql = conector
 
     def crear(self, cotizacion_diaria):
         consulta = """
@@ -41,7 +39,7 @@ class CotizacionDAO(DAOInterface):
             self._conector_mysql.desconectar_base_de_datos()
 
 
-    def obtener(self, id_cotizacion):
+    def obtener_uno(self, id_cotizacion):
         consulta = "SELECT * FROM cotizacion WHERE id_cotizacion = %s"
         try:
             self._conector_mysql.conectar_a_base_de_datos()
@@ -53,6 +51,21 @@ class CotizacionDAO(DAOInterface):
             raise ValueError(f'Ocurrió un error al consultar la cotización: {e}')
         finally:
             self._conector_mysql.desconectar_base_de_datos()
+
+    def obtener_todos(self, id_accion):
+        consulta = "SELECT * FROM cotizacion_diaria WHERE id_accion = %s"
+        try:
+            self._conector_mysql.conectar_a_base_datos()
+            cotizaciones_obtenidas = self._conector_mysql.traer_todos(consulta, (id_accion,))
+            return cotizaciones_obtenidas
+        except Exception as e: 
+            raise Exception (f'Ocurrio un error {e}' )
+        finally:
+            self._conector_mysql.desconectar_de_base_datos()
+
+
+
+             
 
     def actualizar(self, cotizacion_diaria):
         consulta = """
