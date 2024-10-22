@@ -54,10 +54,45 @@ class CotizacionDAO(DAOInterface):
         finally:
             self._conector_mysql.desconectar_base_de_datos()
 
+    def actualizar(self, cotizacion_diaria):
+        consulta = """
+            UPDATE cotizacion SET 
+                id_accion = %s,
+                fecha = %s,
+                ultimo_operado = %s,
+                cantidad_compra_diaria = %s,
+                precio_compra_actual = %s,
+                precio_venta_actual = %s,
+                cantidad_venta_diaria = %s,
+                valor_apertura = %s,
+                minimo_diario = %s,
+                maximo_diario = %s,
+                valor_cierre = %s
+            WHERE id_cotizacion = %s
+        """
+        valores_a_actualizar = (
+            cotizacion_diaria.id_accion,
+            cotizacion_diaria.fecha,
+            cotizacion_diaria.ultimo_operado,
+            cotizacion_diaria.cantidad_compra_diaria,
+            cotizacion_diaria.precio_compra_actual,
+            cotizacion_diaria.precio_venta_actual,
+            cotizacion_diaria.cantidad_venta_diaria,
+            cotizacion_diaria.valor_apertura,
+            cotizacion_diaria.minimo_diario,
+            cotizacion_diaria.maximo_diario,
+            cotizacion_diaria.valor_cierre,
+            cotizacion_diaria.id_cotizacion
+        )
 
+        try:
+            self._conector_mysql.conectar_a_base_de_datos()
+            self._conector_mysql.ejecutar_consulta(consulta, valores_a_actualizar)
+        except Exception as e:
+            raise ValueError(f'No se puede actualizar la cotización: {e}')
+        finally:
+            self._conector_mysql.desconectar_base_de_datos()
 
-    def actualizar(self, objeto):
-        pass
 
     def eliminar(self, id):
         pass
