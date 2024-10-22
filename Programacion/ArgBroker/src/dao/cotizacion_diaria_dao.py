@@ -93,6 +93,13 @@ class CotizacionDAO(DAOInterface):
         finally:
             self._conector_mysql.desconectar_base_de_datos()
 
-
-    def eliminar(self, id):
-        pass
+    def eliminar(self, id_cotizacion):
+        consulta = "DELETE FROM cotizacion WHERE id_cotizacion = %s"
+        try:
+            self._conector_mysql.conectar_a_base_de_datos()
+            self._conector_mysql.ejecutar_consulta(consulta, (id_cotizacion,))
+            return True
+        except Exception as e:
+            raise ValueError(f'Error al eliminar la cotización en la base de datos: {e}')
+        finally:
+            self._conector_mysql.desconectar_base_de_datos()
