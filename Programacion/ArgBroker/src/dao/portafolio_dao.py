@@ -1,10 +1,10 @@
-from dao_interface import DAOInterface
-from Portafolio import Portafolio
-from src.utils.mysql_connector import MySQLConnector
+from .dao_interface import DAOInterface
+from ..model.portafolio import Portafolio
+from src.utils.mysql_connector import conector
 
 class PortafolioDAO(DAOInterface):
     def __init__(self):
-        self.conector_bd = MySQLConnector()
+        self.__base_de_datos = conector
 
     def crear(self, portafolio):
         sql = """ 
@@ -13,13 +13,12 @@ class PortafolioDAO(DAOInterface):
         """
         parametros = (portafolio.id_inversor, portafolio.id_accion, portafolio.cantidad, portafolio.precio_promedio_compra)
         try:
-            resultado = self.conector_bd.ejecutar_consulta(sql, parametros)
-            return resultado
+            self.__base_de_datos.conectar_a_base_datos()
+            self.__base_de_datos.ejecutar_consulta(sql, parametros)
         except Exception as error:
-            print(f"Error al crear portafolio: {str(error)}")
-            return None
+            print(f"Error al crear el portafolio en la base de datos: {error}")
         finally:
-            self.conector_bd.cerrar_conexion()
+            self.__base_de_datos.desconectar_de_base_datos()
 
     def obtener_portafolio_inversor(self, id_inversor):
         sql = """ 
@@ -27,15 +26,20 @@ class PortafolioDAO(DAOInterface):
         """
         parametros = (id_inversor,)
         try:
-            resultado = self.conector_bd.consultar_un_registro(sql, parametros)
-            if resultado:
-                return Portafolio(*resultado)
-            return None
+            self.__base_de_datos.conectar_a_base_datos()
+            portafolios_obtenidos = self.__base_de_datos.traer_todos(sql, parametros)
+            if not portafolios_obtenidos:
+                raise Exception("No existe el portafolio para este inversor.")
+            
+            objetos = []
+            for fila in portafolios_obtenidos:
+                portafolio_instanciado = Portafolio(*fila)
+                objetos.append(portafolio_instanciado)
+            return objetos
         except Exception as error:
-            print(f"No se pudo encontrar el portafolio del inversor con id {id_inversor}: {str(error)}")
-            return None
+            print(f"Error al obtener el portafolio del inversor: {error}")
         finally:
-            self.conector_bd.cerrar_conexion()
+            self.__base_de_datos.desconectar_de_base_datos()
 
     def actualizar(self, portafolio):
         sql = """ 
@@ -45,13 +49,12 @@ class PortafolioDAO(DAOInterface):
         """
         parametros = (portafolio.id_inversor, portafolio.id_accion, portafolio.cantidad, portafolio.precio_promedio_compra, portafolio.id_portafolio)
         try:
-            resultado = self.conector_bd.ejecutar_consulta(sql, parametros)
-            return resultado
+            self.__base_de_datos.conectar_a_base_datos()
+            self.__base_de_datos.ejecutar_consulta(sql, parametros)
         except Exception as error:
-            print(f"Error al actualizar portafolio con id {portafolio.id_portafolio}: {str(error)}")
-            return None
+            print(f"Error al modificar el portafolio con id {portafolio.id_portafolio}: {error}")
         finally:
-            self.conector_bd.cerrar_conexion()
+            self.__base_de_datos.desconectar_de_base_datos()
 
     def eliminar(self, id_portafolio):
         sql = """ 
@@ -59,10 +62,11 @@ class PortafolioDAO(DAOInterface):
         """
         parametros = (id_portafolio,)
         try:
-            resultado = self.conector_bd.ejecutar_consulta(sql, parametros)
-            return resultado
+            self.__base_de_datos.conectar_a_base_datos()
+            self.__base_de_datos.ejecutar_consulta(sql, parametros)
+            return True
         except Exception as error:
-            print(f"Error al eliminar portafolio con id {id_portafolio}: {str(error)}")
-            return None
+            print(f"Error al eliminar el portafolio en la base de datos: {error}")
+            return False
         finally:
-            self.conector_bd.cerrar_conexion()
+            self.__base_de_datos.desconectar_de_base_datos()
