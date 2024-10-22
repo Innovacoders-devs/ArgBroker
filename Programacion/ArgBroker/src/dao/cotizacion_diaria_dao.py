@@ -41,11 +41,20 @@ class CotizacionDAO(DAOInterface):
             self._conector_mysql.desconectar_base_de_datos()
 
 
-    def crear(self, nueva_cotizacion):
-        pass
+    def obtener(self, id_cotizacion):
+        consulta = "SELECT * FROM cotizacion WHERE id_cotizacion = %s"
+        try:
+            self._conector_mysql.conectar_a_base_de_datos()
+            resultado = self._conector_mysql.traer_solo_uno(consulta, (id_cotizacion,))
+            if resultado:
+                return CotizacionDiaria(*resultado)
+            return None
+        except Exception as e:
+            raise ValueError(f'Ocurrió un error al consultar la cotización: {e}')
+        finally:
+            self._conector_mysql.desconectar_base_de_datos()
 
-    def obtener(self, id):
-        pass
+
 
     def actualizar(self, objeto):
         pass
