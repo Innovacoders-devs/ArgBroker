@@ -8,6 +8,30 @@ class Portafolio:
         self._precio_promedio_compra = precio_promedio_compra
 
     def __str__(self): 
-        return f'(Portafolio: {self._id_portafolio})' 
+            return (f'Portafolio ID: {self._id_portafolio}, Inversor ID: {self._id_inversor}, '
+                    f'Acción: {self._id_accion}, Cantidad: {self._cantidad},'
+                    f'Precio Promedio Compra: {self._precio_promedio_compra}') 
+        
+    @property
+    def id_portafolio(self):
+        return self._id_portafolio
     
+    @property
+    def id_inversor(self):
+        return self._id_inversor
+
+    @property
+    def id_accion(self):
+        return self._id_accion
     
+    @property
+    def cantidad(self):
+        return self._cantidad
+    
+    @cantidad.setter
+    def cantidad(self, cantidad):
+        self._cantidad = cantidad
+
+    @property
+    def precio_promedio_compra(self):
+        return self._precio_promedio_compra
