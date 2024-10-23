@@ -12,12 +12,12 @@ def main():
 
 
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
-    nueva_cotizacion_macro = CotizacionDiaria(None, 2, '2024-10-22',4, 5, 6, 7, 8, 9, 10, 11)
+    nueva_cotizacion_macro = CotizacionDiaria(1, 3, '2024-10-22',4, 5, 6, 7, 8, 9, 10, 11,12)
 
     try:
         cargar_cotizacion = CotizacionDAO(connector)
         cargar_cotizacion.crear(nueva_cotizacion_macro)
-        
+
     except Exception as error:
         print(f"Error: {error}")
 
