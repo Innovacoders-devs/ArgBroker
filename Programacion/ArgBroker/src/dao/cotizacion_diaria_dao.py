@@ -118,15 +118,4 @@ class CotizacionDAO(DAOInterface):
             self._conector_mysql.desconectar_base_de_datos()
 
 
-    def obtener_cotizaciones_por_accion(self, id_accion):
-        consulta = "SELECT * FROM cotizacion WHERE id_accion = %s"
-        try:
-            self._conector_mysql.conectar_a_base_de_datos()
-            resultados = self._conector_mysql.traer_todos(consulta, (id_accion,))
-            if resultados:
-                return [CotizacionDiaria(*resultado) for resultado in resultados]
-            return []
-        except Exception as e:
-            raise ValueError(f"Ocurrió un error al obtener las cotizaciones: {e}")
-        finally:
-            self._conector_mysql.desconectar_base_de_datos()
+
