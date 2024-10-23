@@ -8,8 +8,8 @@ class TransaccionDAO(DAOInterface):
         self._conector_mysql = MySQLConnector()
                 
     def crear(self, transaccion):
-        consulta = "INSERT INTO transaccion (id_transaccion, id_inversor, id_accion, tipo, fecha, precio, cantidad, comision) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        valores_a_insertar = (transaccion.id_transaccion, transaccion.id_inversor, transaccion.id_accion, transaccion.tipo, transaccion.fecha, transaccion.precio, transaccion.cantidad, transaccion.comision)
+        consulta = "INSERT INTO transaccion (id_inversor, id_accion, tipo, fecha, precio, cantidad, comision, id_portafolio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        valores_a_insertar = (transaccion.id_inversor, transaccion.id_accion, transaccion.tipo, transaccion.fecha, transaccion.precio, transaccion.cantidad, transaccion.comision, transaccion.id_portafolio)
         try:
             self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_insertar)
