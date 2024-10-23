@@ -7,16 +7,21 @@ class CotizacionDAO(DAOInterface):
 
     def crear(self, cotizacion_diaria):
         consulta = """
-            INSERT INTO cotizacion (
-                id_cotizacion, id_accion, fecha, ultimo_operado,
-                cantidad_compra_diaria, precio_compra_actual,
-                precio_venta_actual, cantidad_venta_diaria,
-                valor_apertura, minimo_diario, maximo_diario,
+            INSERT INTO cotizacion_diaria (
+                id_accion, 
+                fecha, 
+                ultimo_operado,
+                cantidad_compra_diaria, 
+                precio_compra_actual,
+                precio_venta_actual,
+                cantidad_venta_diaria,
+                valor_apertura,
+                minimo_diario, 
+                maximo_diario,
                 valor_cierre
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         valores_a_insertar = (
-            cotizacion_diaria.id_cotizacion,
             cotizacion_diaria.id_accion,
             cotizacion_diaria.fecha,
             cotizacion_diaria.ultimo_operado,
@@ -58,6 +63,7 @@ class CotizacionDAO(DAOInterface):
             self._conector_mysql.conectar_a_base_datos()
             cotizaciones_obtenidas = self._conector_mysql.traer_todos(consulta, (id_accion,))
             return cotizaciones_obtenidas
+        
         except Exception as e: 
             raise Exception (f'Ocurrio un error {e}' )
         finally:
