@@ -7,18 +7,21 @@ def main():
     host = "127.0.0.1"
     base_datos = "arg_broker_bdd"
     usuario = "root"
-    contrasena = "kari2024"
+    contrasena = "redcros62"
 
 
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
+
     try:
-        cotizacion_dao = CotizacionDAO(connector)
-        id_accion = 1  # Reemplaza con el id_accion que deseas consultar
-        cotizaciones_diarias = cotizacion_dao.obtener_todos(id_accion)
-        for cotizacion in cotizaciones_diarias:
-                print(cotizacion)
-    
-         
+        instancia_dao_accion = AccionDAO(connector)
+        accion_modificada = ('Elsapato', 'EZ')
+
+        instancia_dao_accion.actualizar(accion_modificada,9)
+
+        acciones_obtenidas = instancia_dao_accion.obtener_todos()
+
+        for accion in acciones_obtenidas:
+            print(accion)
 
     except Exception as error:
         print(f"Error: {error}")
