@@ -40,7 +40,21 @@ def registrar_usuario():
     except ValueError as eroor:
         print(f"Error en el registro: {error}")
     
-    
+
+def iniciar_sesion():
+    email = input("Ingrese su email: ")
+    contrasena = input("Ingrese su contraseña: ")
+
+    inversorDAO = InversorDAO()
+    servicio_inversor = InversorServicio(inversorDAO)
+
+    try:
+        if servicio_inversor.iniciar_sesion(email, contrasena):
+            print("Inicio de sesión exitoso")
+        else:
+            print("Error en el inicio de sesión")
+    except ValueError as error:
+        print(f"Error en el inicio de sesión: {error}")
 
 
 if __name__ == "__main__":
