@@ -1,22 +1,22 @@
 from src.utils.mysql_connector import MySQLConnector
 from src.dao.accion_dao import AccionDAO
+from src.model.cotizacion_diaria import CotizacionDiaria
 from src.model.accion import Accion
+from src.dao.cotizacion_diaria_dao import CotizacionDAO
 
 def main():
     host = "127.0.0.1"
     base_datos = "arg_broker_bdd"
     usuario = "root"
-    contrasena = "redcros62"
+    contrasena = "kari2024"
 
 
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
-    try:
-        accion_dao = AccionDAO(connector)
-        accion_dao.crear(('Patan SRL', 'PL'))
-        acciones_de_bdd = accion_dao.obtener_todos()
-        for accion in acciones_de_bdd:
-            print(accion)
+    nueva_cotizacion_macro = CotizacionDiaria(1, 3, '2024-10-22',4, 5, 6, 7, 8, 9, 10, 11,12)
 
+    try:
+        cargar_cotizacion = CotizacionDAO(connector)
+        cargar_cotizacion.crear(nueva_cotizacion_macro)
 
     except Exception as error:
         print(f"Error: {error}")

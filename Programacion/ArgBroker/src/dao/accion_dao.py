@@ -63,7 +63,7 @@ class AccionDAO(DAOInterface):
 
     def actualizar(self, nuevos_datos, id):
         consulta = "UPDATE accion SET nombre_accion = %s, simbolo_accion = %s WHERE id_accion = %s"
-        valores_a_insertar = (nuevos_datos.nombre_accion, nuevos_datos.simbolo_accion, id)
+        valores_a_insertar = (nuevos_datos[0], nuevos_datos[1], id)
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
