@@ -7,7 +7,7 @@ class PortafolioDAO(DAOInterface):
         self.__base_de_datos = conector
 
     def crear(self, portafolio):
-        sql = """ 
+       consuelto= """ 
         INSERT INTO portafolio (id_inversor, id_accion, cantidad, precio_promedio_compra) 
         VALUES (%s, %s, %s, %s) 
         """
