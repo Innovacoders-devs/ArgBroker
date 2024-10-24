@@ -1,6 +1,6 @@
 class Transaccion:
 
-    def __init__(self, id_transaccion, id_inversor, id_accion, tipo, fecha, precio, cantidad, comision, id_portafolio):
+    def __init__(self, id_transaccion = None, id_inversor= None, id_accion= None, tipo= None, fecha= None, precio= None, cantidad= None, comision= None, id_portafolio= None):
         self._id_transaccion = id_transaccion
         self._id_inversor = id_inversor
         self._id_accion = id_accion
@@ -28,9 +28,9 @@ class Transaccion:
     def id_transaccion(self):
         return self._id_transaccion
 
-    #@id_transaccion.setter
-    #def id_transaccion(self, id_transaccion):
-        #self._id_transaccion = id_transaccion
+    @id_transaccion.setter
+    def id_transaccion(self, id_transaccion):
+        self._id_transaccion = id_transaccion
     
     @property
     def id_inversor(self):
@@ -92,7 +92,7 @@ class Transaccion:
     def id_portafolio(self):
         return self._id_portafolio
 
-    @comision.setter
+    @id_portafolio.setter
     def id_portafolio(self, id_portafolio):
         self._id_portafolio = id_portafolio
 
