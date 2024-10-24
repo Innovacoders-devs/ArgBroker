@@ -3,6 +3,8 @@ from src.dao.accion_dao import AccionDAO
 from src.model.cotizacion_diaria import CotizacionDiaria
 from src.model.accion import Accion
 from src.dao.cotizacion_diaria_dao import CotizacionDAO
+from src.model.inversor import Inversor
+from src.dao.inversor_dao import InversorDAO
 
 def main():
     host = "127.0.0.1"
@@ -21,6 +23,24 @@ def main():
     except Exception as error:
         print(f"Error: {error}")
 
+
+def registrar_usuario():
+    inversorDAO = InversorDAO()
+    servicio_inversor = InversorServicio(inversorDAO)
+
+    nombre = input("Ingrese su nombre: ")
+    apellido = input("Ingrese su apellido: ")
+    cuil = input("Ingrese su cuil: ")
+    email = input("Ingrese su email: ")
+    contrasena = input("Ingrese su contraseña: ")
+
+    try:
+        nuevo_inversor = servicio_inversor.registrar_usuario(nombre, apellido, cuil, email, contrasena)
+        print(f"El usuario {nuevo_inversor.nombre} ha sido registrado con éxito")
+    except ValueError as eroor:
+        print(f"Error en el registro: {error}")
+    
+    
 
 
 if __name__ == "__main__":
