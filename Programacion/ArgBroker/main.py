@@ -5,6 +5,7 @@ from src.model.accion import Accion
 from src.dao.cotizacion_diaria_dao import CotizacionDAO
 from src.model.inversor import Inversor
 from src.dao.inversor_dao import InversorDAO
+from src.services.inversor_servicio import InversorServicio
 
 def main():
     host = "127.0.0.1"
