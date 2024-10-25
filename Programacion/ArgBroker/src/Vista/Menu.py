@@ -9,13 +9,13 @@ class Menu:
 
         def mostrar_menu_principal(self):
             while self.ejecutando:
-                print("\n=== ARGBroker ===")# insertar los saltos de linea al final no al principio!
+                print("=== ARGBroker ===\n")
                 print("1. Iniciar Sesion")
                 print("2. Registrarse")
                 print("0. Salir")
 
 
-        opcion = input("\nSeleccione una opción: ")# insertar los saltos de linea al final no al principio!
+        opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
                     self.iniciar_sesion() #no encuentro el metodo para el menu iniciar sesion
@@ -26,6 +26,7 @@ class Menu:
         else:
                     input("Opción inválida. Seleccione una opción para continuar...")
 
+def iniciar_sesion(self):
         try:# este bloque no tiene sentido en el menu principal 1 porque pertenece a la logica del metodo iniciar sesion 2 en el fragmento del codigo anterior el flow sale de este menu asique este codigo no se llega a ejecutar
                 correo_electronico = input("Ingrese email del inversor: ")
                 contrasenia_ingresada = input("Ingrese su contraseña: ")
@@ -41,7 +42,7 @@ class Menu:
                 return False
 
     def registrar_usuario(self): #el menu esta perfecto en cuanto a estructura, solo falta que terminemos el servicio para implementarlo
-            print("\n=== CREAR NUEVO INVERSOR ===")#el mensaje deberia ser registrarse, registrate para invertir perrito malvado, algo mas indicativo de lo que debe hacer el usuario 
+            print("\n=== REGISTRARSE ===")
             nombre = input("Nombre: ")
             apellido = input("Apellido: ")
             cuil = input("CUIL: ")
@@ -53,7 +54,7 @@ class Menu:
 
     def mostrar_menu_inversor(self): 
         while True:
-            print("\n=== Portal inversor ===") #me gusta mas el nombre Panel de inversor
+            print("\n=== PANEL DE INVERSOR ===") #me gusta mas el nombre Panel de inversor
             print("1. Inversiones") #podria llamarse Datos Personales
             print("2. Acciones") # Mis acciones
             print("3. Portafolio") # quiza convenga hacer un solo menu que contenga mi portafolio donde muestre:las acciones que tengo compradas y el historial de transacciones 
