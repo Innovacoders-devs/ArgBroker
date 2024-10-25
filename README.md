@@ -1,90 +1,135 @@
 <div align="center">
-    ArgBroker
+
+ # **ArgBroker**
+
 </div>
 
-## Descripción del Proyecto
+## 💡 Descripción del Proyecto
 **ARGBroker** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. En el proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y SOLID (2*). 
 Además, se implementa una base de datos en MySQL para manejar las transacciones y el historial de cotizaciones, aplicando los principios del patrón de diseño DAO(3*) para separar la lógica de negocio de la de acceso a datos.
 
-## 👥 Equipo de Desarrollo:
+<div align="center">
+ 
+ <br/>
+
+ ## 👥 Equipo de Desarrollo:
 
 <table>
 <tr>
     <td align="center">
         <a href="https://github.com/lauzarg">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Laura Zarate"/><br />
             <sub><b>Laura Zarate</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/CristianVellio">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Cristian Vellio"/><br />
             <sub><b>Cristian Vellio</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/KaryQuinteros">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Karina Quinteros"/><br />
-            <sub><b>Karina Quinteros</b></sub>
+         <sub><b>Karina Quinteros</b></sub>
         </a>
     </td>
 </tr>
 <tr>
     <td align="center">
         <a href="https://github.com/nahir1009">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Nahir Ñañez"/><br />
-            <sub><b>Nahir Ñañez</b></sub>
+         <sub><b>Nahir Ñañez</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/MirandaFrancoCBA">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Franco Miranda"/><br />
-            <sub><b>Franco Miranda</b></sub>
+        <sub><b>Franco Miranda</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/Malvadapapa">
-            <img src="/api/placeholder/100/100" width="100px;" alt="Cristian Vargas"/><br />
-            <sub><b>Cristian Vargas</b></sub>
+        <sub><b>Cristian Vargas</b></sub>
         </a>
     </td>
 </tr>
 </table>
+</div>
 
-## Funcionalidades
+<div align="center">
+<br/>
 
-- **Registro de usuarios**: Permite a nuevos inversores registrarse proporcionando nombre, apellido, cuil, email y contraseña.
-- **Inicio de sesión**: Valida credenciales para iniciar sesión.
-- **Recuperación de contraseña y bloqueo**: Recuperación de contraseña y bloqueo al tercer intento fallido (opcional).
-- **Visualización de cuenta**: Muestra el saldo, total invertido y rendimiento total.
-- **Gestión de portafolio**:
-  - Listar activos: Muestra nombre del activo, cantidad de acciones, precios actuales de compra/venta y rendimiento.
-  - Compra/Venta de acciones: Valida existencias y registra transacciones.
-  - Actualiza el saldo, total invertido y portafolio.
+## ⭐ Funcionalidades
+</div>
+
+<table>
+<tr>
+    <td>👤 <b>Gestión de Usuarios</b></td>
+    <td>
+        • Registro de nuevos inversores<br/>
+        • Inicio de sesión<br/>
+        • Sistema de bloqueo por intentos fallidos
+    </td>
+</tr>
+<tr>
+    <td>💰 <b>Gestión de Cuenta</b></td>
+    <td>
+        • Visualización de saldo<br/>
+        • Seguimiento de inversiones<br/>
+        • Cálculo de rendimiento
+    </td>
+</tr>
+<tr>
+    <td>📊 <b>Gestión de Portafolio</b></td>
+    <td>
+        • Listado de activos<br/>
+        • Operaciones de compra/venta<br/>
+        • Actualización automática de saldos
+    </td>
+</tr>
+</table>
   
+<br/>
+
+<div align="center">
+
+## 📅 SCRUM
+</div>
+Para ver la planificación SCRUM del proyecto, visita el siguiente enlace:
+
+<div align="center">
 
 
+[Planificación](https://docs.google.com/spreadsheets/d/1IsdoQXIFMU_co4p3dqHpaO2MRNkmKquB/edit?usp=sharing&ouid=107009867784662074801&rtpof=true&sd=true)
+</div>
 
-## Convenciones de Nomenclatura
+<br/>
+<div align="center">
 
-El equipo ha decidido respetar el estándar **snake_case** y **PascalCase** para los nombres de archivos, clases y métodos. Más detalles se pueden encontrar en el archivo `convenciones_nomenclatura.md`.
+## 💻 Convenciones de Nomenclatura
+</div>
+El equipo decidio respetar la nomenclatura PEP8 es decir:
 
 - **Archivos y directorios**: snake_case en minúsculas.
 - **Clases**: PascalCase, ej. `Usuario`, `Portafolio`.
 - **Funciones y métodos**: snake_case, comenzando con un verbo en infinitivo, ej. `agregar_accion`.
 - **Variables**: snake_case, ej. `nombre_usuario`.
 - **Constantes**: MAYÚSCULAS, ej. `MAX_INTENTOS`.
+<br/>
+<div align="center">
 
+## 📁Estructura de carpetas del proyecto y justificacion
+</div>
 
-## Estructura de carpetas del proyecto y justificacion
-
+````bash
 Base-datos/
+````
 
 Aqui se encuentra la documentacion de la base de datos junto una imagen del diagrama relacional, una copia de la base de datos completa con algunas entradas de prueba en formato sql, tambien hay una version modificada para ejecutarse en one compiler (que corre sin errores) tambien en formato sql y finalmente las consultas de tipo DML que se piden en la consigna.
-
+````bash
 Programacion/
-
+````
 Aqui se encuentra la documentacion del diagrama de clases junto con una imagen del mismo y el directorio principal de la app llamado ArgBroker:
+
+
+
+  ## Directorio de la app
   ```python  
   ArgBroker/
   ├── src/
@@ -126,8 +171,12 @@ Este archivo es el punto de entrada de la aplicación.
 ### Modelo Relacional
 La base de datos ha sido diseñada para persistir los datos de los inversores y acciones, como asi tambien el historial de saldo del inversor, sus acciones en su portfolio, historial de cotizaciones de acciones y registrar todas las transacciones de compra/venta. El diseño está normalizado a la **3FN**.
 
+<div align="center">
 
-## Instrucciones para probar el proyecto
+## 👷‍♂️ Instrucciones para probar el proyecto
+
+</div>
+
 
 `1.` Clonar el repositorio en una carpeta local.
 
