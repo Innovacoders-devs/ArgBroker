@@ -156,8 +156,11 @@ El patrón de diseño DAO separa la capa de abstracción de la de acceso a datos
 El DAO se compone de:
 
 Interfaz(clase abstracta en python): define métodos para acceder a los datos
+
 Implementación específica de la base de datos 
+
 Modelo de datos o Daos: representa los datos almacenados
+
 
 ### (4*) MVC
 El patrón de diseño Modelo Vista Controlador (MVC) es una estrategia de desarrollo de software que separa una aplicación en tres componentes principales:
