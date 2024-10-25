@@ -194,3 +194,12 @@ Ejecuta el siguiente comando en la terminal para instalar las dependencias:
 
 `pip install -r requirements.txt`
 </div>
+
+
+<div align="center">
+
+### 🌟 ¡Gracias por usar ArgBroker!
+
+Hecho con ❤️ por InnovaCoders
+
+</div>
