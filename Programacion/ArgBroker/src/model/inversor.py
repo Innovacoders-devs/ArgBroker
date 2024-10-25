@@ -1,27 +1,32 @@
-import re  
-
 class Inversor:
-    def __init__(self, id_inversor = None, nombre = None, apellido = None, cuil = None, email= None, contrasena = None, saldo_cuenta = None, intentos_fallidos=0): #el atributo bloqueado no deberia recibirse como parametro porque no mapea con la base de datos, el error que marca es porque los parametros con valor predeterminado deberian ir al final de la lista de atributos(que de todas formas no es necesario inicializar en cero porque de la base de datos ya viene con ese valor por defecto)
-            self._nombre = nombre
-            self._apellido = apellido
-            self._cuil = cuil
-            self._email = email
-            self.__contrasena = contrasena
-            self._id_inversor = id_inversor
-            self._saldo_cuenta = saldo_cuenta
-            self._intentos_fallidos = intentos_fallidos
-            self._bloqueado = False
+    def __init__(self, id_inversor= None, nombre= None, apellido= None, cuil= None, email= None, contrasena= None, saldo_cuenta= None, intentos_fallidos= None):
+        self._nombre = nombre
+        self._apellido = apellido
+        self._cuil = cuil
+        self._email = email
+        self.__contrasena = contrasena
+        self._id_inversor = id_inversor
+        self._saldo_cuenta = saldo_cuenta
+        self._intentos_fallidos = intentos_fallidos
+        self._bloqueado = False
 
-#el metodo str debe dar cuenta de todos los atributos del objeto en este caso porque es una clase de dominio
     def __str__(self):
         return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email}, 
         El saldo en cuenta es: {self._saldo_cuenta}, contrasena: {self.__contrasena}, intentos fallidos de ingreso: {self._intentos_fallidos}'''
 
+    @property
+    def id_inversor(self):
+        return self._id_inversor
+
+    @id_inversor.setter
+    def id_inversor(self, id_inversor):
+        if not isinstance(id_inversor, int):
+            raise ValueError('El ID del inversor debe ser un número entero.')
+        self._id_inversor = id_inversor
 
     @property
     def nombre(self):
         return self._nombre
-
 
     @nombre.setter
     def nombre(self, nombre):
@@ -29,11 +34,9 @@ class Inversor:
             raise ValueError('El nombre debe ser una cadena de texto.')
         self._nombre = nombre
 
-
     @property
     def apellido(self):
         return self._apellido
-
 
     @apellido.setter
     def apellido(self, apellido):
@@ -41,11 +44,9 @@ class Inversor:
             raise ValueError('El apellido debe ser una cadena de texto.')
         self._apellido = apellido
 
-
     @property
     def cuil(self):
         return self._cuil
-
 
     @cuil.setter
     def cuil(self, cuil):
@@ -56,94 +57,39 @@ class Inversor:
                 raise ValueError('El CUIL está conformado por números')
         self._cuil = cuil
 
-
     @property
     def email(self):
         return self._email
 
-#el codigo repite procedimientos al evaluar nuevamente cuestiones del email cuando ya tenes una funcion que valida el correo "validar correo"
     @email.setter
     def email(self, email): 
         if '@' not in email:
             raise ValueError('El correo electrónico debe tener un @')
         else:
-            if not self.validar_correo (email):
-                raise ValueError ('El correo electrónico es inválido')
+            if not self.validar_correo(email):
+                raise ValueError('El correo electrónico es inválido')
         self._email = email
-
-
-    @staticmethod
-    def validar_correo (email):
-        patron_email = r'[a-zA-ZO-9._%+-]+@[a-zA-ZO-9.-]+\.[a-zA-Z]{2,}$'
-        return re.match(patron_email, email) is not None
-
 
     @property
     def contrasena(self):
         return self.__contrasena
 
-
     @contrasena.setter
     def contrasena(self, contrasena):
-        if not self.es_contrasenia_valida(contrasena):
-            raise ValueError('Está contraseña no cumple con los requisitos de seguridad.')
         self.__contrasena = contrasena
 
+    @property
+    def saldo_cuenta(self):
+        return self._saldo_cuenta
 
-    @staticmethod
-    def es_contrasenia_valida(contrasena):
-        if len(contrasena) < 8:
-            return False
+    @saldo_cuenta.setter
+    def saldo_cuenta(self, saldo_cuenta):
+        self._saldo_cuenta = saldo_cuenta
 
-    def autenticar_contrasena(self, contrasena_que_ingreso, inversor_instancia):
-        inversor = inversor_instancia
-        intentos_maximos = 3
-        try:
-            if inversor.contrasena !=  contrasena_que_ingreso:
-                inversor.intentos_fallidos +=1
-                inversor.actualizar_intentos_fallidos(inversor)
-                intentos_restantes = intentos_maximos - self._intentos_fallidos
-                return f'Contraseña incorrecta. Quedan {intentos_restantes} intentos.'
+    @property
+    def intentos_fallidos(self):
+        return self._intentos_fallidos
 
-            elif:
-                self.intentos_fallidos >3:
-                inversor.bloqueado = True
-                  raise Exception ('La cuenta ha sido bloqueada debido a múltiples intentos fallidos')
-
-            else:
-                inversor.contrasena == contrasena_que_ingreso:
-                inversor.bloqueado = False
-                return f'Ingreso correcto'
-
-            inversor.intentos_fallidos=0
-            inversor_en_bdd.resetar_intentos_fallidos(inversor)
-            return inversor
-
-        except Exception as error: #agregue este bloque para que pueda correr una prueba
-            pass
-#vamos a cambiar unas cosillas para que sea mas simple desde el punto de vista de la logica:
-#primero lo que va a recibir la funcion es por un lado el usuario a autenticar, por otro los valores de los imputs
-#quisiera que le cambiemos los nombres a las variables para que sea aun mas simple de leer a primera vista ej 
-# def autenticar(self, email_que_ingreso, contrasena_que_ingreso):
-
-# lo segundo que vamos a hacer es negar todas las condiciones por las cuales el usuario no seria correctamente autenticado 
-    """
-    voy a dejaro aqui porque esto es solo una pista, a ver si lo podes terminar bb yo se que podes!
-    cuando termines de evaluar todo lo que no tiene que pasar para que el usuario inicie sesion vamos a cambiar 
-    el tipo de retorno, en lugar de un usuario vamos a entregar un True (lo que debe significar que lo que le mandamos si se pudo autenticar)
-  
-"""
-
-    def bloquear(self):
-        if self._bloqueado == True: #faltaba un doble == para evaluar la xpresion
-            raise ValueError('El inversor está bloqueado') #Mepa que en tu version de autenticar, ya agregaste el bloqueo
-
-
-    def desbloquear_cuenta(self, inversorDAO, email, codigo_desbloqueo):
-        if email == inversorDAO.email and inversorDAO.bloqueado:
-           if codigo_desbloqueo == inversorDAO.codigo_desbloqueo:
-                inversorDAO.bloqueado = False
-                inversorDAO.intentos_fallidos = 0
-                return "Cuenta desbloqueada exitosamente."
-        else:
-              raise DesbloqueoError("Código de desbloqueo incorrecto.")
+    @intentos_fallidos.setter
+    def intentos_fallidos(self, intentos_fallidos):
+        self._intentos_fallidos = intentos_fallidos
