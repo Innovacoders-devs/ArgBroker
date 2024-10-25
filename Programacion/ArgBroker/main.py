@@ -1,4 +1,4 @@
-from src.utils.mysql_connector import MySQLConnector
+from src.herramientas.conector_a_mysql import MySQLConnector
 from src.acceso_a_datos.accion_dao import AccionDAO
 from src.model.cotizacion_diaria import CotizacionDiaria
 from src.model.accion import Accion

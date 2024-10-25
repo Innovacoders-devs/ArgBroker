@@ -1,4 +1,4 @@
-""" import uuid """
+import uuid 
 from ..modelo.inversor import Inversor
 from ..acceso_a_datos.inversor_dao import InversorDAO
 
@@ -7,7 +7,7 @@ class InversorServicio:
         self.__inversor_dao = inversorDAO
 
     def registrar_usuario(self, inversor):
-        self.__inversor_dao.crear(self, nombre, apellido, cuil, email, contrasena):
+        self.__inversor_dao.crear(self, nombre, apellido, cuil, email, contrasena)
         if self.inversorDAO.obtener_por_email(email):
             raise ValueError("El email ya está registrado")
         
@@ -38,10 +38,10 @@ class InversorServicio:
             self.__inversorDAO.actualizar(inversor, intentos_fallidos=0)
             return True
         
-"""     def autentificar_usuario(self, email, contrasena):
+    def autentificar_usuario(self, email, contrasena):
         inversor = self.iniciar_sesion(email, contrasena)
         if inversor:
             token = str(uuid.uuid4())
             return token
- """
+ 
             
