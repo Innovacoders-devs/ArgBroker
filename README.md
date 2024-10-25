@@ -171,6 +171,8 @@ Este archivo es el punto de entrada de la aplicación.
 ### Modelo Relacional
 La base de datos ha sido diseñada para persistir los datos de los inversores y acciones, como asi tambien el historial de saldo del inversor, sus acciones en su portfolio, historial de cotizaciones de acciones y registrar todas las transacciones de compra/venta. El diseño está normalizado a la **3FN**.
 
+<br/>
+
 <div align="center">
 
 ## 👷‍♂️ Instrucciones para probar el proyecto
@@ -191,10 +193,8 @@ contrasena = "contraseña de mi conexion creada para probar"
 
 `4.` Ejecutar el archivo `main.py` para iniciar la aplicación de consola.
 
-
-
-
-
+<br/>
+<br/>
 
 
 
@@ -277,7 +277,7 @@ Ejecuta el siguiente comando en la terminal para instalar las dependencias:
 `pip install -r requirements.txt`
 
 
-
+<br/>
 <div align="center">
 
 ### 🌟 ¡Gracias por usar ArgBroker!
