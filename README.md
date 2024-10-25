@@ -152,8 +152,12 @@ Los detalles deben depender de abstracciones.
 
 ### (3*) Patron de Diseño DAO
 
-El patrón de diseño DAO consiste en una capa de abstracción que desacopla la lógica de negocio de la lógica de acceso a datos. Su objetivo es proporcionar una interfaz estándar para acceder a los datos, permitiendo cambiar la implementación de la base de datos sin afectar la lógica de negocio. El DAO se compone de una interfaz que define los métodos para acceder a los datos, una implementación específica de la base de datos y un modelo de datos que representa los datos almacenados. Esto ofrece varias ventajas, como desacoplamiento, flexibilidad y reutilización, facilitando la mantenibilidad, escalabilidad y flexibilidad en el acceso a datos en aplicaciones complejas.
+El patrón de diseño DAO separa la capa de abstracción de la de acceso a datos, promoviendo alta cohesión y bajo acoplamiento. Su objetivo es proporcionar una interfaz estándar para acceder a los datos, permitiendo cambiar la implementación de la base de datos sin afectar la lógica de negocio.
+El DAO se compone de:
 
+Interfaz(clase abstracta en python): define métodos para acceder a los datos
+Implementación específica de la base de datos 
+Modelo de datos o Daos: representa los datos almacenados
 
 ### (4*) MVC
 El patrón de diseño Modelo Vista Controlador (MVC) es una estrategia de desarrollo de software que separa una aplicación en tres componentes principales:
