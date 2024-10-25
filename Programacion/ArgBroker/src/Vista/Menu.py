@@ -26,30 +26,31 @@ class Menu:
         else:
                     input("Opción inválida. Seleccione una opción para continuar...")
 
-def iniciar_sesion(self):
-        try:# este bloque no tiene sentido en el menu principal 1 porque pertenece a la logica del metodo iniciar sesion 2 en el fragmento del codigo anterior el flow sale de este menu asique este codigo no se llega a ejecutar
-                correo_electronico = input("Ingrese email del inversor: ")
-                contrasenia_ingresada = input("Ingrese su contraseña: ")
-               
-                if not correo_electronico or not contrasenia_ingresada:
-                            raise ValueError("El email y la contraseña no pueden estar vacíos")
-                if correo_electronico == self.inversor.email and contrasenia_ingresada == self.inversor.contrasena:
-                            return self.mostrar_menu_inversor()
-                else:
-                    raise ValueError("Credenciales incorrectas")
-        except ValueError as error:
-                print(f"Error de autenticación: {str(error)}")
-                return False
+    def iniciar_sesion(self):
+            try:# este bloque no tiene sentido en el menu principal 1 porque pertenece a la logica del metodo iniciar sesion 2 en el fragmento del codigo anterior el flow sale de este menu asique este codigo no se llega a ejecutar
+                    correo_electronico = input("Ingrese email del inversor: ")
+                    contrasenia_ingresada = input("Ingrese su contraseña: ")
+                
+                    if not correo_electronico or not contrasenia_ingresada:
+                                raise ValueError("El email y la contraseña no pueden estar vacíos")
+                    if correo_electronico == self.inversor.email and contrasenia_ingresada == self.inversor.contrasena:
+                                return self.mostrar_menu_inversor()
+                    else:
+                        raise ValueError("Credenciales incorrectas")
+            except ValueError as error:
+                    print(f"Error de autenticación: {str(error)}")
+                    return False
+#el menu esta perfecto en cuanto a estructura, solo falta que terminemos el servicio para implementarlo
+    def registrar_usuario(self):
 
-    def registrar_usuario(self): #el menu esta perfecto en cuanto a estructura, solo falta que terminemos el servicio para implementarlo
-            print("\n=== REGISTRARSE ===")
-            nombre = input("Nombre: ")
-            apellido = input("Apellido: ")
-            cuil = input("CUIL: ")
-            email = input("Email: ")
-            contrasenia = input("Contraseña: ")
-               
-            print("\nInversor creado exitosamente!")
+        print("\n=== REGISTRARSE ===")
+        nombre = input("Nombre: ")
+        apellido = input("Apellido: ")
+        cuil = input("CUIL: ")
+        email = input("Email: ")
+        contrasenia = input("Contraseña: ")
+
+        print("\nInversor creado exitosamente!")
 
 
     def mostrar_menu_inversor(self): 
