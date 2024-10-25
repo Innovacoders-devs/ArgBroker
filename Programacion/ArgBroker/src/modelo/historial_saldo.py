@@ -1,0 +1,2 @@
+class HistorialSaldo:
+    pass
