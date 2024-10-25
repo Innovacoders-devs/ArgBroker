@@ -1,10 +1,10 @@
 from src.utils.mysql_connector import MySQLConnector
-from src.dao.accion_dao import AccionDAO
+from src.acceso_a_datos.accion_dao import AccionDAO
 from src.model.cotizacion_diaria import CotizacionDiaria
 from src.model.accion import Accion
-from src.dao.cotizacion_diaria_dao import CotizacionDAO
+from src.acceso_a_datos.cotizacion_diaria_dao import CotizacionDAO
 from src.model.inversor import Inversor
-from src.dao.inversor_dao import InversorDAO
+from src.acceso_a_datos.inversor_dao import InversorDAO
 from src.services.inversor_servicio import InversorServicio
 
 def main():

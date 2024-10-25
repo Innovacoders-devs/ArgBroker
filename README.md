@@ -1,7 +1,10 @@
 # ARGBrokers
 
 ## Descripción del Proyecto
-**ARGBrokers** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de los usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. El proyecto sigue un enfoque basado en TDD (Test Driven Development) y respeta las 4 reglas de diseño simple propuestas por Kent Beck. Además, se implementa una base de datos para manejar las transacciones y el historial de cotizaciones, respetando el patrón DAO para separar la lógica de acceso a datos.
+**ARGBrokers** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. En el proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y SOLID (2*). 
+Además, se implementa una base de datos en MySQL para manejar las transacciones y el historial de cotizaciones, aplicando los principios del patrón de diseño DAO(3*) para separar la lógica de negocio de la de acceso a datos.
+
+
 
 ## Funcionalidades
 
@@ -14,41 +17,7 @@
   - Compra/Venta de acciones: Valida existencias y registra transacciones.
   - Actualiza el saldo, total invertido y portafolio.
   
-## Requisitos del Proyecto
 
-### Clases
-
-1. **BaseDeDatos**: Gestiona la conexión con la base de datos.
-   
-2. **Usuario**:
-   - Representa a un usuario registrado.
-   - Atributos: `nombre`, `apellido`, `cuil`, `email`, `password`, `portafolio`.
-   - Métodos: Registro, inicio de sesión, getters y setters.
-   
-3. **UsuarioDAO**:
-   - Gestiona operaciones CRUD para los usuarios en la base de datos.
-   - Métodos: `agregar_usuario`, `obtener_usuario_por_email`, `modificar_usuario`, `eliminar_usuario`.
-   
-4. **Portafolio**:
-   - Representa el portafolio de acciones del usuario.
-   - Atributos: `acciones`.
-   - Métodos: `agregar_accion`, `remover_accion`, `valor_total`.
-   
-5. **PortafolioDAO**:
-   - Persistencia del portafolio en la base de datos.
-   - Métodos: `agregar_accion`, `obtener_portafolio`, `remover_accion`.
-   
-6. **ElementoPortafolio**:
-   - Representa un activo individual en el portafolio.
-   - Atributos: `nombre_accion`, `cantidad`, `precio_compra`.
-   
-### Principios de Diseño Aplicados
-
-- **Abstracción**: Las clases abstraen los comportamientos clave de los inversores y sus portafolios.
-- **Encapsulamiento**: Los atributos de las clases están encapsulados, accediendo mediante getters y setters.
-- **Modularidad**: Cada componente tiene una responsabilidad clara (e.g., DAO maneja persistencia, clases de negocio manejan lógica de negocio).
-- **Bajo Acoplamiento, Alta Cohesión**: Las clases interactúan lo necesario y están cohesionadas en sus responsabilidades.
-- **Transparencia Referencial**: Las funciones no modifican los argumentos originales y no tienen efectos secundarios.
 
 
 ## Convenciones de Nomenclatura
@@ -85,3 +54,35 @@ Se incluyen scripts para la creación (DDL) y manipulación (DML) de las tablas.
 - **Franco Miranda** (ElementoPortafolio)
 
 
+(1*)las 4 reglas de diseño simple propuestas por Kent Beck:
+1 - el código debe pasar todas las pruebas
+2 - el código debe expresar claramente todas las ideas del programador, debe ser legible y autoexplicativo
+3 - no debe haber código duplicado
+4 - el código debe tener el menor número posible de elementos. 
+
+(2*) SOLID:
+S - Principio de Responsabilidad Única (SRP)
+Una clase debe tener solo una razón para cambiar.
+Una clase debe tener una sola responsabilidad.
+
+O - Principio de Abierto/Cerrado (OCP)
+Una entidad del software debe estar abierta para su extensión.
+Una entidad del software debe estar cerrada para su modificación.
+
+L - Principio de Sustitución de Liskov (LSP)
+Las clases derivadas deben ser sustituibles por sus clases base.
+No se deben poder distinguir las clases derivadas de las clases base.
+
+I - Principio de Segregación de Interfaces (ISP)
+Una clase no debe estar obligada a implementar interfaces que no utiliza.
+Las interfaces deben ser específicas y clientes.
+
+D - Principio de Inversión de Dependencias (DIP)
+Las clases de alto nivel no deben depender de clases de bajo nivel.
+Ambas deben depender de abstracciones.
+Las abstracciones no deben depender de detalles.
+Los detalles deben depender de abstracciones.
+
+(2*) Patron de Diseño DAO
+
+El patrón de diseño DAO consiste en una capa de abstracción que desacopla la lógica de negocio de la lógica de acceso a datos. Su objetivo es proporcionar una interfaz estándar para acceder a los datos, permitiendo cambiar la implementación de la base de datos sin afectar la lógica de negocio. El DAO se compone de una interfaz que define los métodos para acceder a los datos, una implementación específica de la base de datos y un modelo de datos que representa los datos almacenados. Esto ofrece varias ventajas, como desacoplamiento, flexibilidad y reutilización, facilitando la mantenibilidad, escalabilidad y flexibilidad en el acceso a datos en aplicaciones complejas.

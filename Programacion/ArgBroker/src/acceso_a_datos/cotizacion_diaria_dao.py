@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-from ..model.cotizacion_diaria import CotizacionDiaria
+from ..modelo.cotizacion_diaria import CotizacionDiaria
 
 class CotizacionDAO(DAOInterface):
     def __init__(self, conector):

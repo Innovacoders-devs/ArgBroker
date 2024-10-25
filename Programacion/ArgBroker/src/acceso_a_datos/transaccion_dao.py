@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-from src.model.transaccion import Transaccion
+from src.modelo.transaccion import Transaccion
 
 class TransaccionDAO(DAOInterface):
     

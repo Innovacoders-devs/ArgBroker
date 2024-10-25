@@ -1,6 +1,6 @@
 import uuid
-from src.model.inversor import Inversor
-from src.dao.inversor_dao import InversorDAO
+from src.modelo.inversor import Inversor
+from src.acceso_a_datos.inversor_dao import InversorDAO
 
 class InversorServicio:
     def __init__(self, inversorDAO):

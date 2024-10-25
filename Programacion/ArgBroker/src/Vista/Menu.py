@@ -1,7 +1,7 @@
-from src.dao.inversor_dao import InversorDAO
-from src.dao.accion_dao import Acciondao
-from src.dao.portafolio_dao import PortafolioDAO
-from src.dao.transaccion_dao import TransaccionDAO
+from src.acceso_a_datos.inversor_dao import InversorDAO
+from src.acceso_a_datos.accion_dao import Acciondao
+from src.acceso_a_datos.portafolio_dao import PortafolioDAO
+from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 
 
 class Menu:

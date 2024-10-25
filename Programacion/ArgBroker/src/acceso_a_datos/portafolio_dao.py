@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-from ..model.portafolio import Portafolio
+from ..modelo.portafolio import Portafolio
 from src.utils.mysql_connector import conector
 
 class PortafolioDAO(DAOInterface):
@@ -7,14 +7,14 @@ class PortafolioDAO(DAOInterface):
         self.__base_de_datos = conector
 
     def crear(self, portafolio):
-       consuelto= """ 
+        consulta = """ 
         INSERT INTO portafolio (id_inversor, id_accion, cantidad, precio_promedio_compra) 
         VALUES (%s, %s, %s, %s) 
         """
         parametros = (portafolio.id_inversor, portafolio.id_accion, portafolio.cantidad, portafolio.precio_promedio_compra)
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            self.__base_de_datos.ejecutar_consulta(sql, parametros)
+            self.__base_de_datos.ejecutar_consulta(consulta, parametros)
         except Exception as error:
             print(f"Error al crear el portafolio en la base de datos: {error}")
         finally:

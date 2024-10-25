@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-from ..model.accion import Accion
+from ..modelo.accion import Accion
 class AccionDAO(DAOInterface):
     def __init__(self, conector):
         self.__base_de_datos = conector

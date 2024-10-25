@@ -1,5 +1,5 @@
 from .dao_interface import DAOInterface
-from ..model.inversor import Inversor
+from ..modelo.inversor import Inversor
 from src.utils.mysql_connector import conector
 
 class InversorDAO(DAOInterface):
