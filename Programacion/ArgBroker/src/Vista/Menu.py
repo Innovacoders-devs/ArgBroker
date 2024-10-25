@@ -100,7 +100,7 @@ class Menu:
                     self.obtener_inversor()
                 input("\nPresione Enter para continuar...")
 
-        def menu_acciones(self):
+    def menu_acciones(self):
             while True:
                 self.clear_screen()
                 print("\n=== GESTIÓN DE ACCIONES ===")
@@ -117,7 +117,7 @@ class Menu:
                     break
                 input("\nPresione Enter para continuar...")
 
-        def menu_portafolio(self):
+    def menu_portafolio(self):
             while True:
                 self.clear_screen()
                 print("\n=== GESTIÓN DE PORTAFOLIO ===")
@@ -134,6 +134,61 @@ class Menu:
                     break
 
                 input("\nPresione Enter para continuar...")
+    
+    def menu_transacciones(self):
+        while True:
+            self.clear_screen()
+            print("\n=== GESTIÓN DE TRANSACCIONES ===")
+            print("1. Crear nueva transacción")
+            print("2. Obtener transacción")
+            print("3. Actualizar transacción")
+            print("4. Eliminar transacción")
+            print("5. Obtener transacciones por inversor")
+            print("0. Volver al menú principal")
+           
+            option = input("\nSeleccione una opción: ")
+           
+            if option == "0":
+                break
+         
+            input("\nPresione Enter para continuar...")
+
+
+    def menu_cotizaciones(self):
+        while True:
+            self.clear_screen()
+            print("\n=== GESTIÓN DE COTIZACIONES ===")
+            print("1. Crear nueva cotización")
+            print("2. Obtener cotización")
+            print("3. Actualizar cotización")
+            print("4. Eliminar cotización")
+            print("5. Obtener cotizaciones por acción")
+            print("6. Obtener última cotización")
+            print("0. Volver al menú principal")
+           
+            option = input("\nSeleccione una opción: ")
+           
+            if option == "0":
+                break
+        
+            input("\nPresione Enter para continuar...")
+
+
+    def obtener_inversor(self):
+        print("\n=== OBTENER DATOS DE INVERSOR ===")
+        id_inversor = input("Ingrese ID del inversor: ")
+        print("\nDatos del inversor:")
+        print("ID:", id_inversor)
+        print("Nombre: Juan Ejemplo")
+        print("Email: juan@ejemplo.com")
+
+
+if __name__ == "__main__":
+    menu = Menu()
+    menu.show_main_menu()
+
+
+
 
 
 
