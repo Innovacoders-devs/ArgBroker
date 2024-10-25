@@ -1,22 +1,55 @@
-<div style=" padding: 20px 20px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; font-family: system-ui, -apple-system, sans-serif;">
-
-  <h1 style=" text-align: center; font-size: 48px; font-weight: 700; margin: 0 0 16px 0;">
+<div align="center">
     ArgBroker
-  </h1>
-
+</div>
 
 ## Descripción del Proyecto
 **ARGBroker** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. En el proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y SOLID (2*). 
 Además, se implementa una base de datos en MySQL para manejar las transacciones y el historial de cotizaciones, aplicando los principios del patrón de diseño DAO(3*) para separar la lógica de negocio de la de acceso a datos.
 
-## Miembros del equipo:
+## 👥 Equipo de Desarrollo:
 
-- **Laura Zarate** [ Perfil de GitHub](https://github.com/lauzarg)
-- **Cristian Vellio**   [ Perfil de GitHub](https://github.com/CristianVellio)
-- **Karina Quinteros**   [ Perfil de GitHub](https://github.com/KaryQuinteros)
-- **Nahir Ñañez**   [ Perfil de GitHub](https://github.com/nahir1009)
-- **Franco Miranda**   [ Perfil de GitHub](https://github.com/MirandaFrancoCBA)
-- **Cristian Vargas**  [ Perfil de GitHub](https://github.com/Malvadapapa)
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/lauzarg">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Laura Zarate"/><br />
+            <sub><b>Laura Zarate</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/CristianVellio">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Cristian Vellio"/><br />
+            <sub><b>Cristian Vellio</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/KaryQuinteros">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Karina Quinteros"/><br />
+            <sub><b>Karina Quinteros</b></sub>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td align="center">
+        <a href="https://github.com/nahir1009">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Nahir Ñañez"/><br />
+            <sub><b>Nahir Ñañez</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/MirandaFrancoCBA">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Franco Miranda"/><br />
+            <sub><b>Franco Miranda</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Malvadapapa">
+            <img src="/api/placeholder/100/100" width="100px;" alt="Cristian Vargas"/><br />
+            <sub><b>Cristian Vargas</b></sub>
+        </a>
+    </td>
+</tr>
+</table>
 
 ## Funcionalidades
 
@@ -193,7 +226,7 @@ Asegurarse de que el entorno virtual está activado
 Ejecuta el siguiente comando en la terminal para instalar las dependencias:
 
 `pip install -r requirements.txt`
-</div>
+
 
 
 <div align="center">
