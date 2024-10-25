@@ -1,11 +1,8 @@
-import traceback
-from src.controller.broker_controller import ControladorBroker
-from src.DAO.inversor_dao import InversorDAO
-from src.DAO.accion_dao import AccionDAO
-from src.DAO.portafolio_dao import PortafolioDAO
-from src.DAO.transaccion_dao import TransaccionDAO
-from src.utils.mysql_connector import MySQLConnector
-from src.model.accion import Accion
+from src.dao.inversor_dao import InversorDAO
+from src.dao.accion_dao import Acciondao
+from src.dao.portafolio_dao import PortafolioDAO
+from src.dao.transaccion_dao import TransaccionDAO
+
 
 class Menu:
     def __init__ (self):
@@ -43,7 +40,15 @@ class Menu:
                 print(f"Error de autenticación: {str(error)}")
                 return False
 
-
+    def registrar_usuario(self):
+            print("\n=== CREAR NUEVO INVERSOR ===")
+            nombre = input("Nombre: ")
+            apellido = input("Apellido: ")
+            cuil = input("CUIL: ")
+            email = input("Email: ")
+            contrasenia = input("Contraseña: ")
+               
+            print("\nInversor creado exitosamente!")
 
 
 
