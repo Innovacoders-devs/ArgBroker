@@ -103,8 +103,10 @@ Para ver la planificación SCRUM del proyecto, visita el siguiente enlace:
 <br/>
 <div align="center">
 
-## 💻 Convenciones de Nomenclatura
+## 💻 Convenciones de Nomenclatura y Escritura del proyecto
 </div>
+Para sumar claridad a la lectura en general decidimos escribir los nombres de carpetas, clases, metodos y variables en español.
+
 El equipo decidio respetar la nomenclatura PEP8 es decir:
 
 - **Archivos y directorios**: snake_case en minúsculas.
@@ -115,7 +117,7 @@ El equipo decidio respetar la nomenclatura PEP8 es decir:
 <br/>
 <div align="center">
 
-## 📁Estructura de carpetas del proyecto y justificacion
+## 📁Estructura de carpetas y justificacion
 </div>
 
 ````bash
