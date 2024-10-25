@@ -5,8 +5,9 @@
 </div>
 
 ## 💡 Descripción del Proyecto
-**ARGBroker** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. En el proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y SOLID (2*). 
-Además, se implementa una base de datos en MySQL para manejar las transacciones y el historial de cotizaciones, aplicando los principios del patrón de diseño DAO(3*) para separar la lógica de negocio de la de acceso a datos.
+**ARGBroker** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. Durante el desarrollo del proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y los principios SOLID (2*) con la intension de optimizar al maximo el desarrollo aplicando buenas practicas de programacion. 
+En cuanto a la division de las clases y la estructura de carpetas nos inspiramos en el patrón de diseño Modelo vista controlador y DAO(3*) para separar la lógica de negocio de la de acceso a datos.
+Además, se implemento una base de datos en MySQL para persistir toda la informacion de la app.
 
 <div align="center">
  
