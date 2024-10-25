@@ -16,7 +16,20 @@ class CotizacionDiaria:
         self._maximo_diario = maximo_diario
         self._valor_cierre = valor_cierre
 
-    
+    def __str__(self):
+      return (f'Cotizacion Id: {self.id_cotizacion}\n'
+              f'Accion Id: {self.id_accion}\n'
+              f'Fecha: {self.fecha}\n'
+              f'Ultimo operado: {self.ultimo_operado}\n'
+              f'Cantidad de compra diaria: {self.cantidad_compra_diaria}\n'
+              f'Precio de compra actual: {self.precio_compra_actual}\n'
+              f'Precio de venta actual: {self.precio_venta_actual}\n'
+              f'Cantidad de venta diaria: {self.cantidad_venta_diaria}\n'
+              f'Valor de apertura: {self.valor_apertura}\n'
+              f'Minimo diario: {self.minimo_diario}\n'
+              f'Maximo diario: {self.maximo_diario}\n'
+              f'Valor de cierre: {self.valor_cierre}')
+              
     @property
     def id_cotizacion(self):
         return self._id_cotizacion 

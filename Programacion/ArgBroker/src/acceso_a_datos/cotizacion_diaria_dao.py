@@ -45,33 +45,67 @@ class CotizacionDAO(DAOInterface):
 
 
     def obtener_uno(self, id_cotizacion):
-        consulta = "SELECT * FROM cotizacion WHERE id_cotizacion = %s"
+        consulta = "SELECT * FROM cotizacion_diaria WHERE id_cotizacion = %s"
         try:
-            self._conector_mysql.conectar_a_base_de_datos()
-            resultado = self._conector_mysql.traer_solo_uno(consulta, (id_cotizacion,))
-            if resultado:
-                return CotizacionDiaria(*resultado)
-            return None
+            self._conector_mysql.conectar_a_base_datos()
+            cotizaciones_obtenidas = self._conector_mysql.traer_solo_uno(consulta, (id_cotizacion,))
+
+            if not cotizaciones_obtenidas:
+                raise Exception("No existe cotizacion con dicho id")
+
+            instancia_cotizacion = CotizacionDiaria(
+                id_cotizacion=cotizaciones_obtenidas[0],
+                id_accion=cotizaciones_obtenidas[1],
+                fecha=cotizaciones_obtenidas[2],
+                ultimo_operado=cotizaciones_obtenidas[3],
+                cantidad_compra_diaria=cotizaciones_obtenidas[4],
+                precio_compra_actual=cotizaciones_obtenidas[5],
+                precio_venta_actual=cotizaciones_obtenidas[6],
+                cantidad_venta_diaria=cotizaciones_obtenidas[7],
+                valor_apertura=cotizaciones_obtenidas[8],
+                minimo_diario=cotizaciones_obtenidas[9],
+                maximo_diario=cotizaciones_obtenidas[10],
+                valor_cierre=cotizaciones_obtenidas[11]
+            )
+            return instancia_cotizacion
+
         except Exception as e:
             raise ValueError(f'Ocurrió un error al consultar la cotización: {e}')
         finally:
-            self._conector_mysql.desconectar_base_de_datos()
+            self._conector_mysql.desconectar_de_base_datos()
 
     def obtener_todos(self, id_accion):
         consulta = "SELECT * FROM cotizacion_diaria WHERE id_accion = %s"
         try:
             self._conector_mysql.conectar_a_base_datos()
             cotizaciones_obtenidas = self._conector_mysql.traer_todos(consulta, (id_accion,))
-            return cotizaciones_obtenidas
+
+            instancias_de_cotizacion = []
+
+            for cotizacion in cotizaciones_obtenidas:
+                iteracion_de_cotizacion = CotizacionDiaria( 
+                    id_cotizacion=cotizacion[0],
+                 id_accion=cotizacion[1],
+                 fecha=cotizacion[2],
+                 ultimo_operado=cotizacion[3],
+                 cantidad_compra_diaria=cotizacion[4],
+                 precio_compra_actual=cotizacion[5],
+                 precio_venta_actual=cotizacion[6],
+                 cantidad_venta_diaria=cotizacion[7],
+                 valor_apertura=cotizacion[8],
+                 minimo_diario=cotizacion[9],
+                 maximo_diario=cotizacion[10],
+                 valor_cierre=cotizacion[11])
+
+                instancias_de_cotizacion.append(iteracion_de_cotizacion)
+
+            return instancias_de_cotizacion
         
         except Exception as e: 
             raise Exception (f'Ocurrio un error {e}' )
         finally:
             self._conector_mysql.desconectar_de_base_datos()
 
-
-
-             
 
     def actualizar(self, cotizacion_diaria):
         consulta = """
@@ -105,7 +139,7 @@ class CotizacionDAO(DAOInterface):
         )
 
         try:
-            self._conector_mysql.conectar_a_base_de_datos()
+            self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_actualizar)
         except Exception as e:
             raise ValueError(f'No se puede actualizar la cotización: {e}')
@@ -115,13 +149,13 @@ class CotizacionDAO(DAOInterface):
     def eliminar(self, id_cotizacion):
         consulta = "DELETE FROM cotizacion WHERE id_cotizacion = %s"
         try:
-            self._conector_mysql.conectar_a_base_de_datos()
+            self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, (id_cotizacion,))
             return True
         except Exception as e:
             raise ValueError(f'Error al eliminar la cotización en la base de datos: {e}')
         finally:
-            self._conector_mysql.desconectar_base_de_datos()
+            self._conector_mysql.desconectar_de_base_datos()
 
 
 

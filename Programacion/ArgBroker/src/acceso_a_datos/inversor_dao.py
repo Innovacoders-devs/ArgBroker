@@ -1,10 +1,9 @@
 from .dao_interface import DAOInterface
 from ..modelo.inversor import Inversor
-from src.utils.mysql_connector import conector
-
 class InversorDAO(DAOInterface):
-    def __init__(self):
+    def __init__(self, conector):
         self.__base_de_datos = conector
+
     def crear(self, inversor):
         consulta = "INSERT INTO inversor (nombre, apellido, cuil, email, contrasena, saldo_cuenta, intentos_fallidos) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena, inversor.saldo_cuenta, inversor.intentos_fallidos)
