@@ -1,4 +1,9 @@
-# ARGBroker
+<div style=" padding: 20px 20px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: white; font-family: system-ui, -apple-system, sans-serif;">
+
+  <h1 style=" text-align: center; font-size: 48px; font-weight: 700; margin: 0 0 16px 0;">
+    ArgBroker
+  </h1>
+
 
 ## Descripción del Proyecto
 **ARGBroker** es una aplicación de consola diseñada para gestionar las inversiones bursátiles de sus usuarios, permitiéndoles registrar nuevas cuentas, iniciar sesión, visualizar su portafolio de activos, y realizar operaciones de compra/venta de acciones. En el proyecto aplicamos como guia las 4 reglas de diseño simple propuestas por Kent Beck (1*) y SOLID (2*). 
@@ -47,7 +52,7 @@ Aqui se encuentra la documentacion de la base de datos junto una imagen del diag
 Programacion/
 
 Aqui se encuentra la documentacion del diagrama de clases junto con una imagen del mismo y el directorio principal de la app llamado ArgBroker:
-
+  ```python  
   ArgBroker/
   ├── src/
       ├── acceso_a_datos/
@@ -56,28 +61,29 @@ Aqui se encuentra la documentacion del diagrama de clases junto con una imagen d
       ├── servicios/
       └── Vista/
   └── main.py
+  ```
 
-1. acceso_a_datos/
+`1. acceso_a_datos/`
 
 Esta carpeta agrupa los componentes relacionados con la interacción de la aplicación con la base de datos. Aquí estan las clases de acceso a datos (DAO), separando las consultas y transacciones con la base de datos del resto de la lógica de negocio de la aplicación, promoviendo asi la reutilización de componentes y la separación de responsabilidades.
 
-2. herramientas/
+`2. herramientas/`
 
 Esta carpeta está reservada para utilidades o clases que proporcionan funcionalidades auxiliares, en este caso la conexion a la base de datos.
 
-3. modelo/
+`3. modelo/`
 
 Aquí se definen los modelos de negocio que representan las entidades del sistema. Tienen una correspondencia 1 - 1 con las entidades de la base de datos y forman la base sobre la cual se realizan las transacciones y cálculos. Este enfoque esta inspirado en el patrón "Modelo vista controlador"(4*) (aunque no lo aplica acabadamente, solo es una aproximacion), donde los modelos están separados de la lógica de la interfaz de usuario y de la lógica de acceso a datos.
 
-5. servicios/
+`5. servicios/`
 
 Este directorio contiene los servicios, es decir, las clases o funciones que encapsulan la lógica de negocio y operan sobre los modelos. La separación entre los servicios y los DAOs asegura que la lógica de negocio no esté acoplada directamente con el acceso a la base de datos, facilitando el testeo.
 
-6. Vista/
+`6. Vista/`
 
 Esta carpeta contiene la clase que aloja los distintos menus de consola de nuestra app. 
 
-7. main.py
+`7. main.py`
 Este archivo es el punto de entrada de la aplicación. 
 
 
@@ -180,3 +186,4 @@ Asegurarse de que el entorno virtual está activado
 Ejecuta el siguiente comando en la terminal para instalar las dependencias:
 
 `pip install -r requirements.txt`
+</div>
