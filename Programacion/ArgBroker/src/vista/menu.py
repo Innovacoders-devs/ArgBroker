@@ -9,7 +9,7 @@ class Menu:
         self.ejecutando = True
     
 
-    def clear_screen():
+    def clear_screen(self):
         if os.name == 'nt':
             os.system('cls')
 
@@ -64,14 +64,13 @@ class Menu:
         if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
              return self.iniciar_sesion()
                      
-    def mostrar_menu_inversor(self): 
+    def mostrar_panel_de_inversor(self): 
         self.clear_screen()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
             print("2. Mi Portafolio") 
             print("3. Transacciones")
-            print("4. Eliminar inversor") 
             print("0. Salir")
 
             opcion = input("Seleccione una opción: \n ")
@@ -82,8 +81,6 @@ class Menu:
                 self.menu_accion()
             elif opcion == "3":
                 self.menu_transaccion()
-            elif opcion == "4":
-                self.eliminar_inversor()
             elif opcion == "0":
                 self.ejecutando = False
             else:
