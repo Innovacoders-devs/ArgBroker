@@ -1,5 +1,6 @@
 from src.modelo.inversor import Inversor
 from src.acceso_a_datos.inversor_dao import InversorDAO
+
 class ServicioDeInicioSesion:
     def __init__(self, inversorDAO):
         self.__inversor_dao = inversorDAO
