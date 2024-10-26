@@ -18,7 +18,7 @@ class Menu:
         opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
-                    self.iniciar_sesion() #no encuentro el metodo para el menu iniciar sesion
+                    self.iniciar_sesion() 
         if opcion == "2":
                     self.registrar_usuario()
         elif opcion == "0":
@@ -27,7 +27,7 @@ class Menu:
                     input("Opción inválida. Seleccione una opción para continuar...")
 
     def iniciar_sesion(self):
-            try:# este bloque no tiene sentido en el menu principal 1 porque pertenece a la logica del metodo iniciar sesion 2 en el fragmento del codigo anterior el flow sale de este menu asique este codigo no se llega a ejecutar
+            try:
                     correo_electronico = input("Ingrese email del inversor: ")
                     contrasenia_ingresada = input("Ingrese su contraseña: ")
                 
@@ -40,10 +40,10 @@ class Menu:
             except ValueError as error:
                     print(f"Error de autenticación: {str(error)}")
                     return False
-#el menu esta perfecto en cuanto a estructura, solo falta que terminemos el servicio para implementarlo
+
     def registrar_usuario(self):
 
-        print("\n=== REGISTRARSE ===")
+        print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
         cuil = input("CUIL: ")
@@ -55,7 +55,7 @@ class Menu:
 
     def mostrar_menu_inversor(self): 
         while True:
-            print("\n=== PANEL DE INVERSOR ===") 
+            print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
             print("2. Mis Acciones") 
             print("3. Portafolio") # quiza convenga hacer un solo menu que contenga mi portafolio donde muestre:las acciones que tengo compradas y el historial de transacciones 
