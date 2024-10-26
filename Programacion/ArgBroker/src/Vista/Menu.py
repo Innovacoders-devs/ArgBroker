@@ -186,7 +186,7 @@ class Menu:
             opcion = input("Seleccione una opción: \n")
 
             if opcion == "1":
-                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
+                return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
             if opcion == "0":
                 break
          
