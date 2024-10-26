@@ -3,7 +3,7 @@ from ..modelo.portafolio import Portafolio
 #from src.utils.mysql_connector import conector
 
 class PortafolioDAO(DAOInterface):
-    def __init__(self):
+    def __init__(self, conector):
         self.__base_de_datos = conector
 
     def crear(self, portafolio):
@@ -17,27 +17,6 @@ class PortafolioDAO(DAOInterface):
             self.__base_de_datos.ejecutar_consulta(consulta, parametros)
         except Exception as error:
             print(f"Error al crear el portafolio en la base de datos: {error}")
-        finally:
-            self.__base_de_datos.desconectar_de_base_datos()
-
-    def obtener_portafolio_inversor(self, id_inversor):
-        sql = """ 
-        SELECT * FROM portafolio WHERE id_inversor = %s
-        """
-        parametros = (id_inversor,)
-        try:
-            self.__base_de_datos.conectar_a_base_datos()
-            portafolios_obtenidos = self.__base_de_datos.traer_todos(sql, parametros)
-            if not portafolios_obtenidos:
-                raise Exception("No existe el portafolio para este inversor.")
-            
-            objetos = []
-            for fila in portafolios_obtenidos:
-                portafolio_instanciado = Portafolio(*fila)
-                objetos.append(portafolio_instanciado)
-            return objetos
-        except Exception as error:
-            print(f"Error al obtener el portafolio del inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
@@ -68,5 +47,49 @@ class PortafolioDAO(DAOInterface):
         except Exception as error:
             print(f"Error al eliminar el portafolio en la base de datos: {error}")
             return False
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()
+
+    def obtener_todos(self):
+        consulta = "SELECT id_portafolio, id_inversor FROM portafolio"
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            portafolios_obtenidos = self.__base_de_datos.traer_todos(consulta)
+
+            instancias_de_portafolio = []
+
+            for portafolio in portafolios_obtenidos:
+                iteracion_de_portafolio = Portafolio(
+                    id_portafolio=portafolio[0],
+                    id_inversor=portafolio[1]
+                )
+                instancias_de_portafolio.append(iteracion_de_portafolio)
+
+            return instancias_de_portafolio
+
+        except Exception as e:
+            raise Exception(f'Ocurrió un error {e}')
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()
+
+    def obtener_uno(self, id_inversor):
+        sql = "SELECT id_portafolio, id_inversor FROM portafolio WHERE id_inversor = %s"
+        parametros = (id_inversor,)
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            portafolios_obtenidos = self.__base_de_datos.traer_todos(sql, parametros)
+            if not portafolios_obtenidos:
+                raise Exception("No existe el portafolio para este inversor.")
+            
+            objetos = []
+            for fila in portafolios_obtenidos:
+                portafolio_instanciado = Portafolio(
+                    id_portafolio=fila[0],
+                    id_inversor=fila[1]
+                )
+                objetos.append(portafolio_instanciado)
+            return objetos
+        except Exception as error:
+            print(f"Error al obtener el portafolio del inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()

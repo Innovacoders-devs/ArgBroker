@@ -1,8 +1,8 @@
 from src.herramientas.conector_a_mysql import MySQLConnector
 
 
-from src.modelo.estado_portafolio import EstadoPortafolio
-from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
+from src.modelo.portafolio import Portafolio
+from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 
 def main():
     host = "127.0.0.1"
@@ -14,8 +14,8 @@ def main():
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
  
     try:
-        dao = EstadoPortafolioDAO(connector)
-        resultado = dao.obtener_todos(1)
+        dao = PortafolioDAO(connector)
+        resultado = dao.obtener_todos()
         for i in resultado:
             print(i)
 
