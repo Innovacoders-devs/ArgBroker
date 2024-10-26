@@ -55,9 +55,9 @@ class Menu:
 
     def mostrar_menu_inversor(self): 
         while True:
-            print("\n=== PANEL DE INVERSOR ===") #me gusta mas el nombre Panel de inversor
-            print("1. Inversiones") #podria llamarse Datos Personales
-            print("2. Acciones") # Mis acciones
+            print("\n=== PANEL DE INVERSOR ===") 
+            print("1. Datos Personales") 
+            print("2. Mis Acciones") 
             print("3. Portafolio") # quiza convenga hacer un solo menu que contenga mi portafolio donde muestre:las acciones que tengo compradas y el historial de transacciones 
             print("4. Transacciones")
             print("5. Cotizaciones") #las cotizaciones se deberian poder ver en el panel de compra/venta menu que no esta, y se podria llamar operar 
@@ -75,7 +75,7 @@ class Menu:
                 self.menu_transaccion()
             elif opcion == "5":
                 self.menu_cotizacion()
-            elif option == "0":
+            elif opcion == "0":
                 self.ejecutando = False
             else:
                 input("Opción inválida. Presione Enter para continuar...")
