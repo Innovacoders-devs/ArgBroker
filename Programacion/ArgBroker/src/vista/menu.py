@@ -1,5 +1,5 @@
 from src.acceso_a_datos.inversor_dao import InversorDAO
-from src.acceso_a_datos.accion_dao import AccionDAO
+from src.acceso_a_datos.accion_dao import Acciondao
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 import os
@@ -17,12 +17,12 @@ class Menu:
             os.system('cls')
 
 
-    def mostrar_menu_principal(self):
+    def mostrar_menu_principal(self): #Menu principal
         while self.ejecutando: True
         self.clear_screen()
         print("=== ARGBroker ===\n")
-        print("1. Iniciar Sesion")
-        print("2. Registrarse")
+        print("1. Iniciar Sesion") #servicio de iniciar_sesion
+        print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
 
 
@@ -40,22 +40,12 @@ class Menu:
 
     def iniciar_sesion(self):
             self.clear_screen()
-            try:
-                    correo_electronico = input("Ingrese email del inversor: ")
-                    contrasenia_ingresada = input("Ingrese su contraseña: ")
-                
-                    if not correo_electronico or not contrasenia_ingresada:
-                                raise ValueError("El email y la contraseña no pueden estar vacíos")
-                    if correo_electronico == self.inversor.email and contrasenia_ingresada == self.inversor.contrasena:
-                                return self.mostrar_menu_inversor()
-                    else:
-                        raise ValueError("Credenciales incorrectas")
-            except ValueError as error:
-                    print(f"Error de autenticación: {str(error)}")
-                    return False
+            self.servicio_de_inicio_sesion.iniciar_sesion()
+            
 
     def registrar_usuario(self):
         self.clear_screen()
+    
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
@@ -65,16 +55,16 @@ class Menu:
 
         print("Inversor creado exitosamente!\n")
         if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
-             return self.iniciar_sesion()
+             return self.servicio_de_autenticacion.autenticar_usuario(email, contrasenia)
+        return self.iniciar_sesion()
                      
-    def __mostrar_menu_inversor(self): 
+    def mostrar_panel_de_inversor(self): #Menu de inversor 
         self.clear_screen()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
             print("2. Mi Portafolio") 
             print("3. Transacciones")
-            print("4. Eliminar inversor") 
             print("0. Salir")
 
             opcion = input("Seleccione una opción: \n ")
@@ -85,8 +75,6 @@ class Menu:
                 self.menu_accion()
             elif opcion == "3":
                 self.menu_transaccion()
-            elif opcion == "4":
-                self.eliminar_inversor()
             elif opcion == "0":
                 self.ejecutando = False
             else:
@@ -192,11 +180,18 @@ class Menu:
            
             opcion = input("Seleccione una opción: \n")
 
+
             if opcion == "1":
                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
             if opcion == "2":
-                 pass
-
+                 eliminar_transaccion = int(input("Ingrese el ID de la transaccion a eliminar: "))
+                 confirmar = input(f"Esta seguro que desea eliminar la transaccion n° {eliminar_transaccion}? (s/n): ")
+            if confirmar == "s":
+                self.transaccion.id_transaccion.remove(eliminar_transaccion)
+                return f"Transaccion eliminada con éxito! Transaccion n° {eliminar_transaccion}."
+            else:
+                return f"Transaccion n° {eliminar_transaccion} no eliminada."
+            
             if opcion == "0":
                 break
          
@@ -219,10 +214,4 @@ class Menu:
        nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
        self.inversor.email = nuevo_correo_elecrtonico
        
-
-
-if __name__ == "__main__":
-    menu = Menu()
-    menu.show_main_menu()
-
 
