@@ -165,11 +165,15 @@ class Menu:
             if comprar_vender == "1":
                 cantidad_compra = int(input("Ingrese cantidad de acciones a comprar: "))
                 saldo_actual = self.historial.saldo_anterior - (cantidad_compra * self.cotizacion_diaria.precio_compra_actual)
-                return f"Compra realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
+                transaccion_nueva = self.TransaccionDAO.crear()
+                return f"Compra realizada con éxito! Transaccion n° {transaccion_nueva}. En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
+            
             elif comprar_vender == "2":
                  cantidad_venta = int(input("ingrese la cantidad de acciones a vender: "))
                  saldo_actual = self.historial_saldo.saldo_anterior + (cantidad_venta * self.precio_venta_actual)
-                 return f"Venta realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
+                 transaccion_nueva = self.TransaccionDAO.crear()
+                 return f"Venta realizada con éxito!Transaccion n° {transaccion_nueva}. En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
+           
             elif comprar_vender == "0":
                 break 
            
@@ -187,6 +191,8 @@ class Menu:
 
             if opcion == "1":
                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
+            if opcion == "2":
+                 
             if opcion == "0":
                 break
          
