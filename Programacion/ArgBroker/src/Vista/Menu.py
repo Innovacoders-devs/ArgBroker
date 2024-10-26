@@ -97,13 +97,13 @@ class Menu:
                 print("2. Actualizar mis datos") #actualizar mis datos
                 print("0. Volver al menú principal")
 
-                option = input("Seleccione una opción: \n")
+                opcion = input("Seleccione una opción: \n")
 
-                if option == "0":
+                if opcion == "0":
                     break
-                elif option == "1":
+                elif opcion == "1":
                     self.mostrar_mis_datos()
-                elif option == "2":
+                elif opcion == "2":
                     self.actualizar_datos()
                 input("Presione Enter para continuar... \n")
 
@@ -165,14 +165,15 @@ class Menu:
             if comprar_vender == "1":
                 cantidad_compra = int(input("Ingrese cantidad de acciones a comprar: "))
                 saldo_actual = self.historial.saldo_anterior - (cantidad_compra * self.cotizacion_diaria.precio_compra_actual)
-                return f"Compra realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones compradas es de {self.portafolio.cantidad}"
+                return f"Compra realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
             elif comprar_vender == "2":
                  cantidad_venta = int(input("ingrese la cantidad de acciones a vender: "))
                  saldo_actual = self.historial_saldo.saldo_anterior + (cantidad_venta * self.precio_venta_actual)
-                 return f"Venta realizada con éxito!"
+                 return f"Venta realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones actual es de {self.portafolio.cantidad}"
             elif comprar_vender == "0":
                 break 
            
+#cada compra y cada venta genera una transaccion
 
     def menu_transaccion(self):
         while True:
@@ -182,9 +183,11 @@ class Menu:
             print("2. Eliminar transacciones") 
             print("0. Volver al menú principal")
            
-            option = input("Seleccione una opción: \n")
-           
-            if option == "0":
+            opcion = input("Seleccione una opción: \n")
+
+            if opcion == "1":
+                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
+            if opcion == "0":
                 break
          
             input("Presione Enter para continuar...\n")
