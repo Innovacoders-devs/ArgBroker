@@ -5,18 +5,15 @@ VALUES
 ('Roberto', 'Sánchez', '20-33445566-7', 'roberto.sanchez@gmail.com', 'pass123', 250000.00),
 ('Patricia', 'Gómez', '27-22334455-8', 'patricia.gomez@gmail.com', 'pass456', 180000.00);
 
-
 INSERT INTO portafolio (id_inversor) 
 SELECT id_inversor 
 FROM inversor 
 WHERE email IN ('roberto.sanchez@gmail.com', 'patricia.gomez@gmail.com');
 
-
 INSERT INTO accion (nombre_accion, simbolo_accion) 
 VALUES 
 ('Vista Oil & Gas', 'VIST'),
 ('Central Puerto', 'CEPU');
-
 
 INSERT INTO cotizacion_diaria 
 (id_accion, fecha, ultimo_operado, cantidad_compra_diaria, precio_compra_actual, 
@@ -28,15 +25,14 @@ VALUES
 ((SELECT id_accion FROM accion WHERE simbolo_accion = 'CEPU'),
 '2024-10-17', 450.75, 150, 450.00, 451.50, 140, 449.00, 448.00, 452.00, 450.75);
 
-
-INSERT INTO transaccion (id_portafolio, id_accion, cantidad, precio, tipo, fecha)
+INSERT INTO estado_portafolio (id_portafolio, id_accion, nombre_accion, simbolo_accion, cantidad, valor_actual) 
 SELECT 
     p.id_portafolio,
     a.id_accion,
+    a.nombre_accion,
+    a.simbolo_accion,
     50,
-    cd.precio_compra_actual,
-    'compra',
-    '2024-10-17 15:00:00'
+    cd.precio_compra_actual
 FROM inversor i
 JOIN portafolio p ON i.id_inversor = p.id_inversor
 CROSS JOIN accion a
