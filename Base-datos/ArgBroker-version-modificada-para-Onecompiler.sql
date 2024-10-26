@@ -86,6 +86,8 @@ CREATE TABLE `estado_portafolio` (
   `id_estado_portafolio` int NOT NULL AUTO_INCREMENT,
   `id_portafolio` int NOT NULL,
   `id_accion` int NOT NULL,
+  `nombre_accion` varchar(255) DEFAULT NULL,
+  `simbolo_accion` varchar(10) DEFAULT NULL,
   `cantidad` int NOT NULL,
   `valor_actual` decimal(15,2) NOT NULL,
   PRIMARY KEY (`id_estado_portafolio`),
@@ -94,7 +96,6 @@ CREATE TABLE `estado_portafolio` (
   CONSTRAINT `fk_estado_portafolio_accion` FOREIGN KEY (`id_accion`) REFERENCES `accion` (`id_accion`),
   CONSTRAINT `fk_estado_portafolio_portafolio` FOREIGN KEY (`id_portafolio`) REFERENCES `portafolio` (`id_portafolio`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `estado_portafolio`

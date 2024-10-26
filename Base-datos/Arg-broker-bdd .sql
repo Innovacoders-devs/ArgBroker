@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `arg_broker_demo_bdd` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `arg_broker_demo_bdd`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: arg_broker_demo_bdd
@@ -90,6 +88,8 @@ CREATE TABLE `estado_portafolio` (
   `id_estado_portafolio` int NOT NULL AUTO_INCREMENT,
   `id_portafolio` int NOT NULL,
   `id_accion` int NOT NULL,
+  `nombre_accion` varchar(255) DEFAULT NULL,
+  `simbolo_accion` varchar(10) DEFAULT NULL,
   `cantidad` int NOT NULL,
   `valor_actual` decimal(15,2) NOT NULL,
   PRIMARY KEY (`id_estado_portafolio`),
@@ -106,7 +106,7 @@ CREATE TABLE `estado_portafolio` (
 
 LOCK TABLES `estado_portafolio` WRITE;
 /*!40000 ALTER TABLE `estado_portafolio` DISABLE KEYS */;
-INSERT INTO `estado_portafolio` VALUES (1,1,1,100,65000.00),(2,1,2,50,17500.00),(3,1,1,100,65550.00),(4,1,2,50,17600.00),(5,2,3,75,33937.50),(6,2,4,200,40400.00),(7,3,5,150,45375.00),(8,3,6,30,45000.00),(9,4,7,100,22000.00),(10,4,8,500,12750.00),(11,5,9,2000,12400.00),(12,5,10,3000,14400.00);
+INSERT INTO `estado_portafolio` VALUES (1,1,1,'YPF S.A.','YPF',100,65000.00),(2,1,2,'Banco Macro S.A.','BMA',50,17500.00),(3,1,1,'YPF S.A.','YPF',100,65550.00),(4,1,2,'Banco Macro S.A.','BMA',50,17600.00),(5,2,3,'Grupo Financiero Galicia S.A.','GGAL',75,33937.50),(6,2,4,'Telecom Argentina S.A.','TEO',200,40400.00),(7,3,5,'Pampa Energía S.A.','PAMP',150,45375.00),(8,3,6,'Mercado Libre','MELI',30,45000.00),(9,4,7,'Globant','GLOB',100,22000.00),(10,4,8,'Tenaris','TS',500,12750.00),(11,5,9,'IRSA','IRS',2000,12400.00),(12,5,10,'Cresud','CRESY',3000,14400.00);
 /*!40000 ALTER TABLE `estado_portafolio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `historial_saldo` (
   PRIMARY KEY (`id_historial_saldo`),
   KEY `id_inversor` (`id_inversor`),
   CONSTRAINT `historial_saldo_ibfk_1` FOREIGN KEY (`id_inversor`) REFERENCES `inversor` (`id_inversor`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `inversor` (
   PRIMARY KEY (`id_inversor`),
   UNIQUE KEY `cuil` (`cuil`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-25  0:59:46
+-- Dump completed on 2024-10-26 19:42:30

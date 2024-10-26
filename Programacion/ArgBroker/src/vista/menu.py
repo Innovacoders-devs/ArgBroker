@@ -28,6 +28,11 @@ class Menu:
         print("1. Iniciar Sesion") #servicio de iniciar_sesion
         print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
+        acciones_en_haber_del_inversor = self.__portafolio_inversor.obtener_todos(__usuario_autenticado._id_inversor)
+
+        for iteracion in acciones_en_haber_del_inversor:
+            print(iteracion.nombre,)
+
 
 
         opcion = input("Seleccione una opción: \n")
