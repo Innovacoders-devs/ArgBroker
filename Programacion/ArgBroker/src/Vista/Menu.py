@@ -1,5 +1,5 @@
 from src.acceso_a_datos.inversor_dao import InversorDAO
-from src.acceso_a_datos.accion_dao import Acciondao
+from src.acceso_a_datos.accion_dao import AccionDAO
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 import os
@@ -9,7 +9,7 @@ class Menu:
         self.ejecutando = True
     
 
-    def clear_screen():
+    def clear_screen(self):
         if os.name == 'nt':
             os.system('cls')
 
@@ -64,7 +64,7 @@ class Menu:
         if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
              return self.iniciar_sesion()
                      
-    def mostrar_menu_inversor(self): 
+    def __mostrar_menu_inversor(self): 
         self.clear_screen()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
@@ -193,7 +193,7 @@ class Menu:
                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
             if opcion == "2":
                  pass
-                
+
             if opcion == "0":
                 break
          
