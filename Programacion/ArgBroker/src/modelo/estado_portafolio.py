@@ -1,12 +1,16 @@
 class EstadoPortafolio:
 
-    def __init__(self, id_estado_portafolio, id_portafolio, id_accion, cantidad, valor_actual):
+    def __init__(self, id_estado_portafolio = None, id_portafolio = None, id_accion = None, cantidad = None, valor_actual = None):
         self._id_estado_portafolio = id_estado_portafolio
         self._id_portafolio = id_portafolio
         self._id_accion = id_accion
         self._cantidad = cantidad
         self._valor_actual = valor_actual
 
+    def __str__(self):
+        return (f"EstadoPortafolio = id_estado_portafolio = {self._id_estado_portafolio}, "
+                f"id_portafoli = {self._id_portafolio}, id_accion = {self._id_accion}, "
+                f"cantidad = {self._cantidad}, valor_actual = {self._valor_actual}")
 
     @property
     def id_estado_portafolio(self):
