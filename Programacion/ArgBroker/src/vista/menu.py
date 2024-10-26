@@ -14,12 +14,12 @@ class Menu:
             os.system('cls')
 
 
-    def mostrar_menu_principal(self):
+    def mostrar_menu_principal(self): #Menu principal
         while self.ejecutando: True
         self.clear_screen()
         print("=== ARGBroker ===\n")
-        print("1. Iniciar Sesion")
-        print("2. Registrarse")
+        print("1. Iniciar Sesion") #servicio de iniciar_sesion
+        print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
 
 
@@ -37,22 +37,12 @@ class Menu:
 
     def iniciar_sesion(self):
             self.clear_screen()
-            try:
-                    correo_electronico = input("Ingrese email del inversor: ")
-                    contrasenia_ingresada = input("Ingrese su contraseña: ")
-                
-                    if not correo_electronico or not contrasenia_ingresada:
-                                raise ValueError("El email y la contraseña no pueden estar vacíos")
-                    if correo_electronico == self.inversor.email and contrasenia_ingresada == self.inversor.contrasena:
-                                return self.mostrar_menu_inversor()
-                    else:
-                        raise ValueError("Credenciales incorrectas")
-            except ValueError as error:
-                    print(f"Error de autenticación: {str(error)}")
-                    return False
+            self.servicio_de_inicio_sesion.iniciar_sesion()
+            
 
     def registrar_usuario(self):
         self.clear_screen()
+    
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
@@ -62,9 +52,10 @@ class Menu:
 
         print("Inversor creado exitosamente!\n")
         if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
-             return self.iniciar_sesion()
+             return self.servicio_de_autenticacion.autenticar_usuario(email, contrasenia)
+        return self.iniciar_sesion()
                      
-    def mostrar_panel_de_inversor(self): 
+    def mostrar_panel_de_inversor(self): #Menu de inversor 
         self.clear_screen()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
