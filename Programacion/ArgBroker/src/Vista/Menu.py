@@ -129,26 +129,45 @@ class Menu:
 
 
     def mostrar_mis_acciones(self):
-            print(portafolio)
-            print(nombre_accion)
-            print(simbolo_accion)
-            print(fecha)
-            print(valor_apertura)
-            print(valor_cierre)
-            print(valor_maximo)
-            print(valor_minimo)
-            print(ultimo_operado)
-            print(cantidad_compra_diaria)
-            print(cantidad_venta_diaria)
+        print("=== MI PORTAFOLIO === \n")
+        print(self.estado_portafolio.id_portafolio)
+        print(self.accion.nombre_accion)
+        print(self.accion.simbolo_accion)
+        print(self.cotizacion_diaria.fecha)
+        print(self.cotizacion_diaria.valor_apertura)
+        print(self.cotizacion_diaria.valor_cierre)
+        print(self.cotizacion_diaria.valor_maximo)
+        print(self.cotizacion_diaria.valor_minimo)
+        print(self.cotizacion_diaria.ultimo_operado)
+        print(self.cotizacion_diaria.cantidad_compra_diaria)
+        print(self.cotizacion_diaria.cantidad_venta_diaria)
+        print(self.inversor.saldo_cuenta)
+
+        acciones_a_realizar = input("Si desea comprar o vender acciones, presion 1; se desea volver al meniu anterior, presione 0: ")
+        if acciones_a_realizar == "1":
+            self.cotizacion()
+        elif acciones_a_realizar == "0":
+            break
 
         
     def cotizacion(self):
-            print(nombre_accion)
-            print(simbolo_accion)
-            print(precio_actual_compra)
-            print(precio_actual_venta)
-        #comprar
-        #vender
+            print(self.accion.nombre_accion)
+            print(self.accion.simbolo_accion)
+            print(self.cotizacion_diaria.precio_compra_actual)
+            print(self.cotizacion_diaria.precio_venta_actual)
+
+            comprar_vender = input("Desea comprar o vender acciones? Seleccion 1 para comprar, 2 para vender, 0 para volver al menú principal: ")
+            if comprar_vender == "1":
+                cantidad_compra = int(input("Ingrese cantidad de acciones a comprar: "))
+                saldo_actual = self.historial.saldo_anterior - (cantidad_compra * self.cotizacion_diaria.precio_compra_actual)
+                return f"Compra realizada con éxito! En este momento su saldo es de {saldo_actual} y la cantidad de acciones compradas es de {self.portafolio.cantidad}"
+            elif comprar_vender == "2":
+                 cantidad_venta = int(input("ingrese la cantidad de acciones a vender: "))
+                 saldo_actual = self.historial_saldo.saldo_anterior + (cantidad_venta * self.precio_venta_actual)
+                 return f"Venta realizada con éxito!"
+            elif comprar_vender == "0":
+                break 
+           
 
 
     def menu_transaccion(self):
@@ -188,14 +207,5 @@ class Menu:
 if __name__ == "__main__":
     menu = Menu()
     menu.show_main_menu()
-
-
-
-
-
-
-
-
-
 
 
