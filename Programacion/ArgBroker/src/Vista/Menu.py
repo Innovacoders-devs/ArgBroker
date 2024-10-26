@@ -129,28 +129,33 @@ class Menu:
 
 
     def mostrar_mis_acciones(self):
-        print("=== MI PORTAFOLIO === \n")
-        print(self.estado_portafolio.id_portafolio)
-        print(self.accion.nombre_accion)
-        print(self.accion.simbolo_accion)
-        print(self.cotizacion_diaria.fecha)
-        print(self.cotizacion_diaria.valor_apertura)
-        print(self.cotizacion_diaria.valor_cierre)
-        print(self.cotizacion_diaria.valor_maximo)
-        print(self.cotizacion_diaria.valor_minimo)
-        print(self.cotizacion_diaria.ultimo_operado)
-        print(self.cotizacion_diaria.cantidad_compra_diaria)
-        print(self.cotizacion_diaria.cantidad_venta_diaria)
-        print(self.inversor.saldo_cuenta)
+        while True:
+            self.clear_screen()
+            print("=== MI PORTAFOLIO === \n")
+            print(self.estado_portafolio.id_portafolio)
+            print(self.accion.nombre_accion)
+            print(self.accion.simbolo_accion)
+            print(self.cotizacion_diaria.fecha)
+            print(self.cotizacion_diaria.valor_apertura)
+            print(self.cotizacion_diaria.valor_cierre)
+            print(self.cotizacion_diaria.valor_maximo)
+            print(self.cotizacion_diaria.valor_minimo)
+            print(self.cotizacion_diaria.ultimo_operado)
+            print(self.cotizacion_diaria.cantidad_compra_diaria)
+            print(self.cotizacion_diaria.cantidad_venta_diaria)
+            print(self.inversor.saldo_cuenta)
 
-        acciones_a_realizar = input("Si desea comprar o vender acciones, presion 1; se desea volver al meniu anterior, presione 0: ")
-        if acciones_a_realizar == "1":
-            self.cotizacion()
-        elif acciones_a_realizar == "0":
-            break
+            acciones_a_realizar = input("Si desea comprar o vender acciones, presion 1; se desea volver al meniu anterior, presione 0: ")
+            if acciones_a_realizar == "1":
+                self.cotizacion()
+            elif acciones_a_realizar == "0":
+                break
 
         
     def cotizacion(self):
+        while True:
+            self.clear_screen()
+            print(" === OPERAR === \n")
             print(self.accion.nombre_accion)
             print(self.accion.simbolo_accion)
             print(self.cotizacion_diaria.precio_compra_actual)
@@ -169,7 +174,6 @@ class Menu:
                 break 
            
 
-
     def menu_transaccion(self):
         while True:
             self.clear_screen()
@@ -186,10 +190,8 @@ class Menu:
             input("Presione Enter para continuar...\n")
 
 
-
-
-
     def mostrar_mis_datos(self): 
+        self.clear_screen()
         print("=== OBTENER DATOS DE INVERSOR === \n")
         id_inversor = input("Ingrese ID del inversor: ")
         print("Datos del inversor: \n")
@@ -199,8 +201,10 @@ class Menu:
 
     
     def actualizar_datos(self):
+       self.clear_screen()
        print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
        nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
+       self.inversor.email = nuevo_correo_elecrtonico
        
 
 
