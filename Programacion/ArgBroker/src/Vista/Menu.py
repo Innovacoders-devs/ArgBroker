@@ -19,7 +19,7 @@ class Menu:
         opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
-                    self.iniciar_sesion() #no encuentro el metodo para el menu iniciar sesion
+            self.iniciar_sesion() 
         if opcion == "2":
             self.registrar_usuario()
         elif opcion == "0":
@@ -51,9 +51,10 @@ class Menu:
         email = input("Email: ")
         contrasenia = input("Contraseña: ")
 
-        print("\nInversor creado exitosamente!")
-
-
+        print("Inversor creado exitosamente!\n")
+        if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
+             return self.iniciar_sesion()
+                     
     def mostrar_menu_inversor(self): 
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
