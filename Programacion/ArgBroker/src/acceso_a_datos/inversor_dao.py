@@ -47,7 +47,7 @@ class InversorDAO(DAOInterface):
                 raise Exception("No se pudo obtener los inversores")
             objetos = []
             for inversor in inversores_obtenidos:
-                inversor_instanciado = Inversor(inversor[0], inversor[1], inversor[2], inversor[3], inversor[4], inversor[5], inversor[6])
+                inversor_instanciado = Inversor(inversor[0], inversor[1], inversor[2], inversor[3], inversor[4], inversor[5], inversor[6], inversor[7])
                 objetos.append(inversor_instanciado)
 
             return objetos
