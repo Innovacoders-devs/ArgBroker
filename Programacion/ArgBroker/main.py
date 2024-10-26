@@ -1,4 +1,4 @@
-from src.herramientas.conector_a_mysql import MySQLConnector
+"""from src.herramientas.conector_a_mysql import MySQLConnector
 from src.acceso_a_datos.accion_dao import AccionDAO
 from src.modelo.cotizacion_diaria import CotizacionDiaria
 from src.modelo.accion import Accion
@@ -30,10 +30,10 @@ def main():
 
 if __name__ == "__main__":
 
-    main()
+    main()"""
 
 
-    """
+"""
     host = "junction.proxy.rlwy.net"
     database = "railway"
     user = "root"
@@ -44,4 +44,7 @@ if __name__ == "__main__":
     mysql_connector = MySQLConnector(host, database, user, password, port)
     """
 
-    
+from src.Vista.Menu import Menu
+
+menu = Menu()
+menu.mostrar_menu_principal()

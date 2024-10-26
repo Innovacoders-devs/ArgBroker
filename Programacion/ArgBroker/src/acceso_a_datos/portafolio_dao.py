@@ -1,6 +1,6 @@
 from .dao_interface import DAOInterface
 from ..modelo.portafolio import Portafolio
-from src.utils.mysql_connector import conector
+#from src.utils.mysql_connector import conector
 
 class PortafolioDAO(DAOInterface):
     def __init__(self):

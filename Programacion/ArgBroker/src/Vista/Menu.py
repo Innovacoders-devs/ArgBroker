@@ -1,5 +1,5 @@
 from src.acceso_a_datos.inversor_dao import InversorDAO
-from src.acceso_a_datos.accion_dao import Acciondao
+from src.acceso_a_datos.accion_dao import AccionDAO
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 import os
@@ -9,30 +9,32 @@ class Menu:
         self.ejecutando = True
     
 
-    def clear_screen():
+    def clear_screen(self):
         if os.name == 'nt':
             os.system('cls')
 
 
     def mostrar_menu_principal(self):
-        while self.ejecutando: True
-        self.clear_screen()
-        print("=== ARGBroker ===\n")
-        print("1. Iniciar Sesion")
-        print("2. Registrarse")
-        print("0. Salir")
+        while self.ejecutando: 
+            self.clear_screen()
+            print("\n" + "=" * 30)
+            print("         🌟 ARGBroker 🌟         ")
+            print("=" * 30)
+            print(" 1️⃣  Iniciar Sesion")
+            print(" 2️⃣  Registrarse")
+            print(" 0️⃣  Salir")
 
 
-        opcion = input("Seleccione una opción: \n")
+            opcion = input("Seleccione una opción: \n")
             
-        if opcion == "1":
-            self.iniciar_sesion() 
-        if opcion == "2":
-            self.registrar_usuario()
-        elif opcion == "0":
-            self.ejecutando = False
-        else:
-            input("Opción inválida. Seleccione una opción para continuar...")
+            if opcion == "1":
+                self.iniciar_sesion() 
+            if opcion == "2":
+                self.registrar_usuario()
+            elif opcion == "0":
+                self.ejecutando = False
+            else:
+                input("Opción inválida. Seleccione una opción para continuar...")
 
 
     def iniciar_sesion(self):
