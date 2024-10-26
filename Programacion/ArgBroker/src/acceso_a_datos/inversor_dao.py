@@ -10,57 +10,67 @@ class InversorDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+
+            return True
+
         except Exception as e:
-            print(f"Error al crear el inversor en la base de datos: {e}")
+            raise e
+
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
 
     def obtener_uno(self, id_inversor):
-        consulta = "SELECT * FROM inversor WHERE id = %s"
+        consulta = "SELECT * FROM inversor WHERE id_inversor = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             inversor_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (id_inversor,))
             if not inversor_obtenido:
                 raise Exception("No existe inversor con dicho id")
-            return inversor_obtenido
+            inversor_instanciado = Inversor(inversor_obtenido[0], inversor_obtenido[1], inversor_obtenido[2], inversor_obtenido[3], inversor_obtenido[4], inversor_obtenido[5],  inversor_obtenido[6], inversor_obtenido[7])
+
+            return inversor_instanciado
+
         except Exception as error:
             print(f"Error al obtener el inversor de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def obtener_todos(self, id_inversor):
+
+
+    def obtener_todos(self):
         consulta = "SELECT * FROM inversor"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             inversores_obtenidos = self.__base_de_datos.traer_todos(consulta)
             if not inversores_obtenidos:
                 raise Exception("No se pudo obtener los inversores")
-
             objetos = []
-
             for inversor in inversores_obtenidos:
                 inversor_instanciado = Inversor(inversor[0], inversor[1], inversor[2], inversor[3], inversor[4], inversor[5], inversor[6])
                 objetos.append(inversor_instanciado)
+
             return objetos
+
         except Exception as error:
             print(f"Error al obtener la lista de inversores de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def actualizar(self, inversor, nuevos_datos, id):
-        consulta = "UPDATE inversor SET nombre = %s, apellido = %s, cuil = %s, email = %s, contrasena = %s, saldo_cuenta = %s, intentos_fallidos = %s WHERE id = %s"
-        valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena,inversor.saldo_cuenta, inversor.intentos_fallidos, inversor.id)
+    def actualizar(self, inversor, id):
+        consulta = "UPDATE inversor SET nombre = %s, apellido = %s, cuil = %s, email = %s, contrasena = %s, saldo_cuenta = %s, intentos_fallidos = %s WHERE id_inversor = %s"
+        valores_a_insertar = (inversor.nombre, inversor.apellido, inversor.cuil, inversor.email, inversor.contrasena,inversor.saldo_cuenta, inversor.intentos_fallidos, id)
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
         except Exception as error:
             print(f"Error al modificar el inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
     def eliminar(self, id_inversor):
-        consulta = "DELETE FROM inversor WHERE id = %s"
+        consulta = "DELETE FROM inversor WHERE id_inversor = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, (id_inversor,))

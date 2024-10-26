@@ -5,7 +5,10 @@ from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 import os
 
 class Menu:
-    def __init__ (self):
+    def __init__ (self, base_de_datos, COMISION_BROKER):
+        self.__base_de_datos = base_de_datos
+        self.__comision_broker = COMISION_BROKER
+        self.__usuario_autenticado = None
         self.ejecutando = True
     
 

@@ -1,5 +1,5 @@
 class HistorialSaldo:
-    def __init__(self, id_historial_saldo, id_inversor, fecha, saldo_anterior, saldo_nuevo, motivo):
+    def __init__(self, id_historial_saldo = None, id_inversor = None, fecha = None, saldo_anterior = None, saldo_nuevo = None, motivo = None):
         self._id_historial_saldo = id_historial_saldo
         self._id_inversor = id_inversor
         self._fecha = fecha
@@ -7,7 +7,12 @@ class HistorialSaldo:
         self._saldo_nuevo = saldo_nuevo
         self._motivo = motivo
 
- 
+    def __str__(self):
+            return (f"HistorialSaldo id_historial_saldo = {self._id_historial_saldo}, "
+                    f"id_inversor = {self._id_inversor}, fecha = {self._fecha}, "
+                    f"saldo_anterior = {self._saldo_anterior}, saldo_nuevo = {self._saldo_nuevo}, "
+                    f"motivo = {self._motivo}")
+
     @property
     def id_historial_saldo(self):
         return self._id_historial_saldo

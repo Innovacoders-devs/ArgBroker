@@ -1,13 +1,8 @@
 from src.herramientas.conector_a_mysql import MySQLConnector
-from src.acceso_a_datos.accion_dao import AccionDAO
-from src.modelo.cotizacion_diaria import CotizacionDiaria
-from src.modelo.accion import Accion
-from src.acceso_a_datos.cotizacion_diaria_dao import CotizacionDAO
+
+
 from src.modelo.inversor import Inversor
 from src.acceso_a_datos.inversor_dao import InversorDAO
-
-from src.modelo.estado_portafolio import EstadoPortafolio
-from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
 
 def main():
     host = "127.0.0.1"
@@ -19,15 +14,24 @@ def main():
     connector = MySQLConnector(host, base_datos, usuario, contrasena)
  
     try:
-        datos_compra = EstadoPortafolio(1,1,2,10,900)
-        dao = EstadoPortafolioDAO(connector)
+        inversor_nuevo = Inversor(
+            id_inversor=17,  
+            nombre="Pedro",
+            apellido="Gomez Lauchita",
+            cuil="20-98765432-1",
+            email="pedro.gomez.lauchita@example.com",
+            contrasena="lol",
+            saldo_cuenta=50000.00,
+            intentos_fallidos=0
+        )
+        dao = InversorDAO(connector)
         resultado = dao.obtener_todos()
         for i in resultado:
             print(i)
+    except Exception as e:
 
+        print("Error:", e)
 
-    except Exception as e:  
-        print(f"Error: {e}")  
 
 if __name__ == "__main__":
 
