@@ -6,25 +6,26 @@ from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 
 class Menu:
     def __init__ (self):
+        self.ejecutando = True
 
-        def mostrar_menu_principal(self):
-            while self.ejecutando:
-                print("=== ARGBroker ===\n")
-                print("1. Iniciar Sesion")
-                print("2. Registrarse")
-                print("0. Salir")
+    def mostrar_menu_principal(self):
+        while self.ejecutando:
+            print("=== ARGBroker ===\n")
+            print("1. Iniciar Sesion")
+            print("2. Registrarse")
+            print("0. Salir")
 
 
         opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
-                    self.iniciar_sesion() #no encuentro el metodo para el menu iniciar sesion
+            self.iniciar_sesion() #no encuentro el metodo para el menu iniciar sesion
         if opcion == "2":
-                    self.registrar_usuario()
+            self.registrar_usuario()
         elif opcion == "0":
-                    self.ejecutando = False
+            self.ejecutando = False
         else:
-                    input("Opción inválida. Seleccione una opción para continuar...")
+            input("Opción inválida. Seleccione una opción para continuar...")
 
     def iniciar_sesion(self):
             try:# este bloque no tiene sentido en el menu principal 1 porque pertenece a la logica del metodo iniciar sesion 2 en el fragmento del codigo anterior el flow sale de este menu asique este codigo no se llega a ejecutar
