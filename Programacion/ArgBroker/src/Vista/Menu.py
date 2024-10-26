@@ -2,18 +2,25 @@ from src.acceso_a_datos.inversor_dao import InversorDAO
 from src.acceso_a_datos.accion_dao import Acciondao
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
-
+import os
 
 class Menu:
     def __init__ (self):
         self.ejecutando = True
+    
+
+    def clear_screen():
+        if os.name == 'nt':
+            os.system('cls')
+
 
     def mostrar_menu_principal(self):
-        while self.ejecutando:
-            print("=== ARGBroker ===\n")
-            print("1. Iniciar Sesion")
-            print("2. Registrarse")
-            print("0. Salir")
+        while self.ejecutando: True
+        self.clear_screen()
+        print("=== ARGBroker ===\n")
+        print("1. Iniciar Sesion")
+        print("2. Registrarse")
+        print("0. Salir")
 
 
         opcion = input("Seleccione una opción: \n")
@@ -27,7 +34,9 @@ class Menu:
         else:
             input("Opción inválida. Seleccione una opción para continuar...")
 
+
     def iniciar_sesion(self):
+            self.clear_screen()
             try:
                     correo_electronico = input("Ingrese email del inversor: ")
                     contrasenia_ingresada = input("Ingrese su contraseña: ")
@@ -43,7 +52,7 @@ class Menu:
                     return False
 
     def registrar_usuario(self):
-
+        self.clear_screen()
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
@@ -56,6 +65,7 @@ class Menu:
              return self.iniciar_sesion()
                      
     def mostrar_menu_inversor(self): 
+        self.clear_screen()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
@@ -63,9 +73,10 @@ class Menu:
             print("3. Portafolio") # quiza convenga hacer un solo menu que contenga mi portafolio donde muestre:las acciones que tengo compradas y el historial de transacciones 
             print("4. Transacciones")
             print("5. Cotizaciones") #las cotizaciones se deberian poder ver en el panel de compra/venta menu que no esta, y se podria llamar operar 
+            print("6. Eliminar inversor") #deseo eliminar mi cuenta (en ese caso deberian volver al panel principal luego de preguntar si esta seguro ya que la accion es irreversible)
             print("0. Salir")
 
-            opcion = input("\n Seleccione una opción: ")
+            opcion = input("Seleccione una opción: \n ")
 
             if opcion == "1":
                 self.menu_inversor()
@@ -77,6 +88,8 @@ class Menu:
                 self.menu_transaccion()
             elif opcion == "5":
                 self.menu_cotizacion()
+            elif opcion == "6":
+                self.eliminar_inversor()
             elif opcion == "0":
                 self.ejecutando = False
             else:
@@ -85,16 +98,12 @@ class Menu:
     def menu_inversor(self): #el menu se llama inversiones en el panel, menu inversor en el metodo pero implementa submenus relacionados a gestionar inversores, quiza deba ser un menu personal donde pueda ver y modificar mis datos o simplemente verlos 
             while True:
                 self.clear_screen() #clear screen todavia no existe como metodo 
-                print("\n=== GESTIÓN DE INVERSORES ===") 
-                print("1. Crear nuevo inversor") #la unica forma posible de crear un inversor em el programa deberia ser registrandose en la plataforma, no desde el panel!
-                print("2. Obtener datos de inversor") #mostrar mis datos (del inversor que inicio sesion)
-                print("3. Actualizar inversor") #actualizar mis datos
-                print("4. Eliminar inversor") #deseo eliminar mi cuenta (en ese caso deberian volver al panel principal luego de preguntar si esta seguro ya que la accion es irreversible)
-                print("5. Buscar inversor por email") # en el panel personal no deberia poder buscar otro inversor
-                print("6. Autenticar inversor") #autenticar es un metodo para asegurarse de que coinciden las credenciales, no es una opcion del menu del inversor 
+                print("=== Menú Personal === \n") 
+                print("1. Mostrar mis datos") #mostrar mis datos (del inversor que inicio sesion)
+                print("2. Actualizar mis datos") #actualizar mis datos
                 print("0. Volver al menú principal")
 
-                option = input("\nSeleccione una opción: ")
+                option = input("Seleccione una opción: \n")
 
                 if option == "0":
                     break
