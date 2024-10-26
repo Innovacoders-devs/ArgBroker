@@ -38,6 +38,8 @@ class CotizacionDAO(DAOInterface):
         try:
             self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
+            
         except Exception as e:
             raise ValueError(f'No se puede realizar la consulta: {e}')
         finally:
@@ -107,9 +109,9 @@ class CotizacionDAO(DAOInterface):
             self._conector_mysql.desconectar_de_base_datos()
 
 
-    def actualizar(self, cotizacion_diaria):
+    def actualizar(self, cotizacion_modificada, id_de_cotizacion_a_modificar):
         consulta = """
-            UPDATE cotizacion SET 
+            UPDATE cotizacion_diaria SET 
                 id_accion = %s,
                 fecha = %s,
                 ultimo_operado = %s,
@@ -124,30 +126,34 @@ class CotizacionDAO(DAOInterface):
             WHERE id_cotizacion = %s
         """
         valores_a_actualizar = (
-            cotizacion_diaria.id_accion,
-            cotizacion_diaria.fecha,
-            cotizacion_diaria.ultimo_operado,
-            cotizacion_diaria.cantidad_compra_diaria,
-            cotizacion_diaria.precio_compra_actual,
-            cotizacion_diaria.precio_venta_actual,
-            cotizacion_diaria.cantidad_venta_diaria,
-            cotizacion_diaria.valor_apertura,
-            cotizacion_diaria.minimo_diario,
-            cotizacion_diaria.maximo_diario,
-            cotizacion_diaria.valor_cierre,
-            cotizacion_diaria.id_cotizacion
+            cotizacion_modificada.id_accion,
+            cotizacion_modificada.fecha,
+            cotizacion_modificada.ultimo_operado,
+            cotizacion_modificada.cantidad_compra_diaria,
+            cotizacion_modificada.precio_compra_actual,
+            cotizacion_modificada.precio_venta_actual,
+            cotizacion_modificada.cantidad_venta_diaria,
+            cotizacion_modificada.valor_apertura,
+            cotizacion_modificada.minimo_diario,
+            cotizacion_modificada.maximo_diario,
+            cotizacion_modificada.valor_cierre,
+            id_de_cotizacion_a_modificar
         )
 
         try:
             self._conector_mysql.conectar_a_base_datos()
+            print(f"Ejecutando consulta: {consulta}")
+            print(f"Con valores: {valores_a_actualizar}")
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_actualizar)
+            return True
         except Exception as e:
             raise ValueError(f'No se puede actualizar la cotización: {e}')
         finally:
-            self._conector_mysql.desconectar_de_base_de_datos()
+            self._conector_mysql.desconectar_de_base_datos()
+        
 
     def eliminar(self, id_cotizacion):
-        consulta = "DELETE FROM cotizacion WHERE id_cotizacion = %s"
+        consulta = "DELETE FROM cotizacion_diaria WHERE id_cotizacion = %s"
         try:
             self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, (id_cotizacion,))

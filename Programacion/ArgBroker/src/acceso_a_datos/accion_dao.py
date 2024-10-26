@@ -6,11 +6,12 @@ class AccionDAO(DAOInterface):
 
     def crear(self, nueva_accion):
         consulta = "INSERT INTO accion (nombre_accion, simbolo_accion) VALUES (%s, %s)"
-        valores_a_insertar = (nueva_accion[0], nueva_accion[1])
+        valores_a_insertar = (nueva_accion.nombre_accion, nueva_accion.simbolo_accion)
 
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
 
         except Exception as error:
             raise Exception(f"Error al crear la accion de la base de datos: {error}")
@@ -61,12 +62,14 @@ class AccionDAO(DAOInterface):
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def actualizar(self, nuevos_datos, id):
+    def actualizar(self, nuevos_datos, id_accion_a_modificar):
         consulta = "UPDATE accion SET nombre_accion = %s, simbolo_accion = %s WHERE id_accion = %s"
-        valores_a_insertar = (nuevos_datos[0], nuevos_datos[1], id)
+        valores_a_insertar = (nuevos_datos.nombre_accion, nuevos_datos.simbolo_accion, id_accion_a_modificar)
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
+
         except Exception as error:
             raise Exception(f"Error al modificar la accion: {error}")
         finally:
@@ -77,6 +80,7 @@ class AccionDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, (id,))
+            return True
 
         except Exception as error:
             raise Exception(f"Error al eliminar la accion: {error}")

@@ -47,4 +47,4 @@ if __name__ == "__main__":
 from src.Vista.Menu import Menu
 
 menu = Menu()
-menu.mostrar_menu_principal()
+menu.mostrar_menu_inversor()
