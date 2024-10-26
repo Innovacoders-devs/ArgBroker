@@ -109,7 +109,7 @@ class Menu:
 
 
 
-        def menu_accion(self):
+    def menu_accion(self):
             while True:
                 self.clear_screen()
                 print("=== PORTAFOLIO === \n === GESTIÓN DE ACCIONES === \n") 
@@ -128,7 +128,7 @@ class Menu:
                 input("Presione Enter para continuar... \n")
 
 
-        def mostrar_mis_acciones(self):
+    def mostrar_mis_acciones(self):
             print(portafolio)
             print(nombre_accion)
             print(simbolo_accion)
@@ -142,7 +142,7 @@ class Menu:
             print(cantidad_venta_diaria)
 
         
-        def cotizacion(self):
+    def cotizacion(self):
             print(nombre_accion)
             print(simbolo_accion)
             print(precio_actual_compra)
