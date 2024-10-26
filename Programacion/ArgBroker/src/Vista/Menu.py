@@ -69,7 +69,7 @@ class Menu:
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
-            print("2. Mis Acciones") 
+            print("2. Mi Portafolio") 
             print("3. Transacciones")
             print("4. Eliminar inversor") 
             print("0. Salir")
@@ -77,7 +77,7 @@ class Menu:
             opcion = input("Seleccione una opción: \n ")
 
             if opcion == "1":
-                self.menu_inversor()
+                self.mostrar_mis_datos()
             elif opcion == "2":
                 self.menu_accion()
             elif opcion == "3":
@@ -89,7 +89,7 @@ class Menu:
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
-    def menu_inversor(self): #el menu se llama inversiones en el panel, menu inversor en el metodo pero implementa submenus relacionados a gestionar inversores, quiza deba ser un menu personal donde pueda ver y modificar mis datos o simplemente verlos 
+    def menu_inversor(self):
             while True:
                 self.clear_screen() #clear screen todavia no existe como metodo 
                 print("=== Menú Personal === \n") 
@@ -109,12 +109,12 @@ class Menu:
 
 
 
-        def menu_acciones(self):
+        def menu_accion(self):
             while True:
                 self.clear_screen()
                 print("=== PORTAFOLIO === \n === GESTIÓN DE ACCIONES === \n") 
-                print("1. Mostrar mis acciones")
-                print("2. Cotizar")
+                print("1. Mostrar mi portafolio")
+                print("2. Operar")
                 print("0. Volver al menú principal")
 
                 opcion = input("Seleccione una opción: \n")
@@ -129,6 +129,7 @@ class Menu:
 
 
         def mostrar_mis_acciones(self):
+            print(portafolio)
             print(nombre_accion)
             print(simbolo_accion)
             print(fecha)
@@ -146,19 +147,16 @@ class Menu:
             print(simbolo_accion)
             print(precio_actual_compra)
             print(precio_actual_venta)
+        #comprar
+        #vender
 
 
-
-
-    def menu_transacciones(self):
+    def menu_transaccion(self):
         while True:
             self.clear_screen()
-            print("=== GESTIÓN DE TRANSACCIONES === \n")
-            print("1. Crear nueva transacción") #crear una nueva transaccion no es posible desde el panel del usuario ya que estas se crean cuando el usuario compra y vende una accion
-            print("2. Obtener transacción") #el panel deberia mostrar el historial de transacciones en pantalla, no dar una opcion para obtenerlas
-            print("3. Actualizar transacción") #las transacciones no se pueden actualizar desde el panel esto romperia el programa!
-            print("4. Eliminar transacción") #las transacciones no se pueden eliminar desde el panel imaginemos si yo pudiera ir a la pagina de la afip y borrar mis compras y ventas para no pagar impuestos, eso seria correcto?
-            print("5. Obtener transacciones por inversor") #no deberia ser posible
+            print("=== MIS TRANSACCIONES === \n")
+            print("1. Mostrar transacciones")
+            print("2. Eliminar transacciones") 
             print("0. Volver al menú principal")
            
             option = input("Seleccione una opción: \n")
@@ -182,7 +180,8 @@ class Menu:
 
     
     def actualizar_datos(self):
-        print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
+       print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
+       nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
        
 
 
