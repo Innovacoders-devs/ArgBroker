@@ -192,7 +192,8 @@ class Menu:
             if opcion == "1":
                 return f'Transacciones realizadas: {self.transaccion.id_transaccion}'
             if opcion == "2":
-                 
+                 pass
+                
             if opcion == "0":
                 break
          
