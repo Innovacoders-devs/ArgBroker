@@ -2,6 +2,7 @@ from src.acceso_a_datos.inversor_dao import InversorDAO
 from src.acceso_a_datos.accion_dao import Acciondao
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
+from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
 import os
 
 class Menu:
@@ -9,6 +10,9 @@ class Menu:
         self.__base_de_datos = base_de_datos
         self.__comision_broker = COMISION_BROKER
         self.__usuario_autenticado = None
+        self.__portafolio_inversor = EstadoPortafolioDAO(__base_de_datos)
+        self.__historial_saldo_inversor = HistorialSaldoDAO(__base_de_datos)
+
         self.ejecutando = True
     
 
@@ -24,6 +28,11 @@ class Menu:
         print("1. Iniciar Sesion") #servicio de iniciar_sesion
         print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
+        acciones_en_haber_del_inversor = self.__portafolio_inversor.obtener_todos(__usuario_autenticado._id_inversor)
+
+        for iteracion in acciones_en_haber_del_inversor:
+            print(iteracion.nombre,)
+
 
 
         opcion = input("Seleccione una opción: \n")

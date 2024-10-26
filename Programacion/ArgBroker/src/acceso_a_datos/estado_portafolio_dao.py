@@ -6,8 +6,9 @@ class EstadoPortafolioDAO(DAOInterface):
         self.__base_de_datos = conector
 
     def crear(self, estado_portafolio):
-        consulta = "INSERT INTO estado_portafolio (id_portafolio, id_accion, cantidad, valor_actual) VALUES (%s, %s, %s, %s)"
+        consulta = "INSERT INTO estado_portafolio (id_portafolio, id_accion, nombre_accion, simbolo_accion, cantidad, valor_actual) VALUES (%s, %s, %s, %s, %s, %s)"
         valores_a_insertar = (estado_portafolio.id_portafolio, estado_portafolio.id_accion,
+                              estado_portafolio.nombre_accion, estado_portafolio.simbolo_accion,
                               estado_portafolio.cantidad, estado_portafolio.valor_actual)
         try:
             self.__base_de_datos.conectar_a_base_datos()
@@ -21,9 +22,11 @@ class EstadoPortafolioDAO(DAOInterface):
             self.__base_de_datos.desconectar_de_base_datos()
 
     def actualizar(self, estado_portafolio, id_estado_a_modificar):
-        consulta = "UPDATE estado_portafolio SET id_portafolio = %s, id_accion = %s, cantidad = %s, valor_actual = %s WHERE id_estado_portafolio = %s"
+        consulta = "UPDATE estado_portafolio SET id_portafolio = %s, id_accion = %s, nombre_accion = %s, simbolo_accion = %s, cantidad = %s, valor_actual = %s WHERE id_estado_portafolio = %s"
         valores_a_insertar = (estado_portafolio.id_portafolio, estado_portafolio.id_accion,
-                              estado_portafolio.cantidad, estado_portafolio.valor_actual, id_estado_a_modificar)
+                              estado_portafolio.nombre_accion, estado_portafolio.simbolo_accion,
+                              estado_portafolio.cantidad, estado_portafolio.valor_actual,
+                              id_estado_a_modificar)
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(
@@ -58,7 +61,8 @@ class EstadoPortafolioDAO(DAOInterface):
             instancia_estado_portafolio = EstadoPortafolio(
                 estado_portafolio_obtenido[0], estado_portafolio_obtenido[1],
                 estado_portafolio_obtenido[2], estado_portafolio_obtenido[3],
-                estado_portafolio_obtenido[4]
+                estado_portafolio_obtenido[4], estado_portafolio_obtenido[5],
+                estado_portafolio_obtenido[6]
             )
             return instancia_estado_portafolio
         except Exception as error:
@@ -66,17 +70,18 @@ class EstadoPortafolioDAO(DAOInterface):
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def obtener_todos(self):
-        consulta = "SELECT * FROM estado_portafolio"
+    def obtener_todos(self, id_portafolio_inversor):
+        consulta = "SELECT * FROM estado_portafolio WHERE id_portafolio = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            estados_portafolio_obtenidos = self.__base_de_datos.traer_todos(consulta)
+            estados_portafolio_obtenidos = self.__base_de_datos.traer_todos(consulta, (id_portafolio_inversor,))
             if not estados_portafolio_obtenidos:
                 raise Exception("No se pudo obtener los estados de portafolio")
             estados_portafolio_instanciados = []
             for estado in estados_portafolio_obtenidos:
                 estado_instanciado = EstadoPortafolio(
-                    estado[0], estado[1], estado[2], estado[3], estado[4]
+                    estado[0], estado[1], estado[2], estado[3],
+                    estado[4], estado[5], estado[6]
                 )
                 estados_portafolio_instanciados.append(estado_instanciado)
             return estados_portafolio_instanciados
