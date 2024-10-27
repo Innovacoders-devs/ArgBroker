@@ -3,6 +3,7 @@ from src.acceso_a_datos.accion_dao import Acciondao
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
+from src.acceso_a_datos.historial_saldo_dao import HistorialSaldoDAO
 import os
 
 class Menu:
@@ -10,45 +11,38 @@ class Menu:
         self.__base_de_datos = base_de_datos
         self.__comision_broker = COMISION_BROKER
         self.__usuario_autenticado = None
-        self.__portafolio_inversor = EstadoPortafolioDAO(__base_de_datos)
-        self.__historial_saldo_inversor = HistorialSaldoDAO(__base_de_datos)
-
+        self._portafolio_inversor = EstadoPortafolioDAO(self.__base_de_datos)
+        self._historial_saldo_inversor = HistorialSaldoDAO(self.__base_de_datos)
         self.ejecutando = True
     
 
-    def clear_screen(self):
+    def __limpiar_consola(self):
         if os.name == 'nt':
             os.system('cls')
 
 
     def mostrar_menu_principal(self): #Menu principal
         while self.ejecutando: True
-        self.clear_screen()
+        self.__limpiar_consola()
         print("=== ARGBroker ===\n")
         print("1. Iniciar Sesion") #servicio de iniciar_sesion
         print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
-        acciones_en_haber_del_inversor = self.__portafolio_inversor.obtener_todos(__usuario_autenticado._id_inversor)
-
-        for iteracion in acciones_en_haber_del_inversor:
-            print(iteracion.nombre,)
-
-
-
+        
         opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
-            self.mostrar_panel_iniciar_sesion() 
+            self.__mostrar_panel_iniciar_sesion() 
         if opcion == "2":
-            self.registrar_usuario()
+            self.__registrar_usuario()
         elif opcion == "0":
             self.ejecutando = False
         else:
             input("Opción inválida. Seleccione una opción para continuar...")
 
 
-    def mostrar_panel_iniciar_sesion(self):
-            self.clear_screen()
+    def __mostrar_panel_iniciar_sesion(self):
+            self.__limpiar_consola()
             try:
                     correo_electronico = input("Ingrese email del inversor: ")
                     contrasenia_ingresada = input("Ingrese su contraseña: ")
@@ -65,7 +59,7 @@ class Menu:
             
 
     def registrar_usuario(self):
-        self.clear_screen()
+        self.__limpiar_consola()
     
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
@@ -79,8 +73,8 @@ class Menu:
              return self.servicio_de_autenticacion.autenticar_usuario(email, contrasenia)
         return self.iniciar_sesion()
                      
-    def mostrar_panel_de_inversor(self): #Menu de inversor 
-        self.clear_screen()
+    def _mostrar_panel_de_inversor(self): #Menu de inversor 
+        self.__limpiar_consola()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
@@ -91,33 +85,94 @@ class Menu:
             opcion = input("Seleccione una opción: \n ")
 
             if opcion == "1":
-                self.mostrar_mis_datos()
+                self.__mostrar_panel_mis_datos()
             elif opcion == "2":
-                self.mostrar_portafolio()
+                self._mostrar_portafolio()
             elif opcion == "3":
-                self.mostrar_transacciones()
+                self._mostrar_transacciones()
             elif opcion == "0":
                 self.ejecutando = False
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
-    def mostrar_mis_datos(self): 
-        self.clear_screen()
+    def __mostrar_panel_mis_datos(self): 
+        self.__limpiar_consola()
         print("=== OBTENER DATOS DE INVERSOR === \n")
-        print (f'id del inversosr: {self.inversor.id_inversor}')
-        print(f'Nombre: {self.inversor.apellido}, {self.inversor.nombre}')
-        print(f'Email: {self.inversor.email}')
-        print(f'Saldo actual: {self.inversor.saldo_cuenta}')
+        print (f'id del inversosr: {self.InversorDAO.id_inversor}')
+        print(f'Nombre: {self.InversorDAO.apellido}, {self.InversorDAO.nombre}')
+        print(f'Email: {self.InversorDAO.email}')
+        print(f'Saldo actual: {self.InversorDAO.saldo_cuenta}')
 
-    
-
-
-    
-
-    
-    def actualizar_datos(self):
-       self.clear_screen()
+       
+    def _actualizar_datos(self):
+       self.__limpiar_consola()
        print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
        nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
-       self.inversor.email = nuevo_correo_elecrtonico
+       self.InversorDAO.email = nuevo_correo_elecrtonico
        
+    def _mostrar_portafolio(self): 
+        self.__limpiar_consola()
+        while True:
+            print("=== PORTAFOLIO ===\n") 
+            print("1. Mis acciones") 
+            print("2. Historial") 
+            print("0. Salir")
+
+            opcion = input("Seleccione una opción: \n ")
+
+            if opcion == "1":
+                self._mostrar_acciones()
+            elif opcion == "2":
+                self._mostrar_historial()
+            elif opcion == "0":
+                self.ejecutando = False
+            else:
+                input("Opción inválida. Presione Enter para continuar...")  
+
+
+    def _mostrar_acciones(self):
+         acciones_en_haber_del_inversor = self._estado_portafolio_dao.obtener_todos(self.__usuario_autenticado._id_inversor)
+         for accion in acciones_en_haber_del_inversor:
+              print(accion)
+
+
+    def _mostrar_panel_estado_portafolio(self):
+         self.__limpiar_consola()
+         historial_de_inversor = self._estado_portafolio_dao.obtener_todos(self.__usuario_autenticado._id_inversor)
+         for historial in historial_de_inversor:
+          print(historial)
+
+    #el menu debe mostrar las acciones que tengo en el momento actual, no es historial
+    #todos los metodos deben ser mostrar panel y estar en privados, doble guion
+
+    def _mostrar_transacciones(self):
+         self.__limpiar_consola()
+    while True:
+            print("=== TRANSACCIONES ===\n") 
+            print("1. Acciones Disponibles") 
+            print("2. Comprar")
+            print("3. Vender") 
+            print("4. Comision Broker")
+            print("0. Salir")
+
+            opcion = input("Seleccione una opción: \n ")
+
+            if opcion == "1":
+                self._mostrar_acciones_disponibles()
+            elif opcion == "2":
+                self._comprar_acciones()
+            elif opcion == "3":
+                self._vender_acciones()
+            elif opcion == "4":
+                self._ver_comisiones_broker()
+            elif opcion == "o":
+                self.ejecutando = False
+            else:
+                input("Opción inválida. Presione Enter para continuar...") 
+    
+    
+
+
+    
+
+         
