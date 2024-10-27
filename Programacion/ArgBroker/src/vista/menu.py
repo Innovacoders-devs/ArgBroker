@@ -85,7 +85,7 @@ class Menu:
             opcion = input("Seleccione una opción: \n ")
 
             if opcion == "1":
-                self._mostrar_mis_datos()
+                self.__mostrar_panel_mis_datos()
             elif opcion == "2":
                 self._mostrar_portafolio()
             elif opcion == "3":
@@ -95,7 +95,7 @@ class Menu:
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
-    def _mostrar_mis_datos(self): 
+    def __mostrar_panel_mis_datos(self): 
         self.__limpiar_consola()
         print("=== OBTENER DATOS DE INVERSOR === \n")
         print (f'id del inversosr: {self.InversorDAO.id_inversor}')
@@ -136,12 +136,14 @@ class Menu:
               print(accion)
 
 
-    def _mostrar_historial(self):
+    def _mostrar_panel_estado_portafolio(self):
+         self.__limpiar_consola()
          historial_de_inversor = self._estado_portafolio_dao.obtener_todos(self.__usuario_autenticado._id_inversor)
          for historial in historial_de_inversor:
           print(historial)
 
-    
+    #el menu debe mostrar las acciones que tengo en el momento actual, no es historial
+    #todos los metodos deben ser mostrar panel y estar en privados, doble guion
 
     def _mostrar_transacciones(self):
          self.__limpiar_consola()
@@ -162,10 +164,15 @@ class Menu:
             elif opcion == "3":
                 self._vender_acciones()
             elif opcion == "4":
-                self._ver_comosiones_broker()
+                self._ver_comisiones_broker()
             elif opcion == "o":
                 self.ejecutando = False
             else:
-                input("Opción inválida. Presione Enter para continuar...")  
+                input("Opción inválida. Presione Enter para continuar...") 
+    
+    
+
+
+    
 
          
