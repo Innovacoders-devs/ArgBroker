@@ -11,13 +11,12 @@ class InversorDAO(DAOInterface):
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
 
-            return True
-
         except Exception as e:
             raise e
 
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
 
     def obtener_uno(self, id_inversor):
@@ -29,12 +28,13 @@ class InversorDAO(DAOInterface):
                 raise Exception("No existe inversor con dicho id")
             inversor_instanciado = Inversor(inversor_obtenido[0], inversor_obtenido[1], inversor_obtenido[2], inversor_obtenido[3], inversor_obtenido[4], inversor_obtenido[5],  inversor_obtenido[6], inversor_obtenido[7])
 
-            return inversor_instanciado
+            
 
         except Exception as error:
             print(f"Error al obtener el inversor de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return inversor_instanciado
 
 
 
@@ -50,12 +50,13 @@ class InversorDAO(DAOInterface):
                 inversor_instanciado = Inversor(inversor[0], inversor[1], inversor[2], inversor[3], inversor[4], inversor[5], inversor[6], inversor[7])
                 objetos.append(inversor_instanciado)
 
-            return objetos
+            
 
         except Exception as error:
             print(f"Error al obtener la lista de inversores de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return objetos
 
     def actualizar(self, inversor, id):
         consulta = "UPDATE inversor SET nombre = %s, apellido = %s, cuil = %s, email = %s, contrasena = %s, saldo_cuenta = %s, intentos_fallidos = %s WHERE id_inversor = %s"
@@ -63,11 +64,12 @@ class InversorDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
         except Exception as error:
             print(f"Error al modificar el inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def eliminar(self, id_inversor):
         consulta = "DELETE FROM inversor WHERE id_inversor = %s"
@@ -77,6 +79,7 @@ class InversorDAO(DAOInterface):
             return True
         except Exception as error:
             print(f"Error al eliminar inversor en la base de datos: {error}")
-            return False
+            
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return False

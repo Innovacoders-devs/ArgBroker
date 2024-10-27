@@ -16,12 +16,13 @@ class HistorialSaldoDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
 
         except Exception as e:
             raise Exception(f"Error al crear el historial de saldo en la base de datos: {e}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def obtener_uno(self, id_historial_saldo):
         consulta = "SELECT * FROM historial_saldo WHERE id_historial_saldo = %s"
@@ -33,12 +34,13 @@ class HistorialSaldoDAO(DAOInterface):
             
             historial_instanciado = HistorialSaldo(historial_obtenido[0], historial_obtenido[1], historial_obtenido[2], 
                                                 historial_obtenido[3], historial_obtenido[4], historial_obtenido[5])
-            return historial_instanciado
+            
             
         except Exception as error:
             raise Exception(f"Error al obtener el historial de saldo de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return historial_instanciado
 
     def obtener_todos(self):
         consulta = "SELECT * FROM historial_saldo"
@@ -54,11 +56,12 @@ class HistorialSaldoDAO(DAOInterface):
                                                         historial[3], historial[4])
                 objetos.append(historial_instanciado)
                 
-            return objetos
+            
         except Exception as error:
             raise Exception(f"Error al obtener la lista de historiales de saldo de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return objetos
 
     def actualizar(self, historial_saldo, id_historial_saldo_a_modificar):
         consulta = """
@@ -70,20 +73,22 @@ class HistorialSaldoDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
             
         except Exception as error:
             raise Exception(f"Error al modificar el historial de saldo: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def eliminar(self, id_historial_saldo):
         consulta = "DELETE FROM historial_saldo WHERE id_historial_saldo = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, (id_historial_saldo,))
-            return True
+            
         except Exception as error:
             raise Exception(f"Error al eliminar el historial de saldo en la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True

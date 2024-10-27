@@ -11,15 +11,15 @@ class Transaccion:
         self._id_portafolio = id_portafolio
 
     def __str__(self):
-        return f""" Detalles de la transaccion: 
+            return f"""Detalles de la transaccion: 
                     Transaccion numero: {self._id_transaccion}
                     Accion numero: {self._id_accion}
                     Tipo: {self._tipo}
                     Fecha: {self._fecha}
                     Precio: {self._precio}
                     Cantidad: {self._cantidad}
-                    Comision: {self._comision}
-                    Portafolio: {self._id_portafolio}"""
+                    Portafolio: {self._id_portafolio}
+                    Comision: {self._comision}"""
         
     @property
     def id_transaccion(self):

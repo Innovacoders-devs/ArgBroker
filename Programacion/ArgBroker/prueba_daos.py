@@ -17,16 +17,16 @@ def main():
         nueva_transaccion = Transaccion(
             id_transaccion=None,
             id_accion=2,
-            tipo='compra',
+            tipo='venta',
             fecha='2023-10-10',
             precio=100.50,
             cantidad=10,
             comision=1.50,
             id_portafolio=1
         )
-        resultado = dao_transaccion.crear(nueva_transaccion)
-        if resultado:
-            print('Se creó la transacción')
+        resultado = dao_transaccion.obtener_por_portafolio_y_accion(1,1)
+        for i in resultado:
+            print(i)
 
     except Exception as e:
         print("Error:", e)

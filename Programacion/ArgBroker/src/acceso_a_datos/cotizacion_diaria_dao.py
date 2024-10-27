@@ -38,12 +38,13 @@ class CotizacionDAO(DAOInterface):
         try:
             self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
             
         except Exception as e:
             raise ValueError(f'No se puede realizar la consulta: {e}')
         finally:
             self._conector_mysql.desconectar_de_base_datos()
+            return True
 
 
     def obtener_uno(self, id_cotizacion):
@@ -69,12 +70,13 @@ class CotizacionDAO(DAOInterface):
                 maximo_diario=cotizaciones_obtenidas[10],
                 valor_cierre=cotizaciones_obtenidas[11]
             )
-            return instancia_cotizacion
+            
 
         except Exception as e:
             raise ValueError(f'Ocurrió un error al consultar la cotización: {e}')
         finally:
             self._conector_mysql.desconectar_de_base_datos()
+            return instancia_cotizacion
 
     def obtener_todos(self, id_accion):
         consulta = "SELECT * FROM cotizacion_diaria WHERE id_accion = %s"
@@ -101,12 +103,13 @@ class CotizacionDAO(DAOInterface):
 
                 instancias_de_cotizacion.append(iteracion_de_cotizacion)
 
-            return instancias_de_cotizacion
+            
         
         except Exception as e: 
             raise Exception (f'Ocurrio un error {e}' )
         finally:
             self._conector_mysql.desconectar_de_base_datos()
+            return instancias_de_cotizacion
 
 
     def actualizar(self, cotizacion_modificada, id_de_cotizacion_a_modificar):
@@ -145,11 +148,12 @@ class CotizacionDAO(DAOInterface):
             print(f"Ejecutando consulta: {consulta}")
             print(f"Con valores: {valores_a_actualizar}")
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_actualizar)
-            return True
+            
         except Exception as e:
             raise ValueError(f'No se puede actualizar la cotización: {e}')
         finally:
             self._conector_mysql.desconectar_de_base_datos()
+            return True
         
 
     def eliminar(self, id_cotizacion):
@@ -157,11 +161,12 @@ class CotizacionDAO(DAOInterface):
         try:
             self._conector_mysql.conectar_a_base_datos()
             self._conector_mysql.ejecutar_consulta(consulta, (id_cotizacion,))
-            return True
+            
         except Exception as e:
             raise ValueError(f'Error al eliminar la cotización en la base de datos: {e}')
         finally:
             self._conector_mysql.desconectar_de_base_datos()
+            return True
 
 
 

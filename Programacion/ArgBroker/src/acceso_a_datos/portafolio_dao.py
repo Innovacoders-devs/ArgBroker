@@ -15,12 +15,13 @@ class PortafolioDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, parametros)
-            return True 
+            
 
         except Exception as error:
             print(f"Error al crear el portafolio en la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True 
 
     def actualizar(self, portafolio):
         consulta = """ 
@@ -32,13 +33,14 @@ class PortafolioDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, parametros)
-            return True
+            
 
         except Exception as error:
             print(f"Error al actualizar el portafolio en la base de datos: {error}")
             return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def eliminar(self, id_portafolio):
         sql = """ 
@@ -48,12 +50,13 @@ class PortafolioDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(sql, parametros)
-            return True
+            
         except Exception as error:
             print(f"Error al eliminar el portafolio en la base de datos: {error}")
             return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def obtener_todos(self):
         consulta = "SELECT id_portafolio, id_inversor FROM portafolio"
@@ -69,13 +72,11 @@ class PortafolioDAO(DAOInterface):
                     id_inversor=portafolio[1]
                 )
                 instancias_de_portafolio.append(iteracion_de_portafolio)
-
-            return instancias_de_portafolio
-
         except Exception as e:
             raise Exception(f'Ocurrió un error {e}')
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return instancias_de_portafolio
 
     def obtener_uno(self, id_inversor):
         sql = "SELECT id_portafolio, id_inversor FROM portafolio WHERE id_inversor = %s"
@@ -93,8 +94,9 @@ class PortafolioDAO(DAOInterface):
                     id_inversor=fila[1]
                 )
                 objetos.append(portafolio_instanciado)
-            return objetos
+            
         except Exception as error:
             print(f"Error al obtener el portafolio del inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return objetos

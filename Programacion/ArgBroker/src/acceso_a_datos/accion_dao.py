@@ -11,13 +11,14 @@ class AccionDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
 
         except Exception as error:
             raise Exception(f"Error al crear la accion de la base de datos: {error}")
 
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
 
     def obtener_uno(self, id_accion):
@@ -30,13 +31,14 @@ class AccionDAO(DAOInterface):
             if not accion_obtenida:
                 raise Exception("No existe accion con dicho id")
             instancia_accion = Accion(accion_obtenida[0], accion_obtenida[1],accion_obtenida[2] )
-            return instancia_accion
+            
 
         except Exception as error:
             raise Exception(f"Error al obtener la accion de la base de datos: {error}")
 
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return instancia_accion
 
 
     def obtener_todos(self):
@@ -53,14 +55,13 @@ class AccionDAO(DAOInterface):
             for accion in acciones_obtenidas:
                 accion_instanciada = Accion(accion[0], accion[1], accion[2] )
                 acciones_obtenidas_y_instanciadas.append(accion_instanciada)
-
-            return acciones_obtenidas_y_instanciadas
-
+                
         except Exception as error:
             raise Exception(f"Error al obtener la lista de acciones de la base de datos: {error}")
 
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return acciones_obtenidas_y_instanciadas
 
     def actualizar(self, nuevos_datos, id_accion_a_modificar):
         consulta = "UPDATE accion SET nombre_accion = %s, simbolo_accion = %s WHERE id_accion = %s"
@@ -68,21 +69,23 @@ class AccionDAO(DAOInterface):
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
-            return True
+            
 
         except Exception as error:
             raise Exception(f"Error al modificar la accion: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
 
     def eliminar(self, id):
         consulta = "DELETE FROM accion WHERE id_accion = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, (id,))
-            return True
+            
 
         except Exception as error:
             raise Exception(f"Error al eliminar la accion: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
+            return True
