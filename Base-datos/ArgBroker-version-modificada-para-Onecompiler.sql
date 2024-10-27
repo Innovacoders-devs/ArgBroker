@@ -206,6 +206,7 @@ CREATE TABLE `transaccion` (
   `precio` decimal(15,2) NOT NULL,
   `tipo` varchar(10) NOT NULL,
   `fecha` datetime NOT NULL,
+  `comision` decimal(15,2) NOT NULL DEFAULT 0.00,  -- Agregar esta línea
   PRIMARY KEY (`id_transaccion`),
   KEY `fk_transaccion_portafolio` (`id_portafolio`),
   KEY `fk_transaccion_accion` (`id_accion`),

@@ -1,6 +1,6 @@
 class Transaccion:
 
-    def __init__(self, id_transaccion=None, id_accion=None, tipo=None, fecha=None, precio=None, cantidad=None, comision=None, id_portafolio=None):
+    def __init__(self, id_transaccion=None, id_accion=None, tipo=None, fecha=None, precio=None, cantidad=None, id_portafolio=None, comision=None):
         self._id_transaccion = id_transaccion
         self._id_accion = id_accion
         self._tipo = tipo
