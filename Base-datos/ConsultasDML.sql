@@ -123,35 +123,28 @@ JOIN accion ON transaccion.id_accion = accion.id_accion
 WHERE inversor.email IN ('roberto.sanchez.nuevo@gmail.com', 'patricia.gomez@gmail.com')
 AND DATE(transaccion.fecha) = '2024-10-17';
 
--- 2. Analizar rendimiento inicial de las nuevas acciones
--- Esta consulta muestra la variación de precio de las nuevas acciones
--- comparando su precio de apertura con el último precio operado
-SELECT 
-    accion.simbolo_accion,
-    cotizacion_diaria.valor_apertura,
-    cotizacion_diaria.ultimo_operado,
-    cotizacion_diaria.ultimo_operado - cotizacion_diaria.valor_apertura as variacion_absoluta,
-    ROUND(((cotizacion_diaria.ultimo_operado - cotizacion_diaria.valor_apertura) / cotizacion_diaria.valor_apertura) * 100, 2) as variacion_porcentual
-FROM accion
-JOIN cotizacion_diaria ON accion.id_accion = cotizacion_diaria.id_accion
-WHERE accion.simbolo_accion IN ('VIST', 'CEPU')
-AND cotizacion_diaria.fecha = '2024-10-17';
+-- 2. Esta consulta muestra las cotizaciones diarias de una acción
+-- específica con su mínimo, máximo y valor de cierre para cada día.
 
--- 3. Resumen de operaciones del día para nuevos inversores (incluyendo comision)
--- Esta consulta proporciona un resumen de todas las operaciones realizadas
--- por los nuevos inversores, incluyendo el volumen operado y el monto total
+SELECT accion.nombre_accion, cotizacion_diaria.fecha, cotizacion_diaria.minimo_diario, cotizacion_diaria.maximo_diario, cotizacion_diaria.valor_cierre
+FROM cotizacion_diaria
+JOIN accion ON cotizacion_diaria.id_accion = accion.id_accion
+WHERE accion.simbolo_accion = 'YPF' 
+ORDER BY cotizacion_diaria.fecha DESC;
+
+-- 3. Esta consulta permite ver el historial de saldo de cada inversor
+-- junto con sus datos básicos, proporcionando detalles sobre los cambios
+-- de saldo con motivo y fecha
 SELECT 
     inversor.nombre,
     inversor.apellido,
-    COUNT(transaccion.id_transaccion) as cantidad_operaciones,
-    SUM(transaccion.cantidad) as total_acciones,
-    SUM(transaccion.cantidad * transaccion.precio) as monto_total,
-    SUM(transaccion.comision) as total_comision,
-    accion.simbolo_accion
-FROM inversor
-JOIN portafolio ON inversor.id_inversor = portafolio.id_inversor
-JOIN transaccion ON portafolio.id_portafolio = transaccion.id_portafolio
-JOIN accion ON transaccion.id_accion = accion.id_accion
-WHERE inversor.email IN ('roberto.sanchez.nuevo@gmail.com', 'patricia.gomez@gmail.com')
-AND DATE(transaccion.fecha) = '2024-10-17'
-GROUP BY inversor.nombre, inversor.apellido, accion.simbolo_accion;
+    historial_saldo.fecha,
+    historial_saldo.saldo_anterior,
+    historial_saldo.saldo_nuevo,
+    historial_saldo.motivo
+FROM 
+    inversor
+JOIN 
+    historial_saldo ON inversor.id_inversor = historial_saldo.id_inversor
+ORDER BY 
+    historial_saldo.fecha DESC;
