@@ -11,12 +11,22 @@ class Menu:
         self.__base_de_datos = base_de_datos
         self.__comision_broker = COMISION_BROKER
         self.__usuario_autenticado = None
-        self._portafolio_inversor = EstadoPortafolioDAO(self.__base_de_datos)
-        self._historial_saldo_inversor = HistorialSaldoDAO(self.__base_de_datos)
+
+        self.inversor_dao = InversorDAO(self.__base_de_datos)
+        self.accion_dao = AccionDAO(self.__base_de_datos)
+        self.portafolio_dao = PortafolioDAO(self.__base_de_datos)
+        self.transaccion_dao = TransaccionDAO(self.__base_de_datos)
+        self.estado_portafolio_dao = EstadoPortafolioDAO(self.__base_de_datos)
+        self.historial_saldo_dao = HistorialSaldoDAO(self.__base_de_datos)
+        self.cotizacion_dao = CotizacionDAO(self.__base_de_datos)
+
+        self.servicio_de_registro = ServicioDeRegistro(self.inversor_dao)
+        self.servicio_de_autenticacion = ServicioDeAutenticacion(self.inversor_dao)
+        self.servicio_de_calculo_de_rendimientos = ServiciodeCalculodeRendimientos(self.transaccion_dao, self.cotizacion_dao)
+        self.servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+        self.servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+
         self.ejecutando = True
-        self.servicio_de_inicio_sesion = ServicioDeInicioSesion(InversorDAO(base_de_datos))
-        self.servicio_de_registro = ServicioDeRegistro(InversorDAO(base_de_datos))
-        self.servicio_de_autenticacion = ServicioDeAutenticacion()
     
 
     def __limpiar_consola(self):
