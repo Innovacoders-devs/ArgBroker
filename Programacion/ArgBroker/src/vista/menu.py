@@ -6,6 +6,11 @@ from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
 from src.acceso_a_datos.historial_saldo_dao import HistorialSaldoDAO
 from src.acceso_a_datos.cotizacion_diaria_dao import CotizacionDAO
 
+from src.servicios.servicio_de_autenticacion import ServicioDeAutenticacion
+from src.servicios.servicio_de_registro import ServicioDeRegistro
+from src.servicios.servicio_de_calculo_de_rendimientos import ServiciodeCalculodeRendimientos
+from src.servicios.servicio_de_compra import ServiciodeCompra
+from src.servicios.servicio_de_venta import ServiciodeVenta
 
 import os
 
