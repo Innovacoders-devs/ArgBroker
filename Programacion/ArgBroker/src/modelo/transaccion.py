@@ -1,8 +1,7 @@
 class Transaccion:
 
-    def __init__(self, id_transaccion = None, id_inversor= None, id_accion= None, tipo= None, fecha= None, precio= None, cantidad= None, comision= None, id_portafolio= None):
+    def __init__(self, id_transaccion=None, id_accion=None, tipo=None, fecha=None, precio=None, cantidad=None, comision=None, id_portafolio=None):
         self._id_transaccion = id_transaccion
-        self._id_inversor = id_inversor
         self._id_accion = id_accion
         self._tipo = tipo
         self._fecha = fecha
@@ -14,7 +13,6 @@ class Transaccion:
     def __str__(self):
         return f""" Detalles de la transaccion: 
                     Transaccion numero: {self._id_transaccion}
-                    Inversor: {self._id_inversor}
                     Accion numero: {self._id_accion}
                     Tipo: {self._tipo}
                     Fecha: {self._fecha}
@@ -23,7 +21,6 @@ class Transaccion:
                     Comision: {self._comision}
                     Portafolio: {self._id_portafolio}"""
         
-
     @property
     def id_transaccion(self):
         return self._id_transaccion
@@ -31,14 +28,6 @@ class Transaccion:
     @id_transaccion.setter
     def id_transaccion(self, id_transaccion):
         self._id_transaccion = id_transaccion
-    
-    @property
-    def id_inversor(self):
-        return self._id_inversor
-
-    @id_inversor.setter
-    def id_inversor(self, id_inversor):
-        self._id_inversor = id_inversor
     
     @property
     def id_accion(self):

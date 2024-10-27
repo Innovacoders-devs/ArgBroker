@@ -8,30 +8,35 @@ class PortafolioDAO(DAOInterface):
 
     def crear(self, portafolio):
         consulta = """ 
-        INSERT INTO portafolio (id_inversor, id_accion, cantidad, precio_promedio_compra) 
-        VALUES (%s, %s, %s, %s) 
+        INSERT INTO portafolio (id_inversor) 
+        VALUES (%s) 
         """
-        parametros = (portafolio.id_inversor, portafolio.id_accion, portafolio.cantidad, portafolio.precio_promedio_compra)
+        parametros = (portafolio.id_inversor,)
         try:
             self.__base_de_datos.conectar_a_base_datos()
             self.__base_de_datos.ejecutar_consulta(consulta, parametros)
+            return True 
+
         except Exception as error:
             print(f"Error al crear el portafolio en la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
     def actualizar(self, portafolio):
-        sql = """ 
+        consulta = """ 
         UPDATE portafolio 
-        SET id_inversor = %s, id_accion = %s, cantidad = %s, precio_promedio_compra = %s
+        SET id_inversor = %s 
         WHERE id_portafolio = %s
         """
-        parametros = (portafolio.id_inversor, portafolio.id_accion, portafolio.cantidad, portafolio.precio_promedio_compra, portafolio.id_portafolio)
+        parametros = (portafolio.id_inversor, portafolio.id_portafolio)
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            self.__base_de_datos.ejecutar_consulta(sql, parametros)
+            self.__base_de_datos.ejecutar_consulta(consulta, parametros)
+            return True
+
         except Exception as error:
-            print(f"Error al modificar el portafolio con id {portafolio.id_portafolio}: {error}")
+            print(f"Error al actualizar el portafolio en la base de datos: {error}")
+            return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
