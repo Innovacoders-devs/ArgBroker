@@ -83,3 +83,30 @@ class InversorDAO(DAOInterface):
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
             return False
+
+    def buscar_inversor_por_email(self, email):
+        consulta = "SELECT * FROM inversor WHERE email = %s"
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            inversor_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (email,))
+            if inversor_obtenido:
+                return True
+        except Exception as error:
+            raise Exception(f"Error al obtener el inversor por email de la base de datos: {error}")
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()
+        return False
+
+    def obtener_inversor_por_email(self, email):
+        consulta = "SELECT * FROM inversor WHERE email = %s"
+        try:
+            self.__base_de_datos.conectar_a_base_datos()
+            inversor_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (email,))
+            if not inversor_obtenido:
+                raise Exception("No existe inversor con dicho email")
+            inversor_instanciado = Inversor(inversor_obtenido[0], inversor_obtenido[1], inversor_obtenido[2], inversor_obtenido[3], inversor_obtenido[4], inversor_obtenido[5], inversor_obtenido[6], inversor_obtenido[7])
+            return inversor_instanciado
+        except Exception as error:
+            raise Exception(f"Error al obtener el inversor por email de la base de datos: {error}")
+        finally:
+            self.__base_de_datos.desconectar_de_base_datos()

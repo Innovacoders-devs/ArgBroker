@@ -93,3 +93,11 @@ class Inversor:
     @intentos_fallidos.setter
     def intentos_fallidos(self, intentos_fallidos):
         self._intentos_fallidos = intentos_fallidos
+    
+    @property
+    def bloqueado(self):
+        return self._bloqueado
+
+    @bloqueado.setter
+    def bloqueado(self, bloqueado):
+        self._bloqueado = bloqueado
