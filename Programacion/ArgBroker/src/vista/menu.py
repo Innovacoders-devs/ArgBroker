@@ -11,44 +11,38 @@ class Menu:
         self.__base_de_datos = base_de_datos
         self.__comision_broker = COMISION_BROKER
         self.__usuario_autenticado = None
-        self._portafolio_inversor = EstadoPortafolioDAO(_base_de_datos)
-        self._historial_saldo_inversor = HistorialSaldoDAO(_base_de_datos)
+        self._portafolio_inversor = EstadoPortafolioDAO(self.__base_de_datos)
+        self._historial_saldo_inversor = HistorialSaldoDAO(self.__base_de_datos)
         self.ejecutando = True
     
 
-    def clear_screen(self):
+    def __limpiar_consola(self):
         if os.name == 'nt':
             os.system('cls')
 
 
     def mostrar_menu_principal(self): #Menu principal
         while self.ejecutando: True
-        self.clear_screen()
+        self.__limpiar_consola()
         print("=== ARGBroker ===\n")
         print("1. Iniciar Sesion") #servicio de iniciar_sesion
         print("2. Registrarse") #servicio de autenticacion
         print("0. Salir")
-        acciones_en_haber_del_inversor = self.__portafolio_inversor.obtener_todos(__usuario_autenticado._id_inversor)
-
-        for iteracion in acciones_en_haber_del_inversor:
-            print(iteracion.nombre,)
-
-
-
+        
         opcion = input("Seleccione una opción: \n")
             
         if opcion == "1":
-            self.mostrar_panel_iniciar_sesion() 
+            self.__mostrar_panel_iniciar_sesion() 
         if opcion == "2":
-            self.registrar_usuario()
+            self.__registrar_usuario()
         elif opcion == "0":
             self.ejecutando = False
         else:
             input("Opción inválida. Seleccione una opción para continuar...")
 
 
-    def mostrar_panel_iniciar_sesion(self):
-            self.clear_screen()
+    def __mostrar_panel_iniciar_sesion(self):
+            self.__limpiar_consola()
             try:
                     correo_electronico = input("Ingrese email del inversor: ")
                     contrasenia_ingresada = input("Ingrese su contraseña: ")
@@ -65,7 +59,7 @@ class Menu:
             
 
     def registrar_usuario(self):
-        self.clear_screen()
+        self.__limpiar_consola()
     
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
@@ -80,7 +74,7 @@ class Menu:
         return self.iniciar_sesion()
                      
     def _mostrar_panel_de_inversor(self): #Menu de inversor 
-        self.clear_screen()
+        self.__limpiar_consola()
         while True:
             print("=== PANEL DE INVERSOR ===\n") 
             print("1. Datos Personales") 
@@ -102,7 +96,7 @@ class Menu:
                 input("Opción inválida. Presione Enter para continuar...")
 
     def _mostrar_mis_datos(self): 
-        self.clear_screen()
+        self.__limpiar_consola()
         print("=== OBTENER DATOS DE INVERSOR === \n")
         print (f'id del inversosr: {self.InversorDAO.id_inversor}')
         print(f'Nombre: {self.InversorDAO.apellido}, {self.InversorDAO.nombre}')
@@ -111,13 +105,13 @@ class Menu:
 
        
     def _actualizar_datos(self):
-       self.clear_screen()
+       self.__limpiar_consola()
        print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
        nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
        self.InversorDAO.email = nuevo_correo_elecrtonico
        
     def _mostrar_portafolio(self): 
-        self.clear_screen()
+        self.__limpiar_consola()
         while True:
             print("=== PORTAFOLIO ===\n") 
             print("1. Mis acciones") 
@@ -137,20 +131,20 @@ class Menu:
 
 
     def _mostrar_acciones(self):
-         acciones_en_haber_del_inversor = self._estado_portafolio_dao.obtener_todos(_usuario_autenticado._id_inversor)
+         acciones_en_haber_del_inversor = self._estado_portafolio_dao.obtener_todos(self.__usuario_autenticado._id_inversor)
          for accion in acciones_en_haber_del_inversor:
               print(accion)
 
 
     def _mostrar_historial(self):
-         historial_de_inversor = self._estado_portafolio_dao.obtener_todos(_usuario_autenticado._id_inversor)
+         historial_de_inversor = self._estado_portafolio_dao.obtener_todos(self.__usuario_autenticado._id_inversor)
          for historial in historial_de_inversor:
           print(historial)
 
     
 
     def _mostrar_transacciones(self):
-         self.clear_screen()
+         self.__limpiar_consola()
     while True:
             print("=== TRANSACCIONES ===\n") 
             print("1. Acciones Disponibles") 
