@@ -7,7 +7,7 @@ def main():
     HOST = "127.0.0.1"
     BASE_DATOS = "arg_broker_bdd"
     USUARIO = "root"
-    CONTRASENA = "redcros62"
+    CONTRASENA = "kari2024"
 
     conector_a_base_datos = MySQLConnector(HOST, BASE_DATOS, USUARIO , CONTRASENA)
  
