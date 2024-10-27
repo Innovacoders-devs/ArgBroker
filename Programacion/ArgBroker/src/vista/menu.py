@@ -14,6 +14,9 @@ class Menu:
         self._portafolio_inversor = EstadoPortafolioDAO(self.__base_de_datos)
         self._historial_saldo_inversor = HistorialSaldoDAO(self.__base_de_datos)
         self.ejecutando = True
+        self.servicio_de_inicio_sesion = ServicioDeInicioSesion(InversorDAO(base_de_datos))
+        self.servicio_de_registro = ServicioDeRegistro(InversorDAO(base_de_datos))
+        self.servicio_de_autenticacion = ServicioDeAutenticacion()
     
 
     def __limpiar_consola(self):
@@ -41,37 +44,40 @@ class Menu:
             input("Opción inválida. Seleccione una opción para continuar...")
 
 
-    def __mostrar_panel_iniciar_sesion(self):
-            self.__limpiar_consola()
-            try:
-                    correo_electronico = input("Ingrese email del inversor: ")
-                    contrasenia_ingresada = input("Ingrese su contraseña: ")
-                
-                    if not correo_electronico or not contrasenia_ingresada:
-                                raise ValueError("El email y la contraseña no pueden estar vacíos")
-                    if correo_electronico == self.inversor.email and contrasenia_ingresada == self.inversor.contrasena:
-                                return self.mostrar_menu_inversor()
-                    else:
-                        raise ValueError("Credenciales incorrectas")
-            except ValueError as error:
-                    print(f"Error de autenticación: {str(error)}")
-                    return False
-            
-
     def registrar_usuario(self):
         self.__limpiar_consola()
-    
         print("=== REGISTRARSE ===\n")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
         cuil = input("CUIL: ")
         email = input("Email: ")
         contrasenia = input("Contraseña: ")
+        try:
+            nuevo_inversor = self.servicio_de_registro.registrar_usuario(nombre, apellido, cuil, email, contrasenia)
+            print("Inversor creado exitosamente!\n")
+        except ValueError as error:
+            print(f"Error en registro: {str(error)}")
 
-        print("Inversor creado exitosamente!\n")
-        if nombre is not None and apellido is not None and cuil is not None and email is not None and contrasenia is not None:
-             return self.servicio_de_autenticacion.autenticar_usuario(email, contrasenia)
-        return self.iniciar_sesion()
+
+    def __mostrar_panel_iniciar_sesion(self):
+        self.__limpiar_consola()
+        try:
+            email = input("Ingrese email del inversor: ")
+            contrasena = input("Ingrese su contraseña: ")
+
+            if not email or not contrasena:
+                raise ValueError("El email y la contraseña no pueden estar vacíos")
+
+            inversor = self.servicio_de_inicio_sesion.iniciar_sesion(email, contrasena)
+            token = self.servicio_de_autenticacion.autentificar_usuario(email, contrasena, self.servicio_de_inicio_sesion)
+
+            if inversor:
+                self.__usuario_autenticado = inversor
+                print(f"Inicio de sesión exitoso. Token: {token}")
+                self._mostrar_panel_de_inversor()
+        except ValueError as error:
+            print(f"Error de autenticación: {str(error)}")
+
                      
     def _mostrar_panel_de_inversor(self): #Menu de inversor 
         self.__limpiar_consola()
@@ -169,10 +175,3 @@ class Menu:
                 self.ejecutando = False
             else:
                 input("Opción inválida. Presione Enter para continuar...") 
-    
-    
-
-
-    
-
-         
