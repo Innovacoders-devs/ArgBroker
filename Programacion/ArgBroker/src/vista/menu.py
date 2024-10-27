@@ -1,9 +1,12 @@
 from src.acceso_a_datos.inversor_dao import InversorDAO
-from src.acceso_a_datos.accion_dao import Acciondao
+from src.acceso_a_datos.accion_dao import AccionDAO
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
 from src.acceso_a_datos.transaccion_dao import TransaccionDAO
 from src.acceso_a_datos.estado_portafolio_dao import EstadoPortafolioDAO
 from src.acceso_a_datos.historial_saldo_dao import HistorialSaldoDAO
+from src.acceso_a_datos.cotizacion_diaria_dao import CotizacionDAO
+
+
 import os
 
 class Menu:
