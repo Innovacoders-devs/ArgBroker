@@ -2,6 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from ..modelo.transaccion import Transaccion
 from ..modelo.historial_saldo import HistorialSaldo
+from ..modelo.estado_portafolio import EstadoPortafolio
 
 class ServiciodeVenta:
     def __init__(self, dao_historial_saldo, dao_cotizacion_diaria, dao_estado_portafolio, dao_transaccion, comision_broker):
@@ -20,8 +21,8 @@ class ServiciodeVenta:
         self.__monto_venta = monto_venta
 
     def __verificar_cantidad_acciones(self, inversor, cantidad_acciones):
-        estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor)
-        if estado_portafolio.cantidad < cantidad_acciones:
+        estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor, accion.id_accion)
+        if estado_portafolio is None or estado_portafolio.cantidad < cantidad_acciones:
             raise ValueError("No es posible realizar la venta porque no hay suficientes acciones para vender")
 
     def __obtener_fecha_actual(self):
@@ -32,9 +33,26 @@ class ServiciodeVenta:
         self.__calcular_monto_venta(accion)
 
         try:
-            estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor)
-            estado_portafolio.cantidad -= cantidad_acciones
-            self.__dao_estado_portafolio.actualizar(estado_portafolio, estado_portafolio.id_estado_portafolio)
+            estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor, accion.id_accion)
+            ultima_cotizacion = self.__dao_cotizacion_diaria.obtener_ultima_cotizacion(accion.id_accion)
+            precio_venta_actual = Decimal(ultima_cotizacion.precio_venta_actual)
+
+            if estado_portafolio is None:
+                # Crear un nuevo estado de portafolio
+                nuevo_estado_portafolio = EstadoPortafolio(
+                    id_portafolio=inversor.id_inversor,
+                    id_accion=accion.id_accion,
+                    nombre_accion=accion.nombre_accion,
+                    simbolo_accion=accion.simbolo_accion,
+                    cantidad=-cantidad_acciones,
+                    valor_actual=precio_venta_actual  # Asignar el precio de venta actual
+                )
+                self.__dao_estado_portafolio.crear(nuevo_estado_portafolio)
+            else:
+                # Actualizar el estado de portafolio existente
+                estado_portafolio.cantidad -= cantidad_acciones
+                estado_portafolio.valor_actual = precio_venta_actual  # Actualizar el valor actual
+                self.__dao_estado_portafolio.actualizar(estado_portafolio, estado_portafolio.id_estado_portafolio)
 
             fecha_actual = self.__obtener_fecha_actual()
             saldo_nuevo = Decimal(inversor.saldo_cuenta) + self.__monto_venta  # Convertir a Decimal
@@ -59,6 +77,10 @@ class ServiciodeVenta:
                 id_portafolio=inversor.id_inversor
             )
             self.__dao_transaccion.crear(transaccion)
+
+            ultima_cotizacion.cantidad_venta_diaria += cantidad_acciones
+            self.__dao_cotizacion_diaria.actualizar(ultima_cotizacion, ultima_cotizacion.id_cotizacion)
+
             return True
         except Exception as e:
             raise ValueError(f"No se pudo realizar la venta: {e}")

@@ -31,10 +31,10 @@ class Menu:
         self.historial_saldo_dao = HistorialSaldoDAO(self.__base_de_datos)
         self.cotizacion_dao = CotizacionDAO(self.__base_de_datos)
 
-        self.__servicio_de_registro = ServicioDeRegistro(self.inversor_dao)
+        self.__servicio_de_registro = ServicioDeRegistro(self.inversor_dao, self.portafolio_dao)
         self.__servicio_de_autenticacion = ServicioDeAutenticacion(self.inversor_dao)
         self.__servicio_de_calculo_de_rendimientos = ServiciodeCalculodeRendimientos(self.transaccion_dao, self.cotizacion_dao)
-        self.__servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+        self.__servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao,self.transaccion_dao, self.portafolio_dao, self.__comision_broker)
         self.__servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
 
         self.__ejecutando = True
@@ -48,10 +48,10 @@ class Menu:
     def mostrar_menu_principal(self): 
         while self.__ejecutando: 
             self.__limpiar_consola()
-            print("=== ARGBroker ===\n")
+            print("====== ARGBroker ======\n")
             print("1. Iniciar Sesion") 
             print("2. Registrarse") 
-            print("0. Salir")
+            print("0. Terminar el programa")
             
             opcion = input("Seleccione una opción: \n")
                 
@@ -60,6 +60,7 @@ class Menu:
             elif opcion == "2":
                 self.__mostrar_panel_de_registro()
             elif opcion == "0":
+                break
                 self.__ejecutando = False
             else:
                 input("Opción inválida. Seleccione una opción para continuar...")
@@ -76,39 +77,39 @@ class Menu:
         contrasenia = input("Contraseña: ")
         self.__nuevo_inversor = Inversor(nombre= nombre, apellido= apellido, cuil= cuil, email= email, contrasena= contrasenia)
         try:
-           resultado = self.__servicio_de_registro.registrar_usuario(self.__nuevo_inversor)
-           if resultado: 
-               self.__limpiar_consola()
-               submenu_registro = True
-               print(f'Se registro el usuario exitosamente')
-               while submenu_registro:
-                opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal \n o 3 para salir: ")
+            resultado = self.__servicio_de_registro.registrar_usuario(self.__nuevo_inversor)
+            if resultado: 
+                self.__limpiar_consola()
+                submenu_registro = True
+                print(f'Se registro el usuario exitosamente')
+                while submenu_registro:
+                    opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal \n o 3 para salir: ")
 
-                if opcion == "1":
+                    if opcion == "1":
                         self.__mostrar_panel_iniciar_sesion() 
                         submenu_registro = False
-                elif opcion == "2":
+                    elif opcion == "2":
                         self.mostrar_menu_principal()
                         submenu_registro = False
-                elif opcion == "3":
+                    elif opcion == "3":
                         self.__ejecutando = False
                         submenu_registro = False
-                else:
-                    print("Opcion no valida, por favor ingrese una de las opciones ofrecidas")
+                    else:
+                        print("Opcion no valida, por favor ingrese una de las opciones ofrecidas")
 
         except Exception as e:
             print(f"Error al registrarse: {e}")
-            opcion_del_submenu = True
-            while opcion_del_submenu:
-                eleccion = int(input("Ingrese 1 para intentar nuevamente, 2 para Salir: "))
-                if eleccion == 1:
-                    self.__mostrar_panel_de_registro()
-                    opcion_del_submenu = False
-                elif eleccion == 2:
-                    self.__ejecutando = False
-                    opcion_del_submenu = False
+            while True:
+                eleccion = input("Ingrese 1 para intentar nuevamente, 2 para Salir: ")
+                if eleccion.isdigit() and int(eleccion) in [1, 2]:
+                    eleccion = int(eleccion)
+                    if eleccion == 1:
+                        self.__mostrar_panel_de_registro()
+                    elif eleccion == '2':
+                        self.__ejecutando = False
+                    break
                 else:
-                    print("Ingrese una opcion valida")
+                    print("Ingrese una opción válida.")
             
 
 
@@ -126,29 +127,27 @@ class Menu:
             print(f'Ocurrio un error: {e}')
             opcion_del_submenu = True
             while opcion_del_submenu:
-                eleccion = int(input("Ingrese 1 para intentar nuevamente, 2 para Salir: "))
-                if eleccion == 1:
+                eleccion = input("Ingrese 1 para intentar nuevamente, 2 para Salir: ")
+                if eleccion == '1':
                     self.__mostrar_panel_iniciar_sesion()
                     opcion_del_submenu = False
-                elif eleccion == 2:
-                    self.__ejecutando = False
-                    opcion_del_submenu = False
+                elif eleccion == '2':
+                    self.mostrar_menu_principal()
                 else:
                     print("Ingrese una opcion valida")
 
-                 
 
-    def _mostrar_panel_de_inversor(self): #Menu de inversor 
-        self.__limpiar_consola()
+    def _mostrar_panel_de_inversor(self): 
         while True:
-            print("=== PANEL DE INVERSOR ===\n") 
-            print("1. Datos Personales") 
-            print("2. Mi Portafolio") 
+            self.__limpiar_consola()
+            print("==== PANEL DE INVERSOR ====")
+            print("1. Datos Personales")
+            print("2. Mi Portafolio")
             print("3. Transacciones")
-            print("0. Salir")
-
-            opcion = input("Seleccione una opción: \n ")
-
+            print("0. Cerrar sesión")
+            
+            opcion = input("Seleccione una opción: \n")
+            
             if opcion == "1":
                 self.__mostrar_panel_mis_datos()
             elif opcion == "2":
@@ -156,8 +155,12 @@ class Menu:
             elif opcion == "3":
                 self._mostrar_transacciones()
             elif opcion == "0":
-                self.__ejecutando = False
-                break
+                confirmacion = input("¿Está seguro que desea cerrar sesión? (s/n): \n")
+                if confirmacion.lower() == 's':
+                    self.__usuario_autenticado = None
+                    print("Sesión cerrada. Presione Enter para continuar...")
+                    input()
+                    self.mostrar_menu_principal()
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
@@ -169,7 +172,7 @@ class Menu:
             saldo_actual = ultimo_saldo.saldo_nuevo
         except Exception as e:
             saldo_actual = "No disponible"
-            print(f"Error al obtener el saldo actual: {e}")
+            print(f'Aun no hay transacciones su saldo es {self.__usuario_autenticado.saldo_cuenta}')
 
         print(f'id del inversor: {self.__usuario_autenticado.id_inversor}')
         print(f'Nombre: {self.__usuario_autenticado.apellido}, {self.__usuario_autenticado.nombre}')
@@ -185,13 +188,14 @@ class Menu:
        self.InversorDAO.email = nuevo_correo_elecrtonico
        
     def _mostrar_portafolio(self): 
-        self.__limpiar_consola()
+        
         while True:
+            self.__limpiar_consola()
             print("=== PORTAFOLIO ===\n") 
             print("1. Mis acciones") 
             print("2. Historial") 
             print("3. Listar Activos")
-            print("0. Salir")
+            print("0. Volver")
 
             opcion = input("Seleccione una opción: \n ")
 
@@ -206,19 +210,22 @@ class Menu:
             else:
                 input("Opción inválida. Presione Enter para continuar...")  
 
-
-    def _mostrar_acciones(self):
-        self.__limpiar_consola()
-        print("=== MIS ACCIONES === \n")
+    def acciones_en_el_portfolio (self):
         try:
-            acciones_en_haber_del_inversor = self.estado_portafolio_dao.obtener_todos(self.__usuario_autenticado.id_inversor)
+            portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
+            acciones_en_haber_del_inversor = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
             if not acciones_en_haber_del_inversor:
                 print("No se encontraron acciones en el portafolio.")
             else:
                 for accion in acciones_en_haber_del_inversor:
-                    print(f" Nombre: {accion._nombre_accion}, Símbolo: {accion._simbolo_accion}, Cantidad: {accion._cantidad}, Valor Actual: {accion._valor_actual}")
+                    print(f"id: {accion.id_accion} Nombre: {accion._nombre_accion}, Símbolo: {accion._simbolo_accion}, Cantidad: {accion._cantidad}, Valor Actual: {accion._valor_actual}")
         except Exception as e:
             print(f"Error al obtener las acciones: {e}")
+
+    def _mostrar_acciones(self):
+        self.__limpiar_consola()
+        print("=== MIS ACCIONES === \n")
+        self. acciones_en_el_portfolio()
         input("Presione Enter para continuar...")
 
     def _mostrar_historial(self):
@@ -231,14 +238,10 @@ class Menu:
                 print("No hay transacciones disponibles.")
             else:
                 for transaccion in transacciones:
-                    print(f"ID Transacción: {transaccion.id_transaccion}")
-                    print(f"Tipo: {transaccion.tipo}")
-                    print(f"Fecha: {transaccion.fecha}")
-                    print(f"Precio: {transaccion.precio}")
-                    print(f"Cantidad: {transaccion.cantidad}")
-                    print(f"Comisión: {transaccion.comision}")
-                    print(f"ID Portafolio: {transaccion.id_portafolio}")
-                    print("-" * 20)
+                    print(f"ID Transacción: {transaccion.id_transaccion} Tipo: {transaccion.tipo}")
+                    print(f"Fecha: {transaccion.fecha} Precio: {transaccion.precio} Cantidad: {transaccion.cantidad}")
+                    print(f"Comisión: {transaccion.comision} ID Portafolio: {transaccion.id_portafolio}")
+                    print("------------------" )
         except Exception as e:
             print(f"Error al obtener el historial de transacciones: {e}")
         input("Presione Enter para continuar...")
@@ -253,12 +256,12 @@ class Menu:
                 print("No hay activos en el portafolio.")
             else:
                 for activo in activos:
+                    rendimiento = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
                     print(f"ID Activo: {activo.id_estado_portafolio}")
-                    print(f"Nombre: {activo.nombre_accion}")
-                    print(f"Símbolo: {activo.simbolo_accion}")
-                    print(f"Cantidad: {activo.cantidad}")
-                    print(f"Valor Actual: {activo.valor_actual}")
-                    print("-" * 20)
+                    print(f"Nombre: {activo.nombre_accion} Simbolo: {activo.simbolo_accion}")
+                    print(f"Cantidad: {activo.cantidad} Valor Actual: {activo.valor_actual}")
+                    print(f"Rendimiento: {rendimiento}")
+                    print("------------------")
         except Exception as e:
             print(f"Error al obtener los activos del portafolio: {e}")
         input("Presione Enter para continuar...")
@@ -280,14 +283,15 @@ class Menu:
                         cantidad_compra = cotizacion.cantidad_compra_diaria if cotizacion else "No disponible"
                         cantidad_venta = cotizacion.cantidad_venta_diaria if cotizacion else "No disponible"
                         
-                        print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}, - Símbolo: {accion.simbolo_accion} - Precio Compra: {precio_compra} - Precio Venta: {precio_venta} --- Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
+                        print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- Precio Compra: {precio_compra} - Precio Venta: {precio_venta} -- Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
             except Exception as e:
                 print(f"Error al obtener las acciones disponibles: {e}")
 
             print("\nOpciones:")
             print("1. Comprar")
             print("2. Vender")
-            print("0. Salir")
+            print("3. Ver comision del Broker")
+            print("4. Volver al panel principal")
 
             opcion = input("Seleccione una opción: \n ")
 
@@ -295,16 +299,20 @@ class Menu:
                 self.__comprar_acciones()
             elif opcion == "2":
                 self.__vender_acciones()
-            elif opcion == "0":
-                break
+            elif opcion == "3":
+                self._ver_comisiones_broker()
+            elif opcion == "4":
+                self._mostrar_panel_de_inversor()
+  
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
     def _ver_comisiones_broker(self):
-        self.__limpiar_consola()
-        print("=== COMISIONES DEL BROKER ===\n")
-        print(f"La comisión actual del broker es: {self.__comision_broker}")
+        print("=== COMISION DEL BROKER POR PERMITIR OPERAR===\n")
+
+        print(f"La comisión actual del broker es: {self.__comision_broker} % por transaccion")
         input("Presione Enter para continuar...")
+
 
     def __comprar_acciones(self):
         print("=== COMPRAR ACCIONES ===\n")
@@ -314,20 +322,20 @@ class Menu:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_compra.realizar_compra(self.__usuario_autenticado, accion, cantidad)
             print("Compra realizada con éxito.")
-            self._mostrar_transacciones()
         except Exception as e:
             print(f"Error al comprar acciones: {e}")
         input("Presione Enter para continuar...")
 
     def __vender_acciones(self):
+        self.__limpiar_consola()
         print("=== VENDER ACCIONES ===\n")
-        id_accion = input("Ingrese el ID de la acción a vender: ")
+        self. acciones_en_el_portfolio()
+        id_accion = input("\nIngrese el ID de la acción a vender: ")
         cantidad = int(input("Ingrese la cantidad a vender: "))
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)
             print("Venta realizada con éxito.")
-            self._mostrar_transacciones()
         except Exception as e:
             print(f"Error al vender acciones: {e}")
         input("Presione Enter para continuar...")

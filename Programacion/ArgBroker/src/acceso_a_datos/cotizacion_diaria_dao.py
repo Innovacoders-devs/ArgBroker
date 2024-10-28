@@ -145,9 +145,9 @@ class CotizacionDAO(DAOInterface):
 
         try:
             self._conector_mysql.conectar_a_base_datos()
-            print(f"Ejecutando consulta: {consulta}")
-            print(f"Con valores: {valores_a_actualizar}")
             self._conector_mysql.ejecutar_consulta(consulta, valores_a_actualizar)
+        
+            return True
             
         except Exception as e:
             raise ValueError(f'No se puede actualizar la cotización: {e}')
