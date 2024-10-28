@@ -4,12 +4,13 @@ from src.vista.menu import Menu
 def main():
     COMISION_BROKER = 3.5
 
-    HOST = "127.0.0.1"
-    BASE_DATOS = "arg_broker_demo_bdd"
+    HOST = "autorack.proxy.rlwy.net"
+    BASE_DATOS = "railway"
     USUARIO = "root"
-    CONTRASENA = "redcros62"
+    CONTRASENA = "UMoiNIiTxJZCkhxzKbweHsBVohDwRpEx"
+    PUERTO = 42407
 
-    conector_a_base_datos = MySQLConnector(HOST, BASE_DATOS, USUARIO , CONTRASENA)
+    conector_a_base_datos = MySQLConnector(HOST, BASE_DATOS, USUARIO , CONTRASENA, PUERTO)
  
     menu = Menu(conector_a_base_datos, COMISION_BROKER)
 
