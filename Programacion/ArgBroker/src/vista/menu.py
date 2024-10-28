@@ -1,3 +1,5 @@
+from src.modelo.inversor import Inversor
+
 from src.acceso_a_datos.inversor_dao import InversorDAO
 from src.acceso_a_datos.accion_dao import AccionDAO
 from src.acceso_a_datos.portafolio_dao import PortafolioDAO
@@ -18,6 +20,7 @@ class Menu:
     def __init__ (self, base_de_datos, COMISION_BROKER):
         self.__base_de_datos = base_de_datos
         self.__comision_broker = COMISION_BROKER
+        self.__nuevo_inversor = None
         self.__usuario_autenticado = None
 
         self.inversor_dao = InversorDAO(self.__base_de_datos)
@@ -28,13 +31,13 @@ class Menu:
         self.historial_saldo_dao = HistorialSaldoDAO(self.__base_de_datos)
         self.cotizacion_dao = CotizacionDAO(self.__base_de_datos)
 
-        self.servicio_de_registro = ServicioDeRegistro(self.inversor_dao)
-        self.servicio_de_autenticacion = ServicioDeAutenticacion(self.inversor_dao)
-        self.servicio_de_calculo_de_rendimientos = ServiciodeCalculodeRendimientos(self.transaccion_dao, self.cotizacion_dao)
-        self.servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
-        self.servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+        self.__servicio_de_registro = ServicioDeRegistro(self.inversor_dao)
+        self.__servicio_de_autenticacion = ServicioDeAutenticacion(self.inversor_dao)
+        self.__servicio_de_calculo_de_rendimientos = ServiciodeCalculodeRendimientos(self.transaccion_dao, self.cotizacion_dao)
+        self.__servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+        self.__servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
 
-        self.ejecutando = True
+        self.__ejecutando = True
     
 
     def __limpiar_consola(self):
@@ -42,59 +45,75 @@ class Menu:
             os.system('cls')
 
 
-    def mostrar_menu_principal(self): #Menu principal
-        while self.ejecutando: True
-        self.__limpiar_consola()
-        print("=== ARGBroker ===\n")
-        print("1. Iniciar Sesion") #servicio de iniciar_sesion
-        print("2. Registrarse") #servicio de autenticacion
-        print("0. Salir")
-        
-        opcion = input("Seleccione una opción: \n")
+    def mostrar_menu_principal(self): 
+        while self.__ejecutando: 
+            self.__limpiar_consola()
+            print("=== ARGBroker ===\n")
+            print("1. Iniciar Sesion") 
+            print("2. Registrarse") 
+            print("0. Salir")
             
-        if opcion == "1":
-            self.__mostrar_panel_iniciar_sesion() 
-        if opcion == "2":
-            self.__registrar_usuario()
-        elif opcion == "0":
-            self.ejecutando = False
-        else:
-            input("Opción inválida. Seleccione una opción para continuar...")
+            opcion = input("Seleccione una opción: \n")
+                
+            if opcion == "1":
+                self.__mostrar_panel_iniciar_sesion() 
+            if opcion == "2":
+                self.__mostrar_panel_de_registro()
+            elif opcion == "0":
+                self.ejecutando = False
+            else:
+                input("Opción inválida. Seleccione una opción para continuar...")
 
 
-    def registrar_usuario(self):
+    def __mostrar_panel_de_registro(self):
         self.__limpiar_consola()
-        print("=== REGISTRARSE ===\n")
+        print("=== PANEL DE REGISTRO ===\n")
+        print("Ingrese los datos que se le piden a continuacion: ")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
         cuil = input("CUIL: ")
         email = input("Email: ")
         contrasenia = input("Contraseña: ")
+        self.__nuevo_inversor = Inversor(nombre= nombre, apellido= apellido, cuil= cuil, email= email, contrasena= contrasenia)
         try:
-            nuevo_inversor = self.servicio_de_registro.registrar_usuario(nombre, apellido, cuil, email, contrasenia)
-            print("Inversor creado exitosamente!\n")
-        except ValueError as error:
-            print(f"Error en registro: {str(error)}")
+           resultado = self.__servicio_de_registro.registrar_usuario(self.__nuevo_inversor)
+           if resultado: 
+               self.__limpiar_consola()
+               print(f'Se registro el usuario exitosamente')
+               opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal \n o 3 para salir: ")
+                if opcion == "1":
+                    self.__mostrar_panel_iniciar_sesion() 
+                elif opcion == "2":
+                    self.mostrar_menu_principal()
+                elif opcion == "3":
+                    self.ejecutando = False
+                else:
+
+                
+
+
+        except Exception as e:
+            print(f"Error al registrarse: {e}")
+            
 
 
     def __mostrar_panel_iniciar_sesion(self):
         self.__limpiar_consola()
+        print("=== PANEL DE INICIO DE SESION ===")
         try:
             email = input("Ingrese email del inversor: ")
             contrasena = input("Ingrese su contraseña: ")
+            
+            self.__usuario_autenticado = self.__servicio_de_autenticacion.iniciar_sesion(email,contrasena)
+        except Exception as e:
+            print(f'Ocurrio un error: {e}')
+            eleccion = int(input("Ingrese 1 para intentar nuevamente, 2 para Salir: "))
+            if eleccion == 1:
+                self.__mostrar_panel_iniciar_sesion()
+            else:
+                self.__ejecutando =False
 
-            if not email or not contrasena:
-                raise ValueError("El email y la contraseña no pueden estar vacíos")
-
-            inversor = self.servicio_de_inicio_sesion.iniciar_sesion(email, contrasena)
-            token = self.servicio_de_autenticacion.autentificar_usuario(email, contrasena, self.servicio_de_inicio_sesion)
-
-            if inversor:
-                self.__usuario_autenticado = inversor
-                print(f"Inicio de sesión exitoso. Token: {token}")
-                self._mostrar_panel_de_inversor()
-        except ValueError as error:
-            print(f"Error de autenticación: {str(error)}")
+                
 
                      
     def _mostrar_panel_de_inversor(self): #Menu de inversor 
@@ -170,26 +189,26 @@ class Menu:
     #todos los metodos deben ser mostrar panel y estar en privados, doble guion
 
     def _mostrar_transacciones(self):
-         self.__limpiar_consola()
-    while True:
-            print("=== TRANSACCIONES ===\n") 
-            print("1. Acciones Disponibles") 
-            print("2. Comprar")
-            print("3. Vender") 
-            print("4. Comision Broker")
-            print("0. Salir")
+        self.__limpiar_consola()
+        while True:
+                print("=== TRANSACCIONES ===\n") 
+                print("1. Acciones Disponibles") 
+                print("2. Comprar")
+                print("3. Vender") 
+                print("4. Comision Broker")
+                print("0. Salir")
 
-            opcion = input("Seleccione una opción: \n ")
+                opcion = input("Seleccione una opción: \n ")
 
-            if opcion == "1":
-                self._mostrar_acciones_disponibles()
-            elif opcion == "2":
-                self._comprar_acciones()
-            elif opcion == "3":
-                self._vender_acciones()
-            elif opcion == "4":
-                self._ver_comisiones_broker()
-            elif opcion == "o":
-                self.ejecutando = False
-            else:
-                input("Opción inválida. Presione Enter para continuar...") 
+                if opcion == "1":
+                    self._mostrar_acciones_disponibles()
+                elif opcion == "2":
+                    self._comprar_acciones()
+                elif opcion == "3":
+                    self._vender_acciones()
+                elif opcion == "4":
+                    self._ver_comisiones_broker()
+                elif opcion == "o":
+                    self.ejecutando = False
+                else:
+                    input("Opción inválida. Presione Enter para continuar...") 

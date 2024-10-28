@@ -1,5 +1,5 @@
 class Inversor:
-    def __init__(self, id_inversor= None, nombre= None, apellido= None, cuil= None, email= None, contrasena= None, saldo_cuenta= None, intentos_fallidos= None):
+    def __init__(self, id_inversor= None, nombre= None, apellido= None, cuil= None, email= None, contrasena= None, saldo_cuenta= 1000000.0, intentos_fallidos= 0):
         self._nombre = nombre
         self._apellido = apellido
         self._cuil = cuil

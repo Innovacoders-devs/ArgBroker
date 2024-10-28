@@ -11,7 +11,7 @@ def main():
 
     conector_a_base_datos = MySQLConnector(HOST, BASE_DATOS, USUARIO , CONTRASENA)
  
-    menu = Menu(conectar_a_base_datos, COMISION_BROKER)
+    menu = Menu(conector_a_base_datos, COMISION_BROKER)
 
     menu.mostrar_menu_principal()
 
