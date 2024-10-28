@@ -132,3 +132,30 @@ class TransaccionDAO(DAOInterface):
             raise Exception(f"Error al obtener las transacciones por portafolio y acción: {error}")
         finally:
             self._base_de_datos.desconectar_de_base_datos()
+
+    def obtener_por_portafolio(self, id_portafolio):
+        consulta = "SELECT * FROM transaccion WHERE id_portafolio = %s"
+        try:
+            self._base_de_datos.conectar_a_base_datos()
+            resultados = self._base_de_datos.traer_todos(consulta, (id_portafolio,))
+            
+            transacciones_instanciadas = []
+            
+            for resultado in resultados:
+                transaccion_instanciada = Transaccion(
+                    id_transaccion=resultado[0],
+                    id_portafolio=resultado[1],
+                    id_accion=resultado[2],
+                    cantidad=resultado[3],
+                    precio=resultado[4],
+                    tipo=resultado[5],
+                    fecha=resultado[6],
+                    comision=resultado[7]
+                )
+                transacciones_instanciadas.append(transaccion_instanciada)
+            
+            return transacciones_instanciadas
+        except Exception as error:
+            raise Exception(f"Error al obtener las transacciones por portafolio: {error}")
+        finally:
+            self._base_de_datos.desconectar_de_base_datos()

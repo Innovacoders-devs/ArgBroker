@@ -200,6 +200,32 @@ class CotizacionDAO(DAOInterface):
         finally:
             self._conector_mysql.desconectar_de_base_datos()
             return instancia_cotizacion
-
+            
+    def obtener_por_accion(self, id_accion):
+        consulta = "SELECT * FROM cotizacion_diaria WHERE id_accion = %s ORDER BY fecha DESC LIMIT 1"
+        try:
+            self._conector_mysql.conectar_a_base_datos()
+            cotizacion_obtenida = self._conector_mysql.traer_solo_uno(consulta, (id_accion,))
+            if not cotizacion_obtenida:
+                return None
+            cotizacion = CotizacionDiaria(
+                id_cotizacion=cotizacion_obtenida[0],
+                id_accion=cotizacion_obtenida[1],
+                fecha=cotizacion_obtenida[2],
+                ultimo_operado=cotizacion_obtenida[3],
+                cantidad_compra_diaria=cotizacion_obtenida[4],
+                precio_compra_actual=cotizacion_obtenida[5],
+                precio_venta_actual=cotizacion_obtenida[6],
+                cantidad_venta_diaria=cotizacion_obtenida[7],
+                valor_apertura=cotizacion_obtenida[8],
+                minimo_diario=cotizacion_obtenida[9],
+                maximo_diario=cotizacion_obtenida[10],
+                valor_cierre=cotizacion_obtenida[11]
+            )
+        except Exception as e:
+            raise ValueError(f'Ocurrió un error al consultar la cotización por acción: {e}')
+        finally:
+            self._conector_mysql.desconectar_de_base_datos()
+            return cotizacion
 
 

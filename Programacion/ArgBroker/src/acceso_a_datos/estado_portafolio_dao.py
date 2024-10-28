@@ -75,12 +75,16 @@ class EstadoPortafolioDAO(DAOInterface):
             return instancia_estado_portafolio
 
     def obtener_todos(self, id_portafolio_inversor):
-        consulta = "SELECT * FROM estado_portafolio WHERE id_portafolio = %s"
+        consulta = """
+        SELECT id_estado_portafolio, id_portafolio, id_accion, nombre_accion, simbolo_accion, cantidad, valor_actual 
+        FROM estado_portafolio 
+        WHERE id_portafolio = %s
+        """
         try:
             self.__base_de_datos.conectar_a_base_datos()
             estados_portafolio_obtenidos = self.__base_de_datos.traer_todos(consulta, (id_portafolio_inversor,))
             if not estados_portafolio_obtenidos:
-                raise Exception("No se pudo obtener los estados de portafolio")
+                return [] 
             estados_portafolio_instanciados = []
             for estado in estados_portafolio_obtenidos:
                 estado_instanciado = EstadoPortafolio(
@@ -88,9 +92,8 @@ class EstadoPortafolioDAO(DAOInterface):
                     estado[4], estado[5], estado[6]
                 )
                 estados_portafolio_instanciados.append(estado_instanciado)
-            
+            return estados_portafolio_instanciados
         except Exception as error:
             raise Exception(f"Error al obtener la lista de estados de portafolio de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return estados_portafolio_instanciados

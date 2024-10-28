@@ -100,14 +100,12 @@ class HistorialSaldoDAO(DAOInterface):
         """
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            resultado = self.__base_de_datos.traer_solo_uno(consulta, (id_inversor,))
-            if not resultado:
-                raise Exception("No se encontró historial de saldo para el inversor con el ID proporcionado.")
-            
-            ultimo_historial = HistorialSaldo(resultado[0], resultado[1], resultado[2], 
-                                            resultado[3], resultado[4], resultado[5])
+            ultimo_historial = self.__base_de_datos.traer_solo_uno(consulta, (id_inversor,))
+            if not ultimo_historial:
+                raise Exception("No se encontró historial de saldo para el inversor.")
+
+            return HistorialSaldo(*ultimo_historial)
         except Exception as error:
-            raise Exception(f"Error al buscar el último saldo del inversor: {error}")
+            raise Exception(f"Error al obtener el último saldo: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return ultimo_historial
