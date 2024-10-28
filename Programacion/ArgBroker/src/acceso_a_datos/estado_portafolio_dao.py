@@ -48,13 +48,13 @@ class EstadoPortafolioDAO(DAOInterface):
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
 
-    def obtener_uno(self, id_estado_portafolio):
-        consulta = "SELECT * FROM estado_portafolio WHERE id_estado_portafolio = %s"
+    def obtener_uno(self, id_inversor, id_accion):
+        consulta = "SELECT * FROM estado_portafolio WHERE id_portafolio = %s AND id_accion = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            estado_portafolio_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (id_estado_portafolio,))
+            estado_portafolio_obtenido = self.__base_de_datos.traer_solo_uno(consulta, (id_inversor, id_accion))
             if not estado_portafolio_obtenido:
-                raise Exception("No existe estado de portafolio con dicho id")
+                return None
             instancia_estado_portafolio = EstadoPortafolio(
                 estado_portafolio_obtenido[0], estado_portafolio_obtenido[1],
                 estado_portafolio_obtenido[2], estado_portafolio_obtenido[3],
