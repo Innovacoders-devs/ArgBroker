@@ -158,7 +158,7 @@ Aquí se definen los modelos de negocio que representan las entidades del sistem
 
 `5. servicios/`
 
-Este directorio contiene los servicios, es decir, las clases o funciones que encapsulan la lógica de negocio y operan sobre los modelos. La separación entre los servicios y los DAOs asegura que la lógica de negocio no esté acoplada directamente con el acceso a la base de datos, facilitando el testeo.
+Este directorio contiene los servicios, es decir, las clases o funciones que encapsulan la lógica de negocio de alto nivel y operan sobre los modelos. La separación entre los servicios y los DAOs asegura que la lógica de negocio no esté acoplada directamente con el acceso a la base de datos, facilitando el testeo.
 
 `6. Vista/`
 
