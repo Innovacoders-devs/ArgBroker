@@ -1,2 +1,14 @@
 venv/
 .idea/
+<<<<<<< HEAD
+=======
+.vscode
+utils/pycache/
+__pycache__/
+.pytest_cache/
+src/acceso_a_datos/pycache/
+src/herramientras/pycache/
+src/modelo/pycache/
+src/servicios/pycache/
+src/vista/pycache/
+>>>>>>> develop
