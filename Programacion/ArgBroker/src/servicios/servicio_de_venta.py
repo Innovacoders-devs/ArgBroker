@@ -16,7 +16,7 @@ class ServiciodeVenta:
         ultima_cotizacion = self.__dao_cotizacion_diaria.obtener_ultima_cotizacion(accion.id_accion)
         precio_venta_actual = Decimal(ultima_cotizacion.precio_venta_actual)  
         comision = precio_venta_actual * self.__comision_broker
-        monto_venta = precio_venta_actual + comision
+        monto_venta = precio_venta_actual - comision
         self.__monto_venta = monto_venta
 
     def __verificar_cantidad_acciones(self, inversor, cantidad_acciones):

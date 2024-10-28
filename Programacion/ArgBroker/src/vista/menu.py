@@ -225,8 +225,8 @@ class Menu:
         self.__limpiar_consola()
         print("=== HISTORIAL DE TRANSACCIONES === \n")
         try:
-            id_portafolio = self.__usuario_autenticado.portafolio.id_portafolio
-            transacciones = self.transaccion_dao.obtener_por_portafolio(id_portafolio)
+            portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
+            transacciones = self.transaccion_dao.obtener_por_portafolio(portafolio.id_portafolio)
             if not transacciones:
                 print("No hay transacciones disponibles.")
             else:
@@ -247,8 +247,8 @@ class Menu:
         self.__limpiar_consola()
         print("=== LISTA DE ACTIVOS DEL PORTAFOLIO === \n")
         try:
-            id_portafolio = self.__usuario_autenticado.portafolio.id_portafolio
-            activos = self.estado_portafolio_dao.obtener_por_portafolio(id_portafolio)
+            portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
+            activos = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
             if not activos:
                 print("No hay activos en el portafolio.")
             else:
@@ -264,46 +264,41 @@ class Menu:
         input("Presione Enter para continuar...")
 
     def _mostrar_transacciones(self):
-        self.__limpiar_consola()
         while True:
+            self.__limpiar_consola()
             print("=== MENU DE COMPRAVENTA DE ACCIONES ===\n") 
-            print("1. Acciones Disponibles") 
-            print("2. Comprar")
-            print("3. Vender") 
-            print("4. Comision Broker")
+            print("Acciones Disponibles:")
+            try:
+                acciones = self.accion_dao.obtener_todos()
+                if not acciones:
+                    print("No hay acciones disponibles.")
+                else:
+                    for accion in acciones:
+                        cotizacion = self.cotizacion_dao.obtener_por_accion(accion.id_accion)
+                        precio_compra = cotizacion.precio_compra_actual if cotizacion else "No disponible"
+                        precio_venta = cotizacion.precio_venta_actual if cotizacion else "No disponible"
+                        cantidad_compra = cotizacion.cantidad_compra_diaria if cotizacion else "No disponible"
+                        cantidad_venta = cotizacion.cantidad_venta_diaria if cotizacion else "No disponible"
+                        
+                        print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}, - Símbolo: {accion.simbolo_accion} - Precio Compra: {precio_compra} - Precio Venta: {precio_venta} --- Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
+            except Exception as e:
+                print(f"Error al obtener las acciones disponibles: {e}")
+
+            print("\nOpciones:")
+            print("1. Comprar")
+            print("2. Vender")
             print("0. Salir")
 
             opcion = input("Seleccione una opción: \n ")
 
             if opcion == "1":
-                self._mostrar_acciones_disponibles()
-            elif opcion == "2":
                 self.__comprar_acciones()
-            elif opcion == "3":
+            elif opcion == "2":
                 self.__vender_acciones()
-            elif opcion == "4":
-                self._ver_comisiones_broker()
             elif opcion == "0":
                 break
             else:
                 input("Opción inválida. Presione Enter para continuar...")
-
-    def _mostrar_acciones_disponibles(self):
-        self.__limpiar_consola()
-        print("=== ACCIONES DISPONIBLES ===\n")
-        try:
-            acciones = self.accion_dao.obtener_todos()
-            if not acciones:
-                print("No hay acciones disponibles.")
-            else:
-                for accion in acciones:
-                    cotizacion = self.cotizacion_dao.obtener_por_accion(accion.id_accion)
-                    precio_compra = cotizacion.precio_compra_actual if cotizacion else "No disponible"
-                    precio_venta = cotizacion.precio_venta_actual if cotizacion else "No disponible"
-                    print(f"ID: {accion.id_accion}, Nombre: {accion.nombre_accion}, Símbolo: {accion.simbolo_accion}, Precio Compra: {precio_compra}, Precio Venta: {precio_venta}")
-        except Exception as e:
-            print(f"Error al obtener las acciones disponibles: {e}")
-        input("Presione Enter para continuar...")
 
     def _ver_comisiones_broker(self):
         self.__limpiar_consola()
@@ -312,7 +307,6 @@ class Menu:
         input("Presione Enter para continuar...")
 
     def __comprar_acciones(self):
-        self.__limpiar_consola()
         print("=== COMPRAR ACCIONES ===\n")
         id_accion = input("Ingrese el ID de la acción a comprar: ")
         cantidad = int(input("Ingrese la cantidad a comprar: "))
@@ -320,12 +314,12 @@ class Menu:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_compra.realizar_compra(self.__usuario_autenticado, accion, cantidad)
             print("Compra realizada con éxito.")
+            self._mostrar_transacciones()
         except Exception as e:
             print(f"Error al comprar acciones: {e}")
         input("Presione Enter para continuar...")
 
     def __vender_acciones(self):
-        self.__limpiar_consola()
         print("=== VENDER ACCIONES ===\n")
         id_accion = input("Ingrese el ID de la acción a vender: ")
         cantidad = int(input("Ingrese la cantidad a vender: "))
@@ -333,6 +327,7 @@ class Menu:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)
             print("Venta realizada con éxito.")
+            self._mostrar_transacciones()
         except Exception as e:
             print(f"Error al vender acciones: {e}")
         input("Presione Enter para continuar...")

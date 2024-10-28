@@ -83,20 +83,13 @@ class PortafolioDAO(DAOInterface):
         parametros = (id_inversor,)
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            portafolios_obtenidos = self.__base_de_datos.traer_todos(sql, parametros)
-            if not portafolios_obtenidos:
+            portafolio_obtenido = self.__base_de_datos.traer_solo_uno(sql, (id_inversor,))
+            if not portafolio_obtenido:
                 raise Exception("No existe el portafolio para este inversor.")
-            
-            objetos = []
-            for fila in portafolios_obtenidos:
-                portafolio_instanciado = Portafolio(
-                    id_portafolio=fila[0],
-                    id_inversor=fila[1]
-                )
-                objetos.append(portafolio_instanciado)
-            
+                
+            portafolio_instanciado = Portafolio(id_portafolio=portafolio_obtenido[0], id_inversor=portafolio_obtenido[1])
         except Exception as error:
             print(f"Error al obtener el portafolio del inversor: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return objetos
+            return portafolio_instanciado

@@ -12,15 +12,13 @@ class EstadoPortafolioDAO(DAOInterface):
                               estado_portafolio.cantidad, estado_portafolio.valor_actual)
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            self.__base_de_datos.ejecutar_consulta(
-                consulta, valores_a_insertar)
-            
+            self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
         except Exception as e:
-            print(
-                f"Error al crear el estado de portafolio en la base de datos: {e}")
+            print(f"Error al crear el estado de portafolio en la base de datos: {e}")
+            return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return True
 
     def actualizar(self, estado_portafolio, id_estado_a_modificar):
         consulta = "UPDATE estado_portafolio SET id_portafolio = %s, id_accion = %s, nombre_accion = %s, simbolo_accion = %s, cantidad = %s, valor_actual = %s WHERE id_estado_portafolio = %s"
@@ -30,29 +28,25 @@ class EstadoPortafolioDAO(DAOInterface):
                               id_estado_a_modificar)
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            self.__base_de_datos.ejecutar_consulta(
-                consulta, valores_a_insertar)
-            
+            self.__base_de_datos.ejecutar_consulta(consulta, valores_a_insertar)
+            return True
         except Exception as error:
             print(f"Error al modificar el estado de portafolio: {error}")
+            return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return True
 
     def eliminar(self, id_estado_portafolio):
         consulta = "DELETE FROM estado_portafolio WHERE id_estado_portafolio = %s"
         try:
             self.__base_de_datos.conectar_a_base_datos()
-            self.__base_de_datos.ejecutar_consulta(
-                consulta, (id_estado_portafolio,))
+            self.__base_de_datos.ejecutar_consulta(consulta, (id_estado_portafolio,))
             return True
         except Exception as error:
-            print(
-                f"Error al eliminar estado de portafolio en la base de datos: {error}")
-            
+            print(f"Error al eliminar estado de portafolio en la base de datos: {error}")
+            return False
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return False
 
     def obtener_uno(self, id_estado_portafolio):
         consulta = "SELECT * FROM estado_portafolio WHERE id_estado_portafolio = %s"
@@ -67,12 +61,11 @@ class EstadoPortafolioDAO(DAOInterface):
                 estado_portafolio_obtenido[4], estado_portafolio_obtenido[5],
                 estado_portafolio_obtenido[6]
             )
-            
+            return instancia_estado_portafolio
         except Exception as error:
             raise Exception(f"Error al obtener el estado de portafolio de la base de datos: {error}")
         finally:
             self.__base_de_datos.desconectar_de_base_datos()
-            return instancia_estado_portafolio
 
     def obtener_todos(self, id_portafolio_inversor):
         consulta = """
