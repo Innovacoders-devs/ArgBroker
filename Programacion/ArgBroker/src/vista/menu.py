@@ -1,3 +1,4 @@
+import os
 from src.modelo.inversor import Inversor
 
 from src.acceso_a_datos.inversor_dao import InversorDAO
@@ -14,7 +15,8 @@ from src.servicios.servicio_de_calculo_de_rendimientos import ServiciodeCalculod
 from src.servicios.servicio_de_compra import ServiciodeCompra
 from src.servicios.servicio_de_venta import ServiciodeVenta
 
-import os
+from rich.console import Console
+from rich.panel import Panel
 
 class Menu:
     def __init__ (self, base_de_datos, COMISION_BROKER):
@@ -22,6 +24,7 @@ class Menu:
         self.__comision_broker = COMISION_BROKER
         self.__nuevo_inversor = None
         self.__usuario_autenticado = None
+        self.__console = Console()
 
         self.inversor_dao = InversorDAO(self.__base_de_datos)
         self.accion_dao = AccionDAO(self.__base_de_datos)
@@ -43,15 +46,18 @@ class Menu:
     def __limpiar_consola(self):
         if os.name == 'nt':
             os.system('cls')
+        else:
+            os.system('clear')
 
 
     def mostrar_menu_principal(self): 
         while self.__ejecutando: 
             self.__limpiar_consola()
-            print("====== ARGBroker ======\n")
-            print("1. Iniciar Sesion") 
+            self.__console.print(Panel.fit(" Bienvenido a ARGBroker", title="Menú Principal", style="magenta"))
+
+            print("\n1. Iniciar Sesion") 
             print("2. Registrarse") 
-            print("0. Terminar el programa")
+            print("0. Terminar el programa\n")
             
             opcion = input("Seleccione una opción: \n")
                 
@@ -60,11 +66,9 @@ class Menu:
             elif opcion == "2":
                 self.__mostrar_panel_de_registro()
             elif opcion == "0":
-                break
                 self.__ejecutando = False
             else:
                 input("Opción inválida. Seleccione una opción para continuar...")
-
 
     def __mostrar_panel_de_registro(self):
         self.__limpiar_consola()
@@ -161,6 +165,7 @@ class Menu:
                     print("Sesión cerrada. Presione Enter para continuar...")
                     input()
                     self.mostrar_menu_principal()
+                    break
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 
@@ -270,7 +275,7 @@ class Menu:
         while True:
             self.__limpiar_consola()
             print("=== MENU DE COMPRAVENTA DE ACCIONES ===\n") 
-            print("Acciones Disponibles:")
+            print("Acciones Disponibles para comprar:")
             try:
                 acciones = self.accion_dao.obtener_todos()
                 if not acciones:
@@ -283,7 +288,8 @@ class Menu:
                         cantidad_compra = cotizacion.cantidad_compra_diaria if cotizacion else "No disponible"
                         cantidad_venta = cotizacion.cantidad_venta_diaria if cotizacion else "No disponible"
                         
-                        print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- Precio Compra: {precio_compra} - Precio Venta: {precio_venta} -- Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
+                        if cantidad_compra != "No disponible" and cantidad_compra > 0:
+                            print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- $$ Compra: {precio_compra} - $$ Venta: {precio_venta} - Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
             except Exception as e:
                 print(f"Error al obtener las acciones disponibles: {e}")
 
@@ -303,7 +309,6 @@ class Menu:
                 self._ver_comisiones_broker()
             elif opcion == "4":
                 self._mostrar_panel_de_inversor()
-  
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 

@@ -20,7 +20,7 @@ class ServiciodeVenta:
         monto_venta = precio_venta_actual - comision
         self.__monto_venta = monto_venta
 
-    def __verificar_cantidad_acciones(self, inversor, cantidad_acciones):
+    def __verificar_cantidad_acciones(self, inversor, accion, cantidad_acciones):
         estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor, accion.id_accion)
         if estado_portafolio is None or estado_portafolio.cantidad < cantidad_acciones:
             raise ValueError("No es posible realizar la venta porque no hay suficientes acciones para vender")
@@ -29,7 +29,7 @@ class ServiciodeVenta:
         return datetime.now().strftime('%Y-%m-%d')
 
     def realizar_venta(self, inversor, accion, cantidad_acciones):
-        self.__verificar_cantidad_acciones(inversor, cantidad_acciones)
+        self.__verificar_cantidad_acciones(inversor, accion, cantidad_acciones)
         self.__calcular_monto_venta(accion)
 
         try:
