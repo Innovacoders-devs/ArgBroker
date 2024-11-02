@@ -171,7 +171,7 @@ class Menu:
 
     def __mostrar_panel_mis_datos(self):
         self.__limpiar_consola()
-        print("=== MIS DATOS === \n")
+        self.__console.print(Panel.fit("=== MIS DATOS === \n", title = "ARGBroker", style="green"))
         try:
             ultimo_saldo = self.historial_saldo_dao.buscar_ultimo_saldo(self.__usuario_autenticado.id_inversor)
             saldo_actual = ultimo_saldo.saldo_nuevo
@@ -229,7 +229,7 @@ class Menu:
 
     def _mostrar_acciones(self):
         self.__limpiar_consola()
-        self.__console.print(Panel.fit("=== MIS ACCIONES === \n", title = "ARGBroker", style="orange"))
+        self.__console.print(Panel.fit("=== MIS ACCIONES === \n", title = "ARGBroker", style="cyan"))
         self. acciones_en_el_portfolio()
         input("Presione Enter para continuar...")
 
@@ -253,7 +253,7 @@ class Menu:
         
     def __listar_activos_portafolio(self):
         self.__limpiar_consola()
-        print("=== LISTA DE ACTIVOS DEL PORTAFOLIO === \n")
+        self.__console.print(Panel.fit("=== LISTA DE ACTIVOS DEL PORTAFOLIO === \n", title = "ARGBroker", style="magenta"))
         try:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             activos = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
@@ -274,7 +274,7 @@ class Menu:
     def _mostrar_transacciones(self):
         while True:
             self.__limpiar_consola()
-            self.__console.print(Panel.fit("=== MENU DE COMPRAVENTA DE ACCIONES ===\n", title = "ARGBroker", style="violet")) 
+            self.__console.print(Panel.fit("=== MENU DE COMPRAVENTA DE ACCIONES ===\n", title = "ARGBroker", style="bold white")) 
             print("Acciones Disponibles para comprar:")
             try:
                 acciones = self.accion_dao.obtener_todos()
