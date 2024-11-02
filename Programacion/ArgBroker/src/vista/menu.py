@@ -99,7 +99,8 @@ class Menu:
                         self.__ejecutando = False
                         submenu_registro = False
                     else:
-                        print("Opcion no valida, por favor ingrese una de las opciones ofrecidas")
+                        self.__console.print("Opcion no valida, por favor ingrese una de las opciones ofrecidas",style="red")
+
 
         except Exception as e:
             print(f"Error al registrarse: {e}")
@@ -113,7 +114,7 @@ class Menu:
                         self.__ejecutando = False
                     break
                 else:
-                    print("Ingrese una opción válida.")
+                   self.__console.print("Ingrese una opción válida.",style="red")
             
 
 
@@ -138,7 +139,7 @@ class Menu:
                 elif eleccion == '2':
                     self.mostrar_menu_principal()
                 else:
-                    print("Ingrese una opcion valida")
+                    self.__console.print("Ingrese una opcion valida", style="red")
 
 
     def _mostrar_panel_de_inversor(self): 
@@ -162,7 +163,7 @@ class Menu:
                 confirmacion = input("¿Está seguro que desea cerrar sesión? (s/n): \n")
                 if confirmacion.lower() == 's':
                     self.__usuario_autenticado = None
-                    print("Sesión cerrada. Presione Enter para continuar...")
+                    self.__console.print("Sesión cerrada. Presione Enter para continuar...",style="red")
                     input()
                     self.mostrar_menu_principal()
                     break
@@ -220,12 +221,12 @@ class Menu:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             acciones_en_haber_del_inversor = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
             if not acciones_en_haber_del_inversor:
-                print("No se encontraron acciones en el portafolio.")
+                self.__console.print("No se encontraron acciones en el portafolio.",sytle="blue")
             else:
                 for accion in acciones_en_haber_del_inversor:
                     print(f"id: {accion.id_accion} Nombre: {accion._nombre_accion}, Símbolo: {accion._simbolo_accion}, Cantidad: {accion._cantidad}, Valor Actual: {accion._valor_actual}")
         except Exception as e:
-            print(f"Error al obtener las acciones: {e}")
+            self.__console.print(f"Error al obtener las acciones: {e}",style="red")
 
     def _mostrar_acciones(self):
         self.__limpiar_consola()
@@ -240,7 +241,7 @@ class Menu:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             transacciones = self.transaccion_dao.obtener_por_portafolio(portafolio.id_portafolio)
             if not transacciones:
-                print("No hay transacciones disponibles.")
+                self.__console.print("No hay transacciones disponibles.",style="blue")
             else:
                 for transaccion in transacciones:
                     print(f"ID Transacción: {transaccion.id_transaccion} Tipo: {transaccion.tipo}")
@@ -248,7 +249,7 @@ class Menu:
                     print(f"Comisión: {transaccion.comision} ID Portafolio: {transaccion.id_portafolio}")
                     print("------------------" )
         except Exception as e:
-            print(f"Error al obtener el historial de transacciones: {e}")
+           self.__console.print(f"Error al obtener el historial de transacciones: {e}",style="red")
         input("Presione Enter para continuar...")
         
     def __listar_activos_portafolio(self):
@@ -279,7 +280,7 @@ class Menu:
             try:
                 acciones = self.accion_dao.obtener_todos()
                 if not acciones:
-                    print("No hay acciones disponibles.")
+                    self.__console.print("No hay acciones disponibles.",style="blue")
                 else:
                     for accion in acciones:
                         cotizacion = self.cotizacion_dao.obtener_por_accion(accion.id_accion)
@@ -291,7 +292,7 @@ class Menu:
                         if cantidad_compra != "No disponible" and cantidad_compra > 0:
                             print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- $$ Compra: {precio_compra} - $$ Venta: {precio_venta} - Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
             except Exception as e:
-                print(f"Error al obtener las acciones disponibles: {e}")
+                self.__console.print(f"Error al obtener las acciones disponibles: {e}",style="red")
 
             print("\nOpciones:")
             print("1. Comprar")
@@ -326,9 +327,9 @@ class Menu:
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_compra.realizar_compra(self.__usuario_autenticado, accion, cantidad)
-            print("Compra realizada con éxito.")
+            self.__console.print("Compra realizada con éxito.",style="bold")
         except Exception as e:
-            print(f"Error al comprar acciones: {e}")
+            self.__console.print(f"Error al comprar acciones: {e}",style="red")
         input("Presione Enter para continuar...")
 
     def __vender_acciones(self):
@@ -340,7 +341,7 @@ class Menu:
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)
-            print("Venta realizada con éxito.")
+            self.__console.print("Venta realizada con éxito.",style="bold")
         except Exception as e:
-            print(f"Error al vender acciones: {e}")
+            self.__console.print(f"Error al vender acciones: {e}",style="red")
         input("Presione Enter para continuar...")
