@@ -72,7 +72,7 @@ class Menu:
 
     def __mostrar_panel_de_registro(self):
         self.__limpiar_consola()
-        print("=== PANEL DE REGISTRO ===\n")
+        self.__console.print(Panel.fit("=== PANEL DE REGISTRO ===\n", title = "ARGBroker", style="red"))
         print("Ingrese los datos que se le piden a continuacion: ")
         nombre = input("Nombre: ")
         apellido = input("Apellido: ")
@@ -119,7 +119,7 @@ class Menu:
 
     def __mostrar_panel_iniciar_sesion(self):
         self.__limpiar_consola()
-        print("=== PANEL DE INICIO DE SESION ===")
+        self.__console.print(Panel.fit("=== PANEL DE INICIO DE SESION ===", title = "ARGBroker", style="blue"))
         try:
             email = input("Ingrese email del inversor: ")
             contrasena = input("Ingrese su contraseña: ")
@@ -144,7 +144,7 @@ class Menu:
     def _mostrar_panel_de_inversor(self): 
         while True:
             self.__limpiar_consola()
-            print("==== PANEL DE INVERSOR ====")
+            self.__console.print(Panel.fit("==== PANEL DE INVERSOR ====", title = "ARGBroker", style="yellow"))
             print("1. Datos Personales")
             print("2. Mi Portafolio")
             print("3. Transacciones")
@@ -188,7 +188,7 @@ class Menu:
        
     def _actualizar_datos(self):
        self.__limpiar_consola()
-       print("=== ACTUALIZAR DATOS DE INVERSOR === \n")
+       self.__console.print(Panel.fit("=== ACTUALIZAR DATOS DE INVERSOR === \n", title = "ARGBroker", style="green"))
        nuevo_correo_elecrtonico = input("Ingrese nuevo email: ")
        self.InversorDAO.email = nuevo_correo_elecrtonico
        
@@ -196,7 +196,7 @@ class Menu:
         
         while True:
             self.__limpiar_consola()
-            print("=== PORTAFOLIO ===\n") 
+            self.__console.print(Panel.fit("=== PORTAFOLIO ===\n", title = "ARGBroker", style="magenta")) 
             print("1. Mis acciones") 
             print("2. Historial") 
             print("3. Listar Activos")
@@ -229,13 +229,13 @@ class Menu:
 
     def _mostrar_acciones(self):
         self.__limpiar_consola()
-        print("=== MIS ACCIONES === \n")
+        self.__console.print(Panel.fit("=== MIS ACCIONES === \n", title = "ARGBroker", style="orange"))
         self. acciones_en_el_portfolio()
         input("Presione Enter para continuar...")
 
     def _mostrar_historial(self):
         self.__limpiar_consola()
-        print("=== HISTORIAL DE TRANSACCIONES === \n")
+        self.__console.print(Panel.fit("=== HISTORIAL DE TRANSACCIONES === \n", title = "ARGBroker", style="cyan"))
         try:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             transacciones = self.transaccion_dao.obtener_por_portafolio(portafolio.id_portafolio)
@@ -274,7 +274,7 @@ class Menu:
     def _mostrar_transacciones(self):
         while True:
             self.__limpiar_consola()
-            print("=== MENU DE COMPRAVENTA DE ACCIONES ===\n") 
+            self.__console.print(Panel.fit("=== MENU DE COMPRAVENTA DE ACCIONES ===\n", title = "ARGBroker", style="violet")) 
             print("Acciones Disponibles para comprar:")
             try:
                 acciones = self.accion_dao.obtener_todos()
@@ -313,14 +313,14 @@ class Menu:
                 input("Opción inválida. Presione Enter para continuar...")
 
     def _ver_comisiones_broker(self):
-        print("=== COMISION DEL BROKER POR PERMITIR OPERAR===\n")
+        self.__console.print("=== COMISION DEL BROKER POR PERMITIR OPERAR===\n", title = "ARGBroker", style="yellow")
 
         print(f"La comisión actual del broker es: {self.__comision_broker} % por transaccion")
         input("Presione Enter para continuar...")
 
 
     def __comprar_acciones(self):
-        print("=== COMPRAR ACCIONES ===\n")
+        self.__console.print(Panel.fit("=== COMPRAR ACCIONES ===\n", title = "ARGBroker", style="magenta"))
         id_accion = input("Ingrese el ID de la acción a comprar: ")
         cantidad = int(input("Ingrese la cantidad a comprar: "))
         try:
@@ -333,7 +333,7 @@ class Menu:
 
     def __vender_acciones(self):
         self.__limpiar_consola()
-        print("=== VENDER ACCIONES ===\n")
+        self.__console.print(Panel.fit("=== VENDER ACCIONES ===\n", title = "ARGBroker", style="blue"))
         self. acciones_en_el_portfolio()
         id_accion = input("\nIngrese el ID de la acción a vender: ")
         cantidad = int(input("Ingrese la cantidad a vender: "))
