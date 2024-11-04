@@ -24,6 +24,7 @@ class Menu:
         self.__comision_broker = COMISION_BROKER
         self.__nuevo_inversor = None
         self.__usuario_autenticado = None
+        self.__console = Console()
        
 
         self.inversor_dao = InversorDAO(self.__base_de_datos)
@@ -53,7 +54,7 @@ class Menu:
     def mostrar_menu_principal(self): 
         while self.__ejecutando: 
             self.__limpiar_consola()
-            print(" Bienvenido a ARGBroker")
+            self.__console.print(Panel.fit(" Bienvenido a ARGBroker", title="Menú Principal", style="magenta"))
             print("\n1. Iniciar Sesion") 
             print("2. Registrarse") 
             print("0. Terminar el programa\n")
