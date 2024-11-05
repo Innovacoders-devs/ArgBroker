@@ -8,7 +8,7 @@ class ServiciodeCalculodeRendimientos:
         ultima_cotizacion = self.cotizacion_dao.obtener_ultima_cotizacion(id_accion)
 
         if not transacciones or not ultima_cotizacion:
-            return 0
+            return 0.0, 0.0, 0.0
 
         transacciones_compra = [transaccion for transaccion in transacciones if transaccion.tipo == 'compra']
         total_comprado = sum(transaccion.precio * transaccion.cantidad for transaccion in transacciones_compra)
@@ -16,6 +16,9 @@ class ServiciodeCalculodeRendimientos:
         precio_compra_promedio = total_comprado / cantidad_comprada if cantidad_comprada > 0 else 0
 
         precio_actual = ultima_cotizacion.precio_compra_actual
-        rendimiento = (precio_actual - precio_compra_promedio) * cantidad_comprada
+        rendimiento_por_accion = (precio_actual - precio_compra_promedio) * cantidad_comprada
+        total_invertido = total_comprado
+        rendimiento_total = rendimiento_por_accion
 
-        return rendimiento
+        return f'\n Por accion: {float(rendimiento_por_accion)},\n Total invertido: {float(total_invertido)}, \n Total:  {float(rendimiento_total)}'
+
