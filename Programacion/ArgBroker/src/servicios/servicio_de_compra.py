@@ -29,8 +29,8 @@ class ServiciodeCompra:
     def __obtener_fecha_actual(self):
         return datetime.now().strftime('%Y-%m-%d')
 
-    def realizar_compra(self, inversor, accion, cantidad):
-        monto_total, comision = self.__calcular_monto_compra(accion, cantidad)
+    def realizar_compra(self, inversor, accion, cantidad_a_comprar):
+        monto_total, comision = self.__calcular_monto_compra(accion, cantidad_a_comprar)
         self.__verificar_saldo_suficiente(inversor, monto_total)
 
         try:
@@ -51,13 +51,13 @@ class ServiciodeCompra:
                     id_accion=accion.id_accion,
                     nombre_accion=accion.nombre_accion,
                     simbolo_accion=accion.simbolo_accion,
-                    cantidad=cantidad,
-                    valor_actual=precio_compra_actual  # Asignar el precio de compra actual
+                    cantidad=cantidad_a_comprar,
+                    valor_actual=precio_compra_actual  
                 )
                 self.__dao_estado_portafolio.crear(nuevo_estado_portafolio)
             else:
-                estado_portafolio.cantidad += cantidad
-                estado_portafolio.valor_actual = precio_compra_actual  # Actualizar el valor actual
+                estado_portafolio.cantidad += cantidad_a_comprar
+                estado_portafolio.valor_actual = precio_compra_actual  
                 self.__dao_estado_portafolio.actualizar(estado_portafolio, estado_portafolio.id_estado_portafolio)
 
             fecha_actual = self.__obtener_fecha_actual()
@@ -77,14 +77,14 @@ class ServiciodeCompra:
                 id_accion=accion.id_accion,
                 tipo='compra',
                 fecha=fecha_actual,
-                precio=monto_total / cantidad,
-                cantidad=cantidad,
+                precio=monto_total / cantidad_a_comprar,
+                cantidad=cantidad_a_comprar,
                 comision=comision,
                 id_portafolio=portafolio.id_portafolio
             )
             self.__dao_transaccion.crear(transaccion)
 
-            ultima_cotizacion.cantidad_compra_diaria -= cantidad
+            ultima_cotizacion.cantidad_compra_diaria -= cantidad_a_comprar
             self.__dao_cotizacion_diaria.actualizar(ultima_cotizacion, ultima_cotizacion.id_cotizacion)
 
             return True
