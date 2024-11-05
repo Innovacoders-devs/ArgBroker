@@ -11,8 +11,7 @@ class Inversor:
         self._bloqueado = False
 
     def __str__(self):
-        return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email}, 
-        El saldo en cuenta es: {self._saldo_cuenta}, contrasena: {self.__contrasena}, intentos fallidos de ingreso: {self._intentos_fallidos}'''
+        return f'''Inversor:{self._id_inversor} {self._apellido}, {self._nombre}; Cuil: {self._cuil},Email: {self._email}, El saldo en cuenta es: {self._saldo_cuenta}, contrasena: {self.__contrasena}, intentos fallidos de ingreso: {self._intentos_fallidos}'''
 
     @property
     def id_inversor(self):
@@ -50,11 +49,10 @@ class Inversor:
 
     @cuil.setter
     def cuil(self, cuil):
-        if len(cuil) < 11:
+        if not isinstance(cuil, int):
+            raise ValueError('El CUIL está conformado por números')
+        if len(str(cuil)) < 11:
             raise ValueError('El CUIL debe contener 11 caracteres')
-        else:
-            if not isinstance(cuil, int):
-                raise ValueError('El CUIL está conformado por números')
         self._cuil = cuil
 
     @property
@@ -69,6 +67,12 @@ class Inversor:
             if not self.validar_correo(email):
                 raise ValueError('El correo electrónico es inválido')
         self._email = email
+
+    def validar_correo(self, email):
+        # Simple validation: check if there's a domain part after '@'
+        if '.' not in email.split('@')[-1]:
+            return False
+        return True
 
     @property
     def contrasena(self):

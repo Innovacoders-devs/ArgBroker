@@ -12,6 +12,8 @@ class Portafolio:
 
     @id_portafolio.setter
     def id_portafolio(self, id_portafolio):
+        if not isinstance(id_portafolio, int):
+            raise TypeError("id_portafolio must be an integer")
         self._id_portafolio = id_portafolio
 
     @property
@@ -20,4 +22,6 @@ class Portafolio:
 
     @id_inversor.setter
     def id_inversor(self, id_inversor):
+        if not isinstance(id_inversor, int):
+            raise TypeError("id_inversor must be an integer")
         self._id_inversor = id_inversor
