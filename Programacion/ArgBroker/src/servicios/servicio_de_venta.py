@@ -21,7 +21,11 @@ class ServiciodeVenta:
         self.__monto_venta = monto_venta
 
     def __verificar_cantidad_acciones(self, inversor, accion, cantidad_acciones):
-        estado_portafolio = self.__dao_estado_portafolio.obtener_uno(inversor.id_inversor, accion.id_accion)
+        portafolio = self.__dao_portafolio.obtener_uno(inversor.id_inversor)
+        if portafolio is None:
+            raise ValueError("No se encontró el portafolio del inversor")
+
+        estado_portafolio = self.__dao_estado_portafolio.obtener_uno(portafolio.id_portafolio, accion.id_accion)
         if estado_portafolio is None or estado_portafolio.cantidad < cantidad_acciones:
             raise ValueError("No es posible realizar la venta porque no hay suficientes acciones para vender")
 
