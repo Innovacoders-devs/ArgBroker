@@ -2,11 +2,13 @@ import sys
 import os
 import pytest
 from unittest.mock import MagicMock, create_autospec
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src')))
+
 from acceso_a_datos.accion_dao import AccionDAO
 from modelo.accion import Accion
 from acceso_a_datos.dao_interface import DAOInterface
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src')))
 
 
 @pytest.fixture
