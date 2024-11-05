@@ -2,10 +2,12 @@ import sys
 import os
 import pytest
 from unittest.mock import Mock, call
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src')))
+
 from estado_portafolio_dao import EstadoPortafolioDAO
 from modelo.estado_portafolio import EstadoPortafolio
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src')))
 
 @pytest.fixture
 def mock_conector():
