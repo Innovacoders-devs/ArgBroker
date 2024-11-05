@@ -216,7 +216,7 @@ class Menu:
             else:
                 input("Opción inválida. Presione Enter para continuar...")  
 
-    def acciones_en_el_portfolio (self):
+    def acciones_en_el_portfolio(self):
         try:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             acciones_en_haber_del_inversor = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
@@ -224,7 +224,8 @@ class Menu:
                 self.__console.print("No se encontraron acciones en el portafolio.",sytle="blue")
             else:
                 for accion in acciones_en_haber_del_inversor:
-                    print(f"id: {accion.id_accion} Nombre: {accion._nombre_accion}, Símbolo: {accion._simbolo_accion}, Cantidad: {accion._cantidad}, Valor Actual: {accion._valor_actual}")
+                    if accion.cantidad > 0: 
+                        print(f"id: {accion.id_accion} Nombre: {accion.nombre_accion}, Símbolo: {accion.simbolo_accion}, Cantidad: {accion.cantidad}, Valor Actual: {accion.valor_actual}")
         except Exception as e:
             self.__console.print(f"Error al obtener las acciones: {e}",style="red")
 
