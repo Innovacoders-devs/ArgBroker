@@ -1,4 +1,5 @@
 import os
+import time
 from src.modelo.inversor import Inversor
 
 from src.acceso_a_datos.inversor_dao import InversorDAO
@@ -85,7 +86,7 @@ class Menu:
             if resultado: 
                 self.__limpiar_consola()
                 submenu_registro = True
-                print(f'Se registro el usuario exitosamente')
+                self.__console.print(f'Se registro el usuario exitosamente',style="bold green")
                 while submenu_registro:
                     opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal \n o 3 para salir: ")
 
@@ -124,12 +125,19 @@ class Menu:
         try:
             email = input("Ingrese email del inversor: ")
             contrasena = input("Ingrese su contraseña: ")
-            
-            self.__usuario_autenticado = self.__servicio_de_autenticacion.iniciar_sesion(email,contrasena)
+
+            self.__console.print("Verificando credenciales...", style="yellow")
+            time.sleep(1)  
+
+            self.__usuario_autenticado = self.__servicio_de_autenticacion.iniciar_sesion(email, contrasena)
             if self.__usuario_autenticado:
+                self.__console.print("Credenciales correctas, iniciando sesión...", style="bold green")
+                time.sleep(1)  
                 self._mostrar_panel_de_inversor()
+            else:
+                self.__console.print("Credenciales incorrectas. Intente nuevamente.", style="bold red")
         except Exception as e:
-            print(f'Ocurrio un error: {e}')
+            self.__console.print(f'Ocurrió un error: {e}', style="bold red")
             opcion_del_submenu = True
             while opcion_del_submenu:
                 eleccion = input("Ingrese 1 para intentar nuevamente, 2 para Salir: ")
@@ -139,13 +147,14 @@ class Menu:
                 elif eleccion == '2':
                     self.mostrar_menu_principal()
                 else:
-                    self.__console.print("Ingrese una opcion valida", style="red")
+                    self.__console.print("Ingrese una opción válida", style="red")
 
 
     def _mostrar_panel_de_inversor(self): 
         while True:
             self.__limpiar_consola()
-            self.__console.print(Panel.fit("==== PANEL DE INVERSOR ====", title = "ARGBroker", style="yellow"))
+            nombre_completo = f"{self.__usuario_autenticado.nombre} {self.__usuario_autenticado.apellido}"
+            self.__console.print(Panel.fit(f"Bienvenido {nombre_completo} 😊", title="ARGBroker", style="yellow"))
             print("1. Datos Personales")
             print("2. Mi Portafolio")
             print("3. Transacciones")
@@ -276,7 +285,7 @@ class Menu:
     def _mostrar_transacciones(self):
         while True:
             self.__limpiar_consola()
-            self.__console.print(Panel.fit("=== MENU DE COMPRAVENTA DE ACCIONES ===\n", title = "ARGBroker", style="bold white")) 
+            self.__console.print(Panel.fit("=== MENU DE COMPRAVENTA DE ACCIONES ===\n", title = "ARGBroker", style="bold red")) 
             print("Acciones Disponibles para comprar:")
             try:
                 acciones = self.accion_dao.obtener_todos()
@@ -322,27 +331,27 @@ class Menu:
 
 
     def __comprar_acciones(self):
-        self.__console.print(Panel.fit("=== COMPRAR ACCIONES ===\n", title = "ARGBroker", style="magenta"))
+        self.__console.print(Panel.fit("COMPRAR ACCIONES\n", style="magenta"))
         id_accion = input("Ingrese el ID de la acción a comprar: ")
         cantidad = int(input("Ingrese la cantidad a comprar: "))
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_compra.realizar_compra(self.__usuario_autenticado, accion, cantidad)
-            self.__console.print("Compra realizada con éxito.",style="bold")
+            self.__console.print("Compra realizada con éxito.",style="bold green")
         except Exception as e:
             self.__console.print(f"Error al comprar acciones: {e}",style="red")
         input("Presione Enter para continuar...")
 
     def __vender_acciones(self):
         self.__limpiar_consola()
-        self.__console.print(Panel.fit("=== VENDER ACCIONES ===\n", title = "ARGBroker", style="blue"))
+        self.__console.print(Panel.fit("VENDER ACCIONES\n", style="blue"))
         self. acciones_en_el_portfolio()
         id_accion = input("\nIngrese el ID de la acción a vender: ")
         cantidad = int(input("Ingrese la cantidad a vender: "))
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)
-            self.__console.print("Venta realizada con éxito.",style="bold")
+            self.__console.print("Venta realizada con éxito.",style="bold green")
         except Exception as e:
             self.__console.print(f"Error al vender acciones: {e}",style="red")
         input("Presione Enter para continuar...")

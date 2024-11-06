@@ -24,7 +24,7 @@ class ServiciodeCompra:
 
     def __verificar_saldo_suficiente(self, inversor, monto_total):
         if inversor.saldo_cuenta < monto_total:
-            raise ValueError("No es posible realizar la compra porque no hay suficiente saldo en la cuenta")
+            raise ValueError("no hay suficiente saldo en la cuenta")
 
     def __obtener_fecha_actual(self):
         return datetime.now().strftime('%Y-%m-%d')
@@ -34,15 +34,18 @@ class ServiciodeCompra:
         self.__verificar_saldo_suficiente(inversor, monto_total)
 
         try:
+            ultima_cotizacion = self.__dao_cotizacion_diaria.obtener_ultima_cotizacion(accion.id_accion)
+            if cantidad > ultima_cotizacion.cantidad_compra_diaria:
+                raise ValueError("la cantidad de acciones a comprar es mayor que la cantidad disponible")
+
             saldo_anterior = inversor.saldo_cuenta
             inversor.saldo_cuenta -= monto_total
 
             portafolio = self.__dao_portafolio.obtener_uno(inversor.id_inversor)
             if portafolio is None:
-                raise ValueError("No se encontró el portafolio del inversor")
+                raise ValueError("no se encontró el portafolio del inversor")
 
             estado_portafolio = self.__dao_estado_portafolio.obtener_uno(portafolio.id_portafolio, accion.id_accion)
-            ultima_cotizacion = self.__dao_cotizacion_diaria.obtener_ultima_cotizacion(accion.id_accion)
             precio_compra_actual = Decimal(ultima_cotizacion.precio_compra_actual)
 
             if estado_portafolio is None:
@@ -89,4 +92,4 @@ class ServiciodeCompra:
 
             return True
         except Exception as e:
-            raise ValueError(f"No se pudo realizar la compra: {e}")
+            raise ValueError(f"no se pudo realizar la compra porque {e}")
