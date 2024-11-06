@@ -1,5 +1,5 @@
 from src.herramientas.conector_a_mysql import MySQLConnector
-from src.Vista.menu import Menu
+from src.vista.menu import Menu
 from dotenv import load_dotenv
 import os
 

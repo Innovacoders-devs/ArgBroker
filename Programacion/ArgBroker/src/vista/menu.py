@@ -40,7 +40,7 @@ class Menu:
         self.__servicio_de_autenticacion = ServicioDeAutenticacion(self.inversor_dao)
         self.__servicio_de_calculo_de_rendimientos = ServiciodeCalculodeRendimientos(self.transaccion_dao, self.cotizacion_dao)
         self.__servicio_de_compra = ServiciodeCompra(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao,self.transaccion_dao, self.portafolio_dao, self.__comision_broker)
-        self.__servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.__comision_broker)
+        self.__servicio_de_venta = ServiciodeVenta(self.historial_saldo_dao, self.cotizacion_dao, self.estado_portafolio_dao, self.transaccion_dao, self.portafolio_dao, self.__comision_broker)
 
         self.__ejecutando = True
     
