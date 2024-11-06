@@ -69,7 +69,7 @@ class Inversor:
         self._email = email
 
     def validar_correo(self, email):
-        # Simple validation: check if there's a domain part after '@'
+        
         if '.' not in email.split('@')[-1]:
             return False
         return True

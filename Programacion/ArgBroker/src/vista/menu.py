@@ -366,8 +366,26 @@ class Menu:
         self.__limpiar_consola()
         self.__console.print(Panel.fit("VENDER ACCIONES\n", style="blue"))
         self. acciones_en_el_portfolio()
-        id_accion = input("\nIngrese el ID de la acción a vender: ")
-        cantidad = int(input("Ingrese la cantidad a vender: "))
+        acciones_disponibles = self.accion_dao.obtener_todos()
+        id_acciones = tuple(accion.id_accion for accion in acciones_disponibles)
+    
+        try:
+            id_accion = int(input("Ingrese el ID de la acción a vender: "))
+        except ValueError:
+            self.__console.print("El ID ingresado no es válido. Ingrese un número.", style="red")
+            input("Presione Enter para continuar...")
+            return
+    
+        if id_accion not in id_acciones:
+            self.__console.print("El ID ingresado no es válido. Seleccione una de las acciones que están en pantalla.", style="red")
+            input("Presione Enter para continuar...")
+            return
+        try:
+            cantidad = int(input("Ingrese la cantidad a vender: "))
+        except ValueError:
+            self.__console.print("La cantidad ingresada no es válida. Ingrese un número.", style="red")
+            input("Presione Enter para continuar...")
+            return
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)

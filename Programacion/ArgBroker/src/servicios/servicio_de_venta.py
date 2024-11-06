@@ -10,7 +10,7 @@ class ServiciodeVenta:
         self.__dao_cotizacion_diaria = dao_cotizacion_diaria
         self.__dao_estado_portafolio = dao_estado_portafolio
         self.__dao_transaccion = dao_transaccion
-        self.__dao_portafolio = dao_portafolio  # Agregar dao_portafolio
+        self.__dao_portafolio = dao_portafolio  
         self.__comision_broker = Decimal(comision_broker)
         self.__monto_venta = None
 
@@ -49,13 +49,13 @@ class ServiciodeVenta:
             if estado_portafolio is None:
                 raise ValueError("No se encontró el estado del portafolio para la venta")
 
-            # Actualizar el estado de portafolio existente
+
             estado_portafolio.cantidad -= cantidad_acciones
-            estado_portafolio.valor_actual = precio_venta_actual  # Actualizar el valor actual
+            estado_portafolio.valor_actual = precio_venta_actual  
             self.__dao_estado_portafolio.actualizar(estado_portafolio, estado_portafolio.id_estado_portafolio)
 
             fecha_actual = self.__obtener_fecha_actual()
-            saldo_nuevo = Decimal(inversor.saldo_cuenta) + (precio_venta_actual * cantidad_acciones)  # Convertir a Decimal
+            saldo_nuevo = Decimal(inversor.saldo_cuenta) + (precio_venta_actual * cantidad_acciones) 
             motivo_historial = f"venta {accion.nombre_accion}"
 
             historial_saldo = HistorialSaldo(
@@ -81,7 +81,7 @@ class ServiciodeVenta:
             ultima_cotizacion.cantidad_venta_diaria += cantidad_acciones
             self.__dao_cotizacion_diaria.actualizar(ultima_cotizacion, ultima_cotizacion.id_cotizacion)
 
-            inversor.saldo_cuenta = saldo_nuevo  # Actualizar el saldo del inversor
+            inversor.saldo_cuenta = saldo_nuevo  
 
             return True
         except Exception as e:
