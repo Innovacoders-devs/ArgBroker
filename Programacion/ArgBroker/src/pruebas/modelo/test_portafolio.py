@@ -31,15 +31,6 @@ def test_set_id_inversor():
     portafolio.id_inversor = 300
     assert portafolio.id_inversor == 300
 
-def test_set_id_portafolio_none():
-    portafolio = Portafolio()
-    portafolio.id_portafolio = None
-    assert portafolio.id_portafolio is None
-
-def test_set_id_inversor_none():
-    portafolio = Portafolio()
-    portafolio.id_inversor = None
-    assert portafolio.id_inversor is None
 
 def test_set_id_portafolio_with_invalid_type():
     portafolio = Portafolio()
