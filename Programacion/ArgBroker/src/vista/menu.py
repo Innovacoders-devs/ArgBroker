@@ -76,12 +76,31 @@ class Menu:
         self.__limpiar_consola()
         self.__console.print(Panel.fit("=== PANEL DE REGISTRO ===\n", title = "ARGBroker", style="red"))
         print("Ingrese los datos que se le piden a continuacion: ")
-        nombre = input("Nombre: ")
-        apellido = input("Apellido: ")
-        cuil = input("CUIL: ")
-        email = input("Email: ")
-        contrasenia = input("Contraseña: ")
-        self.__nuevo_inversor = Inversor(nombre= nombre, apellido= apellido, cuil= cuil, email= email, contrasena= contrasenia)
+        
+        while True:
+            nombre = input("Nombre: ")
+            if not nombre:
+                self.__console.print("El nombre no puede estar vacío.", style="red")
+                continue
+            apellido = input("Apellido: ")
+            if not apellido:
+                self.__console.print("El apellido no puede estar vacío.", style="red")
+                continue
+            cuil = input("CUIL: ")
+            if not cuil:
+                self.__console.print("El CUIL no puede estar vacío.", style="red")
+                continue
+            email = input("Email: ")
+            if not email:
+                self.__console.print("El email no puede estar vacío.", style="red")
+                continue
+            contrasenia = input("Contraseña: ")
+            if not contrasenia:
+                self.__console.print("La contraseña no puede estar vacía.", style="red")
+                continue
+            break
+
+        self.__nuevo_inversor = Inversor(nombre=nombre, apellido=apellido, cuil=cuil, email=email, contrasena=contrasenia)
         try:
             resultado = self.__servicio_de_registro.registrar_usuario(self.__nuevo_inversor)
             if resultado: 
@@ -123,10 +142,18 @@ class Menu:
     def __mostrar_panel_iniciar_sesion(self):
         self.__limpiar_consola()
         self.__console.print(Panel.fit("=== PANEL DE INICIO DE SESION ===", title = "ARGBroker", style="blue"))
-        try:
+        while True:
             email = input("Ingrese email del inversor: ")
+            if not email:
+                self.__console.print("El email no puede estar vacío.", style="red")
+                continue
             contrasena = input("Ingrese su contraseña: ")
+            if not contrasena:
+                self.__console.print("La contraseña no puede estar vacía.", style="red")
+                continue
+            break
 
+        try:
             self.__console.print("Verificando credenciales...", style="yellow")
             time.sleep(1)  
 
@@ -347,7 +374,7 @@ class Menu:
                 input("Opción inválida. Presione Enter para continuar...")
 
     def _ver_comisiones_broker(self):
-        self.__console.print("=== COMISION DEL BROKER POR PERMITIR OPERAR===\n", title = "ARGBroker", style="yellow")
+        self.__console.print(Panel.fit("=== COMISION DEL BROKER POR PERMITIR OPERAR===\n", title = "ARGBroker", style="yellow"))
 
         print(f"La comisión actual del broker es: {self.__comision_broker} % por transaccion")
         input("Presione Enter para continuar...")
@@ -357,28 +384,28 @@ class Menu:
         self.__console.print(Panel.fit("COMPRAR ACCIONES\n", style="magenta"))
         acciones_disponibles = self.accion_dao.obtener_todos()
         id_acciones = tuple(accion.id_accion for accion in acciones_disponibles)
-    
-    # Solicitar ID de la acción
-        try:
-            id_accion = int(input("Ingrese el ID de la acción a comprar: "))
-        except ValueError:
-            self.__console.print("El ID ingresado no es válido. Ingrese un número.", style="red")
-            input("Presione Enter para continuar...")
-            return
-    
-    # Verificar si el ID está en la lista de IDs disponibles
-        if id_accion not in id_acciones:
-            self.__console.print("El ID ingresado no es válido. Seleccione una de las acciones que están en pantalla.", style="red")
-            input("Presione Enter para continuar...")
-            return
-    
-    # Solicitar cantidad a comprar
-        try:
-            cantidad = int(input("Ingrese la cantidad a comprar: "))
-        except ValueError:
-            self.__console.print("La cantidad ingresada no es válida. Ingrese un número.", style="red")
-            input("Presione Enter para continuar...")
-            return
+
+        while True:
+            try:
+                id_accion = int(input("Ingrese el ID de la acción a comprar: "))
+                if id_accion not in id_acciones:
+                    self.__console.print("El ID ingresado no es válido. Seleccione una de las acciones que están en pantalla.", style="red")
+                    continue
+            except ValueError:
+                self.__console.print("El ID ingresado no es válido. Ingrese un número.", style="red")
+                continue
+            break
+
+        while True:
+            try:
+                cantidad = int(input("Ingrese la cantidad a comprar: "))
+                if cantidad <= 0:
+                    self.__console.print("La cantidad debe ser mayor a cero.", style="red")
+                    continue
+            except ValueError:
+                self.__console.print("La cantidad ingresada no es válida. Ingrese un número.", style="red")
+                continue
+            break
 
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
@@ -391,9 +418,32 @@ class Menu:
     def __vender_acciones(self):
         self.__limpiar_consola()
         self.__console.print(Panel.fit("VENDER ACCIONES\n", style="blue"))
-        self. acciones_en_el_portfolio()
-        id_accion = input("\nIngrese el ID de la acción a vender: ")
-        cantidad = int(input("Ingrese la cantidad a vender: "))
+        self.acciones_en_el_portfolio()
+        acciones_disponibles = self.accion_dao.obtener_todos()
+        id_acciones = tuple(accion.id_accion for accion in acciones_disponibles)
+
+        while True:
+            try:
+                id_accion = int(input("Ingrese el ID de la acción a vender: "))
+                if id_accion not in id_acciones:
+                    self.__console.print("El ID ingresado no es válido. Seleccione una de las acciones que están en pantalla.", style="red")
+                    continue
+            except ValueError:
+                self.__console.print("El ID ingresado no es válido. Ingrese un número.", style="red")
+                continue
+            break
+
+        while True:
+            try:
+                cantidad = int(input("Ingrese la cantidad a vender: "))
+                if cantidad <= 0:
+                    self.__console.print("La cantidad debe ser mayor a cero.", style="red")
+                    continue
+            except ValueError:
+                self.__console.print("La cantidad ingresada no es válida. Ingrese un número.", style="red")
+                continue
+            break
+
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_venta.realizar_venta(self.__usuario_autenticado, accion, cantidad)
