@@ -68,6 +68,7 @@ class Menu:
                 self.__mostrar_panel_de_registro()
             elif opcion == "0":
                 self.__ejecutando = False
+                break
             else:
                 input("Opción inválida. Seleccione una opción para continuar...")
 
