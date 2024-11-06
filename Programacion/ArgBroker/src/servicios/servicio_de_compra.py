@@ -35,7 +35,7 @@ class ServiciodeCompra:
 
         try:
             ultima_cotizacion = self.__dao_cotizacion_diaria.obtener_ultima_cotizacion(accion.id_accion)
-            if cantidad > ultima_cotizacion.cantidad_compra_diaria:
+            if cantidad_a_comprar > ultima_cotizacion.cantidad_compra_diaria:
                 raise ValueError("la cantidad de acciones a comprar es mayor que la cantidad disponible")
 
             saldo_anterior = inversor.saldo_cuenta

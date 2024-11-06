@@ -18,6 +18,7 @@ from src.servicios.servicio_de_venta import ServiciodeVenta
 
 from rich.console import Console
 from rich.panel import Panel
+from rich.table import Table
 
 class Menu:
     def __init__ (self, base_de_datos, COMISION_BROKER):
@@ -105,39 +106,33 @@ class Menu:
             resultado = self.__servicio_de_registro.registrar_usuario(self.__nuevo_inversor)
             if resultado: 
                 self.__limpiar_consola()
-                submenu_registro = True
                 self.__console.print(f'Se registro el usuario exitosamente',style="bold green")
-                while submenu_registro:
-                    opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal \n o 3 para salir: ")
+                while True:
+                    opcion = input("Seleccione 1 para inicio de sesion, 2 para volver al menu principal o 3 para salir: ")
 
                     if opcion == "1":
                         self.__mostrar_panel_iniciar_sesion() 
-                        submenu_registro = False
+                        break
                     elif opcion == "2":
                         self.mostrar_menu_principal()
-                        submenu_registro = False
+                        break
                     elif opcion == "3":
                         self.__ejecutando = False
-                        submenu_registro = False
+                        break
                     else:
                         self.__console.print("Opcion no valida, por favor ingrese una de las opciones ofrecidas",style="red")
-
-
         except Exception as e:
             print(f"Error al registrarse: {e}")
             while True:
                 eleccion = input("Ingrese 1 para intentar nuevamente, 2 para Salir: ")
-                if eleccion.isdigit() and int(eleccion) in [1, 2]:
-                    eleccion = int(eleccion)
-                    if eleccion == 1:
-                        self.__mostrar_panel_de_registro()
-                    elif eleccion == '2':
-                        self.__ejecutando = False
+                if eleccion == '1':
+                    self.__mostrar_panel_de_registro()
+                    break
+                elif eleccion == '2':
+                    self.__ejecutando = False
                     break
                 else:
-                   self.__console.print("Ingrese una opción válida.",style="red")
-            
-
+                    self.__console.print("Ingrese una opción válida.",style="red")
 
     def __mostrar_panel_iniciar_sesion(self):
         self.__limpiar_consola()
@@ -166,17 +161,16 @@ class Menu:
                 self.__console.print("Credenciales incorrectas. Intente nuevamente.", style="bold red")
         except Exception as e:
             self.__console.print(f'Ocurrió un error: {e}', style="bold red")
-            opcion_del_submenu = True
-            while opcion_del_submenu:
+            while True:
                 eleccion = input("Ingrese 1 para intentar nuevamente, 2 para Salir: ")
                 if eleccion == '1':
                     self.__mostrar_panel_iniciar_sesion()
-                    opcion_del_submenu = False
+                    break
                 elif eleccion == '2':
                     self.mostrar_menu_principal()
+                    break
                 else:
                     self.__console.print("Ingrese una opción válida", style="red")
-
 
     def _mostrar_panel_de_inversor(self): 
         while True:
@@ -259,14 +253,17 @@ class Menu:
             total_invertido, rendimiento_total, tiene_inversiones = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_total(portafolio.id_portafolio)
             
             if not tiene_inversiones:
-                self.__console.print("Actualmente el usuario no tiene inversiones, realiza compras o ventas y se mostrarán aquí los rendimientos.", style="bold yellow")
+                self.__console.print("No tienes inversiones actualmente en tu portafolio.", style="bold yellow")
+                self.__console.print("Realiza tu primera inversión para ver el rendimiento aquí.", style="yellow")
+                return
+                
+            self.__console.print(f"Total invertido: ${float(total_invertido):.2f}", style="bold")
+            if rendimiento_total == 0:
+                self.__console.print("Aún no hay cotizaciones nuevas para calcular el rendimiento.", style="bold yellow")
             else:
-                self.__console.print(f"Total invertido: {total_invertido}", style="bold")
-                if total_invertido > 0 and rendimiento_total == 0:
-                    self.__console.print("Aún no hay cotizaciones nuevas para las acciones, por lo tanto, el rendimiento es 0.", style="bold yellow")
-                else:
-                    color = "green" if rendimiento_total >= 0 else "red"
-                    self.__console.print(f"Rendimiento total: {rendimiento_total}", style=f"bold {color}")
+                color = "green" if rendimiento_total >= 0 else "red"
+                self.__console.print(f"Rendimiento total: ${float(rendimiento_total):.2f}", style=f"bold {color}")
+                
         except Exception as e:
             self.__console.print(f"Error al obtener las estadísticas del portafolio: {e}", style="red")
 
@@ -350,7 +347,7 @@ class Menu:
                         cantidad_venta = cotizacion.cantidad_venta_diaria if cotizacion else "No disponible"
                         
                         if cantidad_compra != "No disponible" and cantidad_compra > 0:
-                            print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- $$ Compra: {precio_compra} - $$ Venta: {precio_venta} - Cantidad Compra: {cantidad_compra} - Cantidad Venta: {cantidad_venta}")
+                            print(f"ID: {accion.id_accion} -- Nombre: {accion.nombre_accion}- $$ Compra: {precio_compra} - $$ Venta: {precio_venta} - Cantidad disponible: {cantidad_compra}")
             except Exception as e:
                 self.__console.print(f"Error al obtener las acciones disponibles: {e}",style="red")
 
@@ -369,7 +366,7 @@ class Menu:
             elif opcion == "3":
                 self._ver_comisiones_broker()
             elif opcion == "4":
-                self._mostrar_panel_de_inversor()
+                break
             else:
                 input("Opción inválida. Presione Enter para continuar...")
 

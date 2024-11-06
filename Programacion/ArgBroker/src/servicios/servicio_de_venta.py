@@ -49,7 +49,6 @@ class ServiciodeVenta:
             if estado_portafolio is None:
                 raise ValueError("No se encontró el estado del portafolio para la venta")
 
-
             estado_portafolio.cantidad -= cantidad_acciones
             estado_portafolio.valor_actual = precio_venta_actual  
             self.__dao_estado_portafolio.actualizar(estado_portafolio, estado_portafolio.id_estado_portafolio)
@@ -79,6 +78,7 @@ class ServiciodeVenta:
             self.__dao_transaccion.crear(transaccion)
 
             ultima_cotizacion.cantidad_venta_diaria += cantidad_acciones
+            ultima_cotizacion.cantidad_compra_diaria += cantidad_acciones  # Actualiza la cantidad de compra diaria
             self.__dao_cotizacion_diaria.actualizar(ultima_cotizacion, ultima_cotizacion.id_cotizacion)
 
             inversor.saldo_cuenta = saldo_nuevo  
