@@ -272,7 +272,7 @@ class Menu:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             acciones_en_haber_del_inversor = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
             if not acciones_en_haber_del_inversor:
-                self.__console.print("No se encontraron acciones en el portafolio.",sytle="blue")
+                self.__console.print("No se encontraron acciones en el portafolio.", style="blue")
             else:
                 for accion in acciones_en_haber_del_inversor:
                     if accion.cantidad > 0: 
@@ -293,7 +293,7 @@ class Menu:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             transacciones = self.transaccion_dao.obtener_por_portafolio(portafolio.id_portafolio)
             if not transacciones:
-                self.__console.print("No hay transacciones disponibles.",style="blue")
+                self.__console.print("No hay transacciones disponibles.", style="blue")
             else:
                 for transaccion in transacciones:
                     print(f"ID Transacción: {transaccion.id_transaccion} Tipo: {transaccion.tipo}")
@@ -311,7 +311,7 @@ class Menu:
             portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
             activos = self.estado_portafolio_dao.obtener_todos(portafolio.id_portafolio)
             if not activos:
-                print("No hay activos en el portafolio.")
+                self.__console.print("No hay activos en el portafolio.", style="blue")
             else:
                 for activo in activos:
                     rendimiento, hay_cotizaciones_posteriores = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
@@ -337,7 +337,7 @@ class Menu:
             try:
                 acciones = self.accion_dao.obtener_todos()
                 if not acciones:
-                    self.__console.print("No hay acciones disponibles.",style="blue")
+                    self.__console.print("No hay acciones disponibles.", style="blue")
                 else:
                     for accion in acciones:
                         cotizacion = self.cotizacion_dao.obtener_por_accion(accion.id_accion)
