@@ -3,26 +3,24 @@ import os
 import pytest
 from unittest.mock import MagicMock
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src')))
+ruta_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../src'))
+sys.path.insert(0, ruta_src)
+print(f"Ruta configurada para src: {ruta_src}")
 
-from acceso_a_datos.accion_dao import AccionDAO
-from modelo.accion import Accion
-
+from acceso_a_datos import AccionDAO
+from modelo import Accion
 
 @pytest.fixture
 def mock_conector():
     return MagicMock()
 
-
 @pytest.fixture
 def accion_dao(mock_conector):
     return AccionDAO(mock_conector)
 
-
 @pytest.fixture
 def accion():
-    return Accion(id_accion=1, nombre_accion="Test Accion", simbolo_accion="TEST")
-
+    return Accion(id_accion=1, nombre_accion="Accion Test", simbolo_accion="AT")
 
 def test_crear_accion(accion_dao, accion):
     accion_dao._base_de_datos.ejecutar_consulta.return_value = None
@@ -34,7 +32,6 @@ def test_crear_accion(accion_dao, accion):
         "INSERT INTO accion (nombre_accion, simbolo_accion) VALUES (%s, %s)", 
         (accion.nombre_accion, accion.simbolo_accion)
     )
-
 
 def test_obtener_uno_accion(accion_dao, accion):
     accion_dao._base_de_datos.traer_solo_uno.return_value = (accion.id_accion, accion.nombre_accion, accion.simbolo_accion)
@@ -48,13 +45,11 @@ def test_obtener_uno_accion(accion_dao, accion):
         "SELECT * FROM accion WHERE id_accion = %s", (1,)
     )
 
-
 def test_obtener_uno_accion_no_existente(accion_dao):
     accion_dao._base_de_datos.traer_solo_uno.return_value = None
     
     with pytest.raises(Exception, match="No existe accion con dicho id"):
         accion_dao.obtener_uno(999)
-
 
 def test_obtener_todos_acciones(accion_dao, accion):
     accion_dao._base_de_datos.traer_todos.return_value = [
@@ -69,7 +64,6 @@ def test_obtener_todos_acciones(accion_dao, accion):
     
     accion_dao._base_de_datos.traer_todos.assert_called_once_with("SELECT * FROM accion")
 
-
 def test_actualizar_accion(accion_dao, accion):
     accion_dao._base_de_datos.ejecutar_consulta.return_value = None
     
@@ -80,7 +74,6 @@ def test_actualizar_accion(accion_dao, accion):
         "UPDATE accion SET nombre_accion = %s, simbolo_accion = %s WHERE id_accion = %s", 
         (accion.nombre_accion, accion.simbolo_accion, 1)
     )
-
 
 def test_eliminar_accion(accion_dao):
     accion_dao._base_de_datos.ejecutar_consulta.return_value = None
