@@ -164,8 +164,13 @@ Este directorio contiene los servicios, es decir, las clases o funciones que enc
 
 Esta carpeta contiene la clase que aloja los distintos menus de consola de nuestra app. 
 
-`7. main.py`
+`7. pruebas/`
+
+Esta carpeta almacena los archivos de pruebas unitarias y/o de integración. Estas pruebas se utilizan para verificar que el código funciona correctamente y para detectar errores antes de que el software sea desplegado.
+
+`8. main.py`
 Este archivo es el punto de entrada de la aplicación. 
+
 
 
 
