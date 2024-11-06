@@ -332,8 +332,31 @@ class Menu:
 
     def __comprar_acciones(self):
         self.__console.print(Panel.fit("COMPRAR ACCIONES\n", style="magenta"))
-        id_accion = input("Ingrese el ID de la acción a comprar: ")
-        cantidad = int(input("Ingrese la cantidad a comprar: "))
+        acciones_disponibles = self.accion_dao.obtener_todos()
+        id_acciones = tuple(accion.id_accion for accion in acciones_disponibles)
+    
+    # Solicitar ID de la acción
+        try:
+            id_accion = int(input("Ingrese el ID de la acción a comprar: "))
+        except ValueError:
+            self.__console.print("El ID ingresado no es válido. Ingrese un número.", style="red")
+            input("Presione Enter para continuar...")
+            return
+    
+    # Verificar si el ID está en la lista de IDs disponibles
+        if id_accion not in id_acciones:
+            self.__console.print("El ID ingresado no es válido. Seleccione una de las acciones que están en pantalla.", style="red")
+            input("Presione Enter para continuar...")
+            return
+    
+    # Solicitar cantidad a comprar
+        try:
+            cantidad = int(input("Ingrese la cantidad a comprar: "))
+        except ValueError:
+            self.__console.print("La cantidad ingresada no es válida. Ingrese un número.", style="red")
+            input("Presione Enter para continuar...")
+            return
+
         try:
             accion = self.accion_dao.obtener_uno(id_accion)
             self.__servicio_de_compra.realizar_compra(self.__usuario_autenticado, accion, cantidad)
