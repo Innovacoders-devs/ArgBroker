@@ -204,12 +204,12 @@ class Menu:
        self.InversorDAO.email = nuevo_correo_elecrtonico
        
     def _mostrar_portafolio(self): 
-        
         while True:
             self.__limpiar_consola()
-            self.__console.print(Panel.fit("=== PORTAFOLIO ===\n", title = "ARGBroker", style="magenta")) 
-            print("1. Mis acciones") 
-            print("2. Historial") 
+            self.__console.print(Panel.fit("=== PORTAFOLIO ===\n", title="ARGBroker", style="magenta"))
+            self.__mostrar_estadisticas_portafolio()
+            print("1. Mis acciones")
+            print("2. Historial")
             print("3. Listar Activos")
             print("0. Volver")
 
@@ -224,7 +224,24 @@ class Menu:
             elif opcion == "0":
                 break
             else:
-                input("Opción inválida. Presione Enter para continuar...")  
+                input("Opción inválida. Presione Enter para continuar...")
+
+    def __mostrar_estadisticas_portafolio(self):
+        try:
+            portafolio = self.portafolio_dao.obtener_uno(self.__usuario_autenticado.id_inversor)
+            total_invertido, rendimiento_total, tiene_inversiones = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_total(portafolio.id_portafolio)
+            
+            if not tiene_inversiones:
+                self.__console.print("Actualmente el usuario no tiene inversiones, realiza compras o ventas y se mostrarán aquí los rendimientos.", style="bold yellow")
+            else:
+                self.__console.print(f"Total invertido: {total_invertido}", style="bold")
+                if total_invertido > 0 and rendimiento_total == 0:
+                    self.__console.print("Aún no hay cotizaciones nuevas para las acciones, por lo tanto, el rendimiento es 0.", style="bold yellow")
+                else:
+                    color = "green" if rendimiento_total >= 0 else "red"
+                    self.__console.print(f"Rendimiento total: {rendimiento_total}", style=f"bold {color}")
+        except Exception as e:
+            self.__console.print(f"Error al obtener las estadísticas del portafolio: {e}", style="red")
 
     def acciones_en_el_portfolio(self):
         try:
@@ -273,11 +290,16 @@ class Menu:
                 print("No hay activos en el portafolio.")
             else:
                 for activo in activos:
-                    rendimiento = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
+                    rendimiento, hay_cotizaciones_posteriores = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
                     print(f"ID Activo: {activo.id_estado_portafolio}")
                     print(f"Nombre: {activo.nombre_accion} Simbolo: {activo.simbolo_accion}")
                     print(f"Cantidad: {activo.cantidad} Valor Actual: {activo.valor_actual}")
-                    print(f"Rendimiento: {rendimiento}")
+                    if not hay_cotizaciones_posteriores:
+                        print("Aún no hay rendimientos para este activo porque no hay nuevas cotizaciones desde la compra.")
+                    else:
+                        print("Estado:")
+                        print(f"  - Rendimiento Simple Diario: {rendimiento['rendimiento_simple_diario']:.2f}%")
+                        print(f"  - Rendimiento Acumulado: {rendimiento['rendimiento_acumulado']:.2f}%")
                     print("------------------")
         except Exception as e:
             print(f"Error al obtener los activos del portafolio: {e}")
