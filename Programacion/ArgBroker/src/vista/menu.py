@@ -314,17 +314,18 @@ class Menu:
                 self.__console.print("No hay activos en el portafolio.", style="blue")
             else:
                 for activo in activos:
-                    rendimiento, hay_cotizaciones_posteriores = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
-                    print(f"ID Activo: {activo.id_estado_portafolio}")
-                    print(f"Nombre: {activo.nombre_accion} Simbolo: {activo.simbolo_accion}")
-                    print(f"Cantidad: {activo.cantidad} Valor Actual: {activo.valor_actual}")
-                    if not hay_cotizaciones_posteriores:
-                        print("Aún no hay rendimientos para este activo porque no hay nuevas cotizaciones desde la compra.")
-                    else:
-                        print("Estado:")
-                        print(f"  - Rendimiento Simple Diario: {rendimiento['rendimiento_simple_diario']:.2f}%")
-                        print(f"  - Rendimiento Acumulado: {rendimiento['rendimiento_acumulado']:.2f}%")
-                    print("------------------")
+                    if activo.cantidad > 0:  # Solo mostrar si la cantidad es mayor a 0
+                        rendimiento, hay_cotizaciones_posteriores = self.__servicio_de_calculo_de_rendimientos.calcular_rendimiento_por_accion(portafolio.id_portafolio, activo.id_accion)
+                        print(f"ID Activo: {activo.id_estado_portafolio}")
+                        print(f"Nombre: {activo.nombre_accion} Simbolo: {activo.simbolo_accion}")
+                        print(f"Cantidad: {activo.cantidad} Valor Actual: {activo.valor_actual}")
+                        if not hay_cotizaciones_posteriores:
+                            print("Aún no hay rendimientos para este activo porque no hay nuevas cotizaciones desde la compra.")
+                        else:
+                            print("Estado:")
+                            print(f"  - Rendimiento Simple Diario: {rendimiento['rendimiento_simple_diario']:.2f}%")
+                            print(f"  - Rendimiento Acumulado: {rendimiento['rendimiento_acumulado']:.2f}%")
+                        print("------------------")
         except Exception as e:
             print(f"Error al obtener los activos del portafolio: {e}")
         input("Presione Enter para continuar...")
