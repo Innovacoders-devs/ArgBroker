@@ -4,6 +4,12 @@ venv/
 utils/pycache/
 __pycache__/
 .pytest_cache/
-
+src/vista/__pycache__
+src/servicios
+src/servicios/pycache/
+src/vista/pycache/
+src/acceso_a_datos/pycache/
+src/herramientras/pycache/
+src/modelo/pycache/
 
 
